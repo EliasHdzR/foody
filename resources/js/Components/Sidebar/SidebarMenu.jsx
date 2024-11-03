@@ -1,10 +1,16 @@
-import SideBarMenuItem from './SidebarMenuItem';
-function SidebarMenu(){
-
+import SidebarMenuItem from './SidebarMenuItem';
+function SidebarMenu({ menuItems }) {
     return (
         <div className="sidebar-menu">
-        <SideBarMenuItem className="sidebar-menu-item"></SideBarMenuItem>
+            {menuItems.map((item, index) => (
+                <SidebarMenuItem
+                    key={index}
+                    icon={item.icon}
+                    label={item.label}
+                    link={item.link}
+                />
+            ))}
         </div>
-    )
+    );
 }
 export default SidebarMenu;

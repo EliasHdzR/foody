@@ -1,8 +1,10 @@
-function SideBarMenuItem(){
+function SidebarMenuItem({ icon, label, link }) {
     return (
-        <div className={className}>
-        </div>
+        <a href={link} className="sidebar-menu-item">
+            <span className={`icon ${icon}`}></span>
+            <span className="label">{label}</span>
+        </a>
     );
 }
 
-export default SideBarMenuItem;
+export default SidebarMenuItem;

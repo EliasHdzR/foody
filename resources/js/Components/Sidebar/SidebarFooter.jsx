@@ -1,11 +1,12 @@
-import {SidebarMenuItem} from './SidebarMenuItem'
-function SidebarFooter(){
+import SidebarMenuItem from './SidebarMenuItem'
+
+function SidebarFooter() {
     return (
         <div className='sidebar-footer'>
-            <SidebarMenuItem className="sidebar-footer-item"/>
-            <SidebarMenuItem className="sidebar-footer-item"/>            
+            <SidebarMenuItem icon="settings-icon" label="Configuración" link="/configuracion" />
+            <SidebarMenuItem icon="logout-icon" label="Cerrar sesión" link="/register" />
         </div>
-    )
+    );
 }
 
 export default SidebarFooter;

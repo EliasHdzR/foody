@@ -1,9 +1,9 @@
-import SideBarMenuItem from "./SidebarMenuItem";
+import SidebarMenuItem from "./SidebarMenuItem";
 
 function SidebarHeader(){
 return (
     <div className="sidebar-header">
-    <SideBarMenuItem className="sidebar-header-item"></SideBarMenuItem>
+    <SidebarMenuItem className="sidebar-header-item"></SidebarMenuItem>
     </div>
 )
 }
