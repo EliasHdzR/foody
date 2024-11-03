@@ -18,8 +18,8 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/sideboard', function () {
-    return Inertia::render('SideBoard');
+Route::get('/restaurants', function () {
+    return Inertia::render('Restaurants');
 });
 
 Route::middleware('auth')->group(function () {
