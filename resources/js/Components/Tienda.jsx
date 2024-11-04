@@ -1,6 +1,6 @@
 function Tienda({ logo, nombre, direccion, telefono, branch, rutaInventario, rutaEdicion }) {
     return (
-        <div className="tienda bg-white p-4 rounded-lg shadow-sm flex items-center justify-between mb-4">
+        <div className="tienda bg-white p-4 rozunded-lg shadow-sm flex items-center justify-between mb-4">
             <div className="flex items-center">
                 {logo && <img src={logo} alt={`${nombre} logo`} className="w-20 h-20 object-contain mr-4"/>}
                 <div>
