@@ -1,17 +1,7 @@
 import Navbar from '@/Components/Navbar/Navbar';
 import Sidebar from '@/Components/Sidebar/Sidebar';
-import { usePage } from '@inertiajs/react';
 
 export default function Layout({ children }) {
-    const { url } = usePage(); 
-
-    const noLayoutRoutes = ['/login', '/register'];
-    const hideLayout = noLayoutRoutes.includes(url);
-
-    if (hideLayout) {
-        return <>{children}</>;
-    }
-
     return (
         <div className="layout-page h-screen flex flex-col">
             <Navbar />
