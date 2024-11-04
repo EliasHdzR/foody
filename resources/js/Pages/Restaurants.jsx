@@ -28,8 +28,7 @@ export default function Restaurants() {
     ];
 
     return (
-        <>
-
+        <Layout>
             <h1 className="text-2xl font-semibold text-gray-800 mb-4">Tiendas</h1>
             <div className="bg-white p-6 rounded-lg shadow">
                 <div className="flex justify-end mb-4">
@@ -48,7 +47,6 @@ export default function Restaurants() {
                     />
                 ))}
             </div>
-        </>
-
-);
+        </Layout>
+    );
 }

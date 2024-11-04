@@ -35,14 +35,13 @@ const rows = [
 
 export default function Users (){
     return (
-        <>
-
+        <Layout>
             <h1 className="text-2xl font-semibold text-gray-800 mb-4">Usuarios</h1>
             <Tabla
                 columns={columns}
                 rows={rows}
                 rowsPerPageCustom={10}
             />
-        </>
+        </Layout>
     );
 }

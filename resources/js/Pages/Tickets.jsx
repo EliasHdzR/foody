@@ -4,6 +4,7 @@ import Navbar from '@/Components/Navbar/Navbar'
 export default function Tickets (){
     return (
         <div>
-
+        <Navbar></Navbar>
+        <Sidebar></Sidebar>
         </div>
         )}
