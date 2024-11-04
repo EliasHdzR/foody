@@ -21,6 +21,9 @@ Route::get('/dashboard', function () {
 Route::get('/restaurants', function () {
     return Inertia::render('Restaurants');
 });
+Route::get('/reportes', function () {
+    return Inertia::render('Reports');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -1,7 +1,6 @@
-import Sidebar from '../Components/Sidebar/Sidebar.jsx';
-import Navbar from '../Components/Navbar/Navbar.jsx';
-import Tienda from '../Components/Tienda.jsx';
+import Tienda from '../Components/Tienda';
 import '../../css/app.css';
+import Layout from '@/Layouts/Leyout';
 
 export default function Restaurants() {
     const tiendas = [
@@ -29,30 +28,24 @@ export default function Restaurants() {
     ];
 
     return (
-        <div className="restaurants-page h-screen flex flex-col">
-            <Navbar />
-            <div className="main-content flex flex-1">
-                <Sidebar />
-                <div className="content-area flex-1 p-6 bg-gray-100 overflow-y-auto">
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Tiendas</h1>
-                    <div className="bg-white p-6 rounded-lg shadow">
-                    <div className="flex justify-end mb-4">
-                        <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Añadir</button>
-                        </div>
-                        {tiendas.map((tienda, index) => (
-                            <Tienda
-                                key={index}
-                                logo={tienda.logo}
-                                nombre={tienda.nombre}
-                                branch={tienda.branch}
-                                direccion={tienda.direccion}
-                                telefono={tienda.telefono}
-                                onEdit={() => console.log(`Tocaste ${tienda.nombre}`)}
-                            />
-                        ))}
-                    </div>
+        <Layout>
+            <h1 className="text-2xl font-semibold text-gray-800 mb-4">Tiendas</h1>
+            <div className="bg-white p-6 rounded-lg shadow">
+                <div className="flex justify-end mb-4">
+                    <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Añadir</button>
                 </div>
+                {tiendas.map((tienda, index) => (
+                    <Tienda
+                        key={index}
+                        logo={tienda.logo}
+                        nombre={tienda.nombre}
+                        branch={tienda.branch}
+                        direccion={tienda.direccion}
+                        telefono={tienda.telefono}
+                        onEdit={() => console.log(`Tocaste ${tienda.nombre}`)}
+                    />
+                ))}
             </div>
-        </div>
+        </Layout>
     );
 }
