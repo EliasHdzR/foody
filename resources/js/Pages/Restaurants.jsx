@@ -42,7 +42,8 @@ export default function Restaurants() {
                         branch={tienda.branch}
                         direccion={tienda.direccion}
                         telefono={tienda.telefono}
-                        onEdit={() => console.log(`Tocaste ${tienda.nombre}`)}
+                        rutaInventario="/inventario"
+                        rutaEdicion={() => console.log(`Tocaste ${tienda.nombre}`)}
                     />
                 ))}
             </div>
