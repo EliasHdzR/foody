@@ -1,4 +1,4 @@
-import Layout from '@/Layouts/Leyout';
+import Layout from '@/Layouts/Layout';
 import ReportItem from '../Components/ReportItem';
 import { useState } from 'react';
 
