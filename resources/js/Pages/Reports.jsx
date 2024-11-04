@@ -17,7 +17,8 @@ export default function Reports() {
     const handleDownload = () => console.log("Descarga de CSV");
 
     return (
-        <Layout>
+        <>
+
             <h1 className="text-2xl font-semibold text-gray-800 mb-4">Reportes</h1>
             <div className="bg-gray-50 p-6 rounded-lg shadow">
                 <ReportItem
@@ -69,6 +70,6 @@ export default function Reports() {
                             onDownload={handleDownload}
                         />
             </div>
-        </Layout>
+        </>
     );
 }

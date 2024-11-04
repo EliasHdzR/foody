@@ -21,7 +21,6 @@ export default function ProductInfo({
     const [product] = useState(productData);
 
     return (
-        <Layout>
             <div className="p-6">
                 <h1 className="text-3xl font-semibold mb-6">{title}</h1>
                 <div className="bg-gray-100 rounded-lg shadow-lg p-8">
@@ -97,6 +96,5 @@ export default function ProductInfo({
                     </div>
                 </div>
             </div>
-        </Layout>
     );
 }
