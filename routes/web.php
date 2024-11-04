@@ -21,6 +21,9 @@ Route::get('/dashboard', function () {
 Route::get('/restaurants', function () {
     return Inertia::render('Restaurants');
 });
+Route::get('/product-info', function () {
+    return Inertia::render('ProductInfo');
+});
 Route::get('/reportes', function () {
     return Inertia::render('Reports');
 });
