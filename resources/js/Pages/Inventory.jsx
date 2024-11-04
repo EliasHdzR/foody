@@ -28,7 +28,6 @@ const rows = [
 export default function Inventory(){
     return(
       <>
-
             <h1 className="text-2xl font-semibold text-gray-800 mb-4">Tienda X - Inventario</h1>
             <Tabla
                 data={rows}/>

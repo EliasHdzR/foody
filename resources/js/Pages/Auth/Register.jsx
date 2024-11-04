@@ -23,7 +23,8 @@ export default function Register() {
     };
 
     return (
-        <GuestLayout>
+        <>
+
             <Head title="Crea tu cuenta" />
 
             <div className="flex items-center justify-center min-h-screen bg-gray-50">
@@ -126,6 +127,6 @@ export default function Register() {
                     </div>
                 </div>
             </div>
-        </GuestLayout>
+        </>
     );
 }
