@@ -12,10 +12,10 @@ export default function StickyHeadTable({
     columns,
     rows,
     rowsPerPageCustom,
-    tableContainerStyle = { maxHeight: '100%' },
+    tableContainerStyle = {  maxHeight: '100%', borderRadius: '12px', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)' },
     tableCellStyle = { minWidth: 50 },
-    headerCellStyle = {},
-    bodyCellStyle = {},
+    headerCellStyle = {backgroundColor: '#3B3B3B', color: '#FFF', fontWeight: '600', fontSize: '15px', textTransform: 'uppercase', padding: '14px'},
+    bodyCellStyle = {backgroundColor: '#FFFFFF', transition: 'background-color 0.3s'},
     paginationStyle = { width: '100%', height: '100%', overflow: 'hidden' }
 }) {
     const [page, setPage] = React.useState(0);
