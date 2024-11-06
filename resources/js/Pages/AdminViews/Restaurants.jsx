@@ -1,6 +1,6 @@
-import Tienda from '../Components/Tienda';
-import '../../css/app.css';
-import Layout from '@/Layouts/Layout';
+import Tienda from '../../Components/Tienda.jsx';
+import '../../../css/app.css';
+import Layout from '@/Layouts/Layout.jsx';
 
 export default function Restaurants() {
     const tiendas = [

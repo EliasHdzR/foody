@@ -1,5 +1,5 @@
-import '../../css/app.css';
-import Layout from '@/Layouts/Layout';
+import '../../../css/app.css';
+import Layout from '@/Layouts/Layout.jsx';
 import Tabla from '@/Components/TablaColapsable.jsx';
 
 function createData(name, description, price, availability) {

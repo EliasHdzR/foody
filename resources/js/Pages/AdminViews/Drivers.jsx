@@ -1,6 +1,6 @@
-import '../../css/app.css';
-import Layout from '@/Layouts/Layout';
-import Tabla from '@/Components/Tabla';
+import '../../../css/app.css';
+import Layout from '@/Layouts/Layout.jsx';
+import Tabla from '@/Components/Tabla.jsx';
 
 const columns = [
     { id: 'name', label: 'Nombre', minWidth: 170 },

@@ -14,8 +14,6 @@ Route::get('/', function () {
     ]);
 });
 
-
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -27,19 +25,15 @@ Route::middleware('auth')->group(function () {
  */
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('AdminViews/Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::inertia('/restaurantes', 'Restaurants');
-Route::inertia('/reportes', 'Reports');
-Route::inertia('/usuarios', 'Users');
-Route::inertia('/repartidores', 'Drivers');
-Route::inertia('/inventario', 'Inventory')->name("inventario");
-Route::get('/promociones', function () {
-    return Inertia::render('Promotions');
-});
-Route::get('/product-info', function () {
-    return Inertia::render('ProductInfo');
-});
+Route::inertia('/restaurantes', 'AdminViews/Restaurants');
+Route::inertia('/reportes', 'AdminViews/Reports');
+Route::inertia('/usuarios', 'AdminViews/Users');
+Route::inertia('/repartidores', 'AdminViews/Drivers');
+Route::inertia('/inventario', 'AdminViews/Inventory');
+Route::inertia('/promociones', 'AdminViews/Promotions');
+Route::inertia('/producto-info', 'AdminViews/ProductInfo');
 
 require __DIR__.'/auth.php';

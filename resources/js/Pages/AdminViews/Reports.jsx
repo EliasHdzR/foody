@@ -1,5 +1,5 @@
-import Layout from '@/Layouts/Layout';
-import ReportItem from '../Components/ReportItem';
+import Layout from '@/Layouts/Layout.jsx';
+import ReportItem from '../../Components/ReportItem.jsx';
 import { useState } from 'react';
 
 export default function Reports() {

@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/Layout";
+import Layout from "@/Layouts/Layout.jsx";
 import { useState } from "react";
 
 export default function ProductInfo({
@@ -28,21 +28,21 @@ export default function ProductInfo({
                     <div className="flex justify-between items-center mb-6">
                         <h2 className="text-2xl font-semibold">Resumen</h2>
                         <div className="flex space-x-2">
-                            <button 
-                                onClick={onEdit} 
+                            <button
+                                onClick={onEdit}
                                 className="px-4 py-2 text-gray-800 bg-gray-200 rounded-md hover:bg-gray-300"
                             >
                                 Editar
                             </button>
-                            <button 
-                                onClick={onDelete} 
+                            <button
+                                onClick={onDelete}
                                 className="px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600"
                             >
                                 Eliminar
                             </button>
                         </div>
                     </div>
-                    
+
                     <div className="flex space-x-8">
                         <div className="flex-1">
                             <div className="bg-white p-6 rounded-lg shadow-md">

@@ -1,5 +1,5 @@
-import Tabla from '@/Components/Tabla';
-import Layout from '@/Layouts/Layout';
+import Tabla from '@/Components/Tabla.jsx';
+import Layout from '@/Layouts/Layout.jsx';
 
 export default function Promotions() {
     const columns = [
@@ -42,9 +42,9 @@ export default function Promotions() {
         <Layout>
             <div className="content-area flex-1 p-6 bg-gray-100 overflow-y-auto">
                 <h1 className="text-2xl font-semibold text-gray-800 mb-4">Descuentos Admin</h1>
-                <Tabla 
-                    columns={columns} 
-                    rows={promotions} 
+                <Tabla
+                    columns={columns}
+                    rows={promotions}
                     rowsPerPageCustom={5}
                     tableContainerStyle={{ maxHeight: '100%', borderRadius: '12px', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)' }}
                     tableCellStyle={{ padding: '16px', textAlign: 'center', color: '#4A4A4A', fontSize: '14px' }}
