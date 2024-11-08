@@ -35,5 +35,8 @@ Route::inertia('/repartidores', 'AdminViews/Drivers');
 Route::inertia('/inventario', 'AdminViews/Inventory');
 Route::inertia('/promociones', 'AdminViews/Promotions');
 Route::inertia('/producto-info', 'AdminViews/ProductInfo');
+Route::inertia('/menu', 'Layaout');
+Route::inertia('/ingredientes', 'RestaurantViews/Ingredients');
+
 
 require __DIR__.'/auth.php';
