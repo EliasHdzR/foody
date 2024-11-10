@@ -40,7 +40,7 @@ export default function Promotions() {
 
     return (
         <Layout>
-            <div className="content-area flex-1 p-6 bg-gray-100 overflow-y-auto">
+            <div className="content-area flex-1 p-4 bg-gray-100 overflow-y-auto">
                 <h1 className="text-2xl font-semibold text-gray-800 mb-4">Descuentos Admin</h1>
                 <Tabla
                     columns={columns}

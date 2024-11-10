@@ -1,7 +1,8 @@
 import SidebarMenuItem from './SidebarMenuItem';
+
 function SidebarMenu({ menuItems }) {
     return (
-        <div className="sidebar-menu">
+        <div className="sidebar-menu px-4 py-6 space-y-2">
             {menuItems.map((item, index) => (
                 <SidebarMenuItem
                     key={index}
@@ -13,4 +14,5 @@ function SidebarMenu({ menuItems }) {
         </div>
     );
 }
+
 export default SidebarMenu;
