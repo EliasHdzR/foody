@@ -2,7 +2,7 @@ import Dropdown from "@/Components/Dropdown.jsx";
 
 function Navbar() {
     return (
-        <div className="navbar flex items-center justify-between p-4 shadow-sm bg-white">
+        <div className="navbar sticky top-0 z-10 flex items-center justify-between p-4 shadow-sm bg-white">
             <h2 className="text-xl font-semibold text-gray-800">foody</h2>
             <div className="flex items-center space-x-4">
                 <input
