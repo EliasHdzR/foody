@@ -17,12 +17,11 @@ return new class extends Migration
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
             $table->unsignedBigInteger('driver_id');
             $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
-            $table->string('number',10)->unique();
-            $table->string('status',20);
+            $table->string('number', length: 10)->unique();
+            $table->string('status', length: 20);
             $table->decimal('subtotal',8,2);
             $table->decimal('discount',8,2);
             $table->decimal('total_price',8,2);
-            $table->dateTime('date');
             $table->timestamps();
         });
     }

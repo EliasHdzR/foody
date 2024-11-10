@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('driver_id')->nullable();
             $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
             $table->double('rating');
-            $table->text('comment')->nullable();
+            $table->string('comment', length: 300)->nullable();
             $table->timestamps();
         });
     }

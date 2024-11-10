@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
             $table->unsignedBigInteger('number')->unique();
+            $table->text('message');
             $table->string('status',15);
             $table->timestamps();
         });

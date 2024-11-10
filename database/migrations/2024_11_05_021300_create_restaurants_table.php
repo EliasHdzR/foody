@@ -17,9 +17,11 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->string('name');
+            $table->string('image_url')->nullable();
             $table->string('phone_number', length: 10);
-            $table->text('address');
-            $table->text('neighborhood');
+            $table->string('address', length: 200);
+            $table->string('neighborhood');
             $table->string('city', length: 20);
             $table->string('state', length: 20);
             $table->string('postal_code', length: 5);
