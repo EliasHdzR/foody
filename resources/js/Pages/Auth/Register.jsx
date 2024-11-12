@@ -1,4 +1,4 @@
-import InputError from '@/Components/InputError';
+    import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
@@ -109,7 +109,7 @@ export default function Register() {
                                     type="button"
                                     className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none"
                                 >
-                                    <img src="/path/to/google-logo.png" alt="G" className="w-5 h-5 mr-6" />
+                                    <img src="/google-logo.png" alt="G" className="w-5 h-5 mr-6" />
                                     Registrarte con Google
                                 </button>
                             </div>
