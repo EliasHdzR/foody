@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\RestaurantsController;
+use App\Http\Controllers\Restaurant\IngredientsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -42,7 +43,13 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('/restaurante')->group((function () {
-        Route::inertia('/ingredientes', 'RestaurantViews/Ingredients');
+        Route::controller(IngredientsController::class)->group(function () {
+        Route::get('/ingredientes', 'index')->name('restaurante.ingredients.index'); 
+        Route::post('/ingredientes', 'store')->name('restaurante.ingredients.store');
+        Route::put('/ingredientes/{ingredient}', 'update')->name('restaurante.ingredients.update');
+        Route::delete('/ingredientes/{ingredient}', 'destroy')->name('restaurante.ingredients.destroy');
+        });
+
         Route::inertia('/menu', 'RestaurantViews/MenuStore');
     }));
 });
