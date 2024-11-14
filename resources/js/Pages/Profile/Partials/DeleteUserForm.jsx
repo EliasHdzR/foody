@@ -53,7 +53,7 @@ export default function DeleteUserForm({ className = '' }) {
                 </h2>
 
                 <p className="mt-1 text-sm text-gray-600">
-                    Una vez que tu cuenta haya sido eliminada, todo sus recursos e
+                    Una vez que tu cuenta haya sido eliminada, todos sus recursos e
                     información serán permanentemente borrados. Antes de eliminar
                     tu cuenta, por favor descarga cualquier dato o información que
                     desees mantener.

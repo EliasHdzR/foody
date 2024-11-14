@@ -19,12 +19,11 @@ return new class extends Migration
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->string('name');
             $table->string('image_url')->nullable();
-            $table->string('phone_number', length: 10);
             $table->string('address', length: 200);
-            $table->string('neighborhood');
-            $table->string('city', length: 20);
-            $table->string('state', length: 20);
-            $table->string('postal_code', length: 5);
+            $table->string('city', length: 35);
+            $table->string('state', length: 35);
+            $table->time('opening_time');
+            $table->time('close_time');
             $table->timestamps();
         });
     }
