@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('phone_number', length: 10);
             $table->time('shift_start');
             $table->time('shift_end');
             $table->timestamps();

@@ -9,22 +9,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Restaurant extends Model
 {
     protected $fillable = [
-        'name',
-        'image_url',
-        'phone_number',
-        'address',
-        'neighborhood',
-        'city',
-        'state',
-        'postal_code',
-    ];
-
-    protected $guarded = [
-        'id',
         'user_id',
         'category_id',
-        'created_at',
-        'updated_at',
+        'name',
+        'image_url',
+        'address',
+        'city',
+        'state',
+        'opening_time',
+        'close_time',
     ];
 
     public function category(): BelongsTo {

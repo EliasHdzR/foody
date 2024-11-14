@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Driver extends Model
 {
     protected $fillable = [
-        'phone_number',
+        'user_id',
         'shift_start',
         'shift_end',
     ];
