@@ -11,12 +11,14 @@ use Inertia\Inertia;
 class CustomersController extends Controller
 {
     public function index() {
-        $customers = Customer::with('user:id,name')->orderBy('id')->get();
+        $customers = Customer::with('user:id,name,email,phone_number')->orderBy('id')->get();
         return Inertia::render('AdminViews/Customers/Index', [
             'customers' => $customers->map(function ($customer) {
                 return [
                     'id' => $customer->id,
                     'user_name' => $customer->user->name,
+                    'email' => $customer->user->email,
+                    'phone_number' => $customer->user->phone_number
                 ];
             }),
         ]);

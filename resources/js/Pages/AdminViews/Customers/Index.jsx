@@ -31,11 +31,15 @@ export default function Index({ customers }) {
 
     const columns = [
         { id: 'user_name', label: 'Nombre' },
+        { id: 'email', label: 'Email'},
+        { id: 'phone_number', label: 'Telefono'},
         { id: 'actions', label: 'Acciones', align: 'center' }
     ];
 
     const rows = customers.map((customer) => ({
         user_name: customer.user_name,
+        email: customer.email,
+        phone_number: customer.phone_number,
         actions: (
             <button onClick={() => openModal('delete', customer)}
                 className="ml-4 px-4 py-2 bg-red-600 rounded-lg font-semibold hover:bg-red-700 transition">
