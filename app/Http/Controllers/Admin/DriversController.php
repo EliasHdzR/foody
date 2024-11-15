@@ -11,12 +11,14 @@ use Inertia\Inertia;
 class DriversController extends Controller
 {
     public function index() {
-        $drivers = Driver::with('user:id,name')->orderBy('id')->get();
+        $drivers = Driver::with('user:id,name,email,phone_number')->orderBy('id')->get();
         return Inertia::render('AdminViews/Drivers/Index', [
             'drivers' => $drivers->map(function ($driver) {
                 return [
                     'id' => $driver->id,
                     'user_name' => $driver->user->name,
+                    'email' => $driver->user->email,
+                    'phone_number' => $driver->user->phone_number,
                     'shift_start' => $driver->shift_start,
                     'shift_end' => $driver->shift_end,
                 ];
@@ -30,6 +32,5 @@ class DriversController extends Controller
     if ($user) {
         $user->delete();
     }
-}
-
+    }
 }

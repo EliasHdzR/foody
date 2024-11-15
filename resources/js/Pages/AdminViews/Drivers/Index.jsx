@@ -31,6 +31,8 @@ export default function Index({ drivers }) {
 
     const columns = [
         { id: 'user_name', label: 'Nombre' },
+        { id: 'email', label: 'Email'},
+        { id: 'phone_number', label: 'Telefono'},
         { id: 'shift_start', label: 'Inicio de Turno' },
         { id: 'shift_end', label: 'Fin de Turno' },
         { id: 'actions', label: 'Acciones', align: 'center' }
@@ -38,6 +40,8 @@ export default function Index({ drivers }) {
 
     const rows = drivers.map((driver) => ({
         user_name: driver.user_name,
+        email: driver.email,
+        phone_number: driver.phone_number,
         shift_start: driver.shift_start,
         shift_end: driver.shift_end,
         actions: (
