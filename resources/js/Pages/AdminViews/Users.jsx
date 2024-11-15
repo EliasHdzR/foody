@@ -6,7 +6,7 @@ const columns = [
     { id: 'name', label: 'Nombre', minWidth: 170 },
     { id: 'email', label: 'Correo Electrónico', minWidth: 100 },
     { id: 'phone', label: 'Teléfono', minWidth: 100, align: 'center', },
-    { id: 'role', label: 'Rol', minWidth: 100},
+    { id: 'actions', label: 'Acciones', align: 'center' }
 ];
 
 const rows = [

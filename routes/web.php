@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\RestaurantsController;
+use App\Http\Controllers\Admin\DriversController;
+use App\Http\Controllers\Admin\CustomersController;
 use App\Http\Controllers\Restaurant\IngredientsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -38,9 +40,18 @@ Route::middleware('auth')->group(function () {
             Route::delete('/categorias/{category}', 'destroy')->name('admin.categories.destroy');
         });
 
+        Route::controller(CustomersController::class)->group(function (){
+            Route::get('/clientes', 'index')->name('admin.customers.index');
+            Route::delete('/clientes/{customer}', 'destroy')->name('admin.customers.destroy');
+        });
+
+        Route::controller(DriversController::class)->group(function (){
+            Route::get('/repartidores', 'index')->name('admin.drivers.index');
+            Route::delete('/repartidores/{driver}', 'destroy')->name('admin.drivers.destroy');
+        });
+
         Route::inertia('/reportes', 'AdminViews/Reports')->name('admin.reports.index');
         Route::inertia('/usuarios', 'AdminViews/Users')->name('admin.users.index');
-        Route::inertia('/repartidores', 'AdminViews/Drivers')->name('admin.drivers.index');
         Route::inertia('/inventario', 'AdminViews/Inventory');
         Route::inertia('/promociones', 'AdminViews/Promotions')->name('admin.promotions.index');
         Route::inertia('/producto-info', 'AdminViews/ProductInfo');
