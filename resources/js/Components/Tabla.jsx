@@ -36,7 +36,7 @@ export default function StickyHeadTable({
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
-                            {columns.map((column) => (
+                            {(columns || []).map((column) => (
                                 <TableCell
                                     key={column.id}
                                     align={column.align}
@@ -48,11 +48,11 @@ export default function StickyHeadTable({
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows
+                        {(rows || [])
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, rowIndex) => (
                                 <TableRow hover role="checkbox" tabIndex={-1} key={rowIndex}>
-                                    {columns.map((column) => {
+                                    {(columns || []).map((column) => {
                                         const value = row[column.id];
                                         return (
                                             <TableCell
@@ -74,7 +74,7 @@ export default function StickyHeadTable({
             <TablePagination
                 rowsPerPageOptions={[10, 25, 100]}
                 component="div"
-                count={rows.length}
+                count={(rows || []).length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
@@ -82,4 +82,5 @@ export default function StickyHeadTable({
             />
         </Paper>
     );
+    
 }

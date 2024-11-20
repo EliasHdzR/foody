@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\RestaurantsController;
 use App\Http\Controllers\Restaurant\IngredientsController;
+use App\Http\Controllers\Restaurant\ProductsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -56,6 +57,14 @@ Route::middleware('auth')->group(function () {
 
         Route::inertia('/menu', 'RestaurantViews/MenuStore');
     }));
+
+    Route::prefix('restaurantes/{restaurant_id}/productos')->group(function () {
+        Route::get('/', [ProductsController::class, 'index'])->name('restaurante.products.index');
+        Route::post('/', [ProductsController::class, 'store'])->name('restaurante.products.store');
+        Route::put('/{product}', [ProductsController::class, 'update'])->name('restaurante.products.update');
+        Route::delete('/{product}', [ProductsController::class, 'destroy'])->name('restaurante.products.destroy');
+    });
+
 });
 
 /*****
