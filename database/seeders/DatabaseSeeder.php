@@ -15,14 +15,17 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             CategoriesSeeder::class,
+            IngredientsSeeder::class,
         ]);
 
         $this->call(RestaurantsTableSeeder::class);
         $this->call(ProductsTableSeeder::class);
 
+        /*
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+        */
     }
 }
