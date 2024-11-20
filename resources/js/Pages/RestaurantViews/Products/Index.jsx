@@ -54,14 +54,12 @@ const ProductsIndex = () => {
         setSelectedProduct(null);
     };
 
-    // Definir columnas para la tabla
     const columns = [
         { id: 'name', label: 'Nombre', align: 'left' },
         { id: 'price', label: 'Precio', align: 'right' },
         { id: 'actions', label: 'Acciones', align: 'center' },
     ];
 
-    // Transformar los productos en filas para la tabla
     const rows = products.map((product) => ({
         name: product.name,
         price: `$${product.price.toFixed(2)}`,
@@ -69,13 +67,13 @@ const ProductsIndex = () => {
             <>
                 <button
                     onClick={() => openModal('edit', product)}
-                    className="btn-edit"
+                    className="ml-4 px-4 py-2 bg-green-600 rounded-lg font-semibold hover:bg-green-700 transition"
                 >
                     Editar
                 </button>
                 <button
                     onClick={() => deleteProduct(product.id)}
-                    className="btn-delete"
+                    className="ml-4 px-4 py-2 bg-green-600 rounded-lg font-semibold hover:bg-green-700 transition"
                 >
                     Eliminar
                 </button>
@@ -87,8 +85,9 @@ const ProductsIndex = () => {
         <Layout>
             <div className="container mx-auto">
                 <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">Gestión de productos</h2>
-                <button onClick={() => openModal('add')} className="btn-add">Agregar</button>
-
+                <div className="flex justify-end mb-2">
+                <button onClick={() => openModal('add')} className="ml-4 px-4 py-2 bg-yellow-500 text-white rounded-lg font-semibold hover:bg-yellow-600 transition">Agregar</button>
+                </div>
                 {successMessage && (
                     <div className="alert-success">
                         {successMessage}
@@ -96,8 +95,8 @@ const ProductsIndex = () => {
                 )}
 
                 <Tabla
-                    columns={columns} // Pasar columnas definidas
-                    rows={rows} // Pasar filas formateadas
+                    columns={columns}
+                    rows={rows}
                     rowsPerPageCustom={10}
                 />
 
@@ -107,12 +106,12 @@ const ProductsIndex = () => {
                     title={modalType === 'edit' ? 'Editar' : 'Agregar'}
                 >
                     <ProductForm
-                        product={selectedProduct || {}} // Envía un objeto vacío para productos nuevos
+                        product={selectedProduct || {}}
                         onUpdate={(data) => {
                             if (modalType === 'add') {
-                                addProduct(data); // Llama a la función de agregar
+                                addProduct(data);
                             } else if (modalType === 'edit') {
-                                editProduct(data); // Llama a la función de editar
+                                editProduct(data);
                             }
                         }}
                     />
