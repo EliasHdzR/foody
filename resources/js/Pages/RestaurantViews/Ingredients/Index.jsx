@@ -35,12 +35,16 @@ export default function Index({ ingredients }) {
     const columns = [
         { id: 'name', label: 'Nombre' },
         { id: 'stock', label: 'Cantidad' },
+        { id: 'created_at', label:'Fecha de creacion'},
+        { id: 'updated_at', label:'Fecha de modificacion'},
         { id: 'actions', label: 'Acciones', align: 'center' }
     ];
 
     const rows = ingredients.map((ingredient) => ({
         name: ingredient.name,
         stock: ingredient.stock,
+        created_at: ingredient.created_at,
+        updated_at: ingredient.updated_at,
         actions: [
             <button onClick={() => openModal('edit', ingredient)}
                 className="ml-4 px-4 py-2 bg-green-600 rounded-lg font-semibold hover:bg-green-700 transition">

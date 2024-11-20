@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\RestaurantsController;
 use App\Http\Controllers\Admin\DriversController;
 use App\Http\Controllers\Admin\CustomersController;
+use App\Http\Controllers\Admin\FaqsController;
 use App\Http\Controllers\Restaurant\IngredientsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -31,6 +32,13 @@ Route::middleware('auth')->group(function () {
     Route::prefix('/admin')->group(function () {
         Route::controller(RestaurantsController::class)->group(function () {
             Route::get('/restaurantes', 'index')->name('admin.restaurant.index');
+        });
+
+        Route::controller(FaqsController::class)->group(function () {
+            Route::get('/preguntas', 'index')->name('admin.faqs.index');
+            Route::post('/preguntas', 'store')->name('admin.faqs.store');
+            Route::put('/preguntas/{faq}', 'update')->name('admin.faqs.update');
+            Route::delete('/preguntas/{faq}', 'destroy')->name('admin.faqs.destroy');
         });
 
         Route::controller(CategoriesController::class)->group(function () {
