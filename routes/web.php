@@ -29,6 +29,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/restaurant/update', [ProfileController::class, 'updateRestaurant'])->name('profile.restaurant.update');
     Route::patch('/profile/driver/update', [ProfileController::class, 'updateDriver'])->name('profile.driver.update');
 
+    /**
+     * RUTAS ROL DE ADMIN
+     */
     Route::prefix('/admin')->group(function () {
         Route::controller(RestaurantsController::class)->group(function () {
             Route::get('/restaurantes', 'index')->name('admin.restaurant.index');
@@ -51,6 +54,13 @@ Route::middleware('auth')->group(function () {
             Route::delete('/repartidores/{driver}', 'destroy')->name('admin.drivers.destroy');
         });
 
+        Route::prefix('restaurantes/{restaurant_id}/productos')->group(function () {
+            Route::get('/', [ProductsController::class, 'index'])->name('restaurante.products.index');
+            Route::post('/', [ProductsController::class, 'store'])->name('restaurante.products.store');
+            Route::put('/{product}', [ProductsController::class, 'update'])->name('restaurante.products.update');
+            Route::delete('/{product}', [ProductsController::class, 'destroy'])->name('restaurante.products.destroy');
+        });
+
         Route::inertia('/reportes', 'AdminViews/Reports')->name('admin.reports.index');
         Route::inertia('/usuarios', 'AdminViews/Users')->name('admin.users.index');
         Route::inertia('/inventario', 'AdminViews/Inventory');
@@ -58,9 +68,12 @@ Route::middleware('auth')->group(function () {
         Route::inertia('/producto-info', 'AdminViews/ProductInfo');
     });
 
+    /**
+     * RUTAS ROL DE RESTAURANTE
+     */
     Route::prefix('/restaurante')->group((function () {
         Route::controller(IngredientsController::class)->group(function () {
-        Route::get('/ingredientes', 'index')->name('restaurante.ingredients.index'); 
+        Route::get('/ingredientes', 'index')->name('restaurante.ingredients.index');
         Route::post('/ingredientes', 'store')->name('restaurante.ingredients.store');
         Route::put('/ingredientes/{ingredient}', 'update')->name('restaurante.ingredients.update');
         Route::delete('/ingredientes/{ingredient}', 'destroy')->name('restaurante.ingredients.destroy');
@@ -68,13 +81,6 @@ Route::middleware('auth')->group(function () {
 
         Route::inertia('/menu', 'RestaurantViews/MenuStore');
     }));
-
-    Route::prefix('restaurantes/{restaurant_id}/productos')->group(function () {
-        Route::get('/', [ProductsController::class, 'index'])->name('restaurante.products.index');
-        Route::post('/', [ProductsController::class, 'store'])->name('restaurante.products.store');
-        Route::put('/{product}', [ProductsController::class, 'update'])->name('restaurante.products.update');
-        Route::delete('/{product}', [ProductsController::class, 'destroy'])->name('restaurante.products.destroy');
-    });
 
 });
 
