@@ -35,12 +35,16 @@ export default function Index({ faqs }) {
     const columns = [
         { id: 'question', label: 'Pregunta' },
         { id: 'answer', label: 'Respuesta' },
+        { id: 'created_at', label:'Fecha de creacion'},
+        { id: 'updated_at', label:'Fecha de modificacion'},
         { id: 'actions', label: 'Acciones', align: 'center' }
     ];
 
     const rows = faqs.map((faq) => ({
         question: faq.question,
         answer: faq.answer,
+        created_at: faq.created_at,
+        updated_at: faq.updated_at,
         actions: [
             <button onClick={() => openModal('edit', faq)}
                 className="ml-4 px-4 py-2 bg-green-600 rounded-lg font-semibold hover:bg-green-700 transition">
