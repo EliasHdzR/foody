@@ -2,10 +2,11 @@ import Tienda from '../../Components/Tienda.jsx';
 import '../../../css/app.css';
 import Layout from '@/Layouts/Layout.jsx';
 import {Link} from "@inertiajs/react";
+import Dashboard from "@/Pages/RestaurantViews/Dashboard.jsx";
 
 export default function Restaurants({ restaurants }) {
     return (
-        <Layout>
+        <div>
             <h1 className="text-2xl font-semibold text-gray-800 mb-4">Tiendas</h1>
             <Link href={route('admin.categories.index')}>Ver Categorías</Link>
             <div className="bg-white p-6 rounded-lg shadow">
@@ -29,6 +30,8 @@ export default function Restaurants({ restaurants }) {
                     <p>No hay restaurantes disponibles.</p>
                 )}
             </div>
-        </Layout>
+        </div>
     );
 }
+
+Restaurants.layout = (page) => <Layout children={page} type={'admin'}/>;

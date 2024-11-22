@@ -1,3 +1,5 @@
+import {useState} from "react";
+
 const ProductForm = ({ product = {}, onUpdate }) => {
   const [name, setName] = useState(product.name || '');
   const [type, setType] = useState(product.type || '');

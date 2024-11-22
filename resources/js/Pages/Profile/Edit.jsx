@@ -5,10 +5,11 @@ import UpdateProfileInformationForm from './Partials/UpdateProfileInformationFor
 import UpdateRestaurantInformationForm from './Partials/UpdateRestaurantInformationForm'
 import UpdateDriverInformationForm from './Partials/UpdateDriverInformationForm.jsx'
 import ConvertRoleForm from './Partials/ConvertRoleForm';
+import Dashboard from "@/Pages/RestaurantViews/Dashboard.jsx";
 
 export default function Edit({ mustVerifyEmail, status, categories, user }) {
     return (
-        <Layout>
+        <Layout type={user.role}>
             <div className="mx-auto max-w-7xl space-y-6 lg:px-8 overflow-scroll">
                 <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">
                     { user.role === 'restaurant' ? (

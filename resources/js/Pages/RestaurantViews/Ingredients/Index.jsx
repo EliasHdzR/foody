@@ -9,7 +9,7 @@ import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Alert, AlertTitle } from "@mui/material";
 
-export default function Index({ ingredients }) {
+const Index = ({ ingredients }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalType, setModalType] = useState(null);
     const [selectedIngredient, setSelectedIngredient] = useState(null);
@@ -54,7 +54,7 @@ export default function Index({ ingredients }) {
     }));
 
     return (
-        <Layout>
+        <div>
             {successMessage && (
                 <div className="fixed top-0 left-0 right-0 z-50 flex justify-center mt-4">
                     <Alert severity="success" onClose={() => setSuccessMessage(null)}>
@@ -86,9 +86,13 @@ export default function Index({ ingredients }) {
                 {modalType === 'edit' && <EditIngredientForm closeModal={closeModal} ingredient={selectedIngredient} onSuccess={handleSuccess} />}
                 {modalType === 'delete' && <DeleteIngredientForm closeModal={closeModal} ingredient={selectedIngredient} onSuccess={handleSuccess} />}
             </Modal>
-        </Layout>
+        </div>
     );
 }
+
+Index.layout = (page) => <Layout children={page} type={'restaurant'}/>;
+
+export default Index;
 
 const AddIngredientForm = ({ closeModal, onSuccess }) => {
     const initialValues = {

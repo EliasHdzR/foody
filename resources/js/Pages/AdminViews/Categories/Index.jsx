@@ -8,6 +8,7 @@ import InputError from "@/Components/InputError";
 import { useForm } from "@inertiajs/react";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Alert, AlertTitle } from "@mui/material";
+import Dashboard from "@/Pages/RestaurantViews/Dashboard.jsx";
 
 export default function Index({ categories }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -52,7 +53,7 @@ export default function Index({ categories }) {
     }));
 
     return (
-        <Layout>
+        <div>
             {successMessage && (
                 <div className="fixed top-0 left-0 right-0 z-50 flex justify-center mt-4">
                     <Alert severity="success" onClose={() => setSuccessMessage(null)}>
@@ -84,9 +85,11 @@ export default function Index({ categories }) {
                 {modalType === 'edit' && <EditCategoryForm closeModal={closeModal} category={selectedCategory} onSuccess={handleSuccess} />}
                 {modalType === 'delete' && <DeleteCategoryForm closeModal={closeModal} category={selectedCategory} onSuccess={handleSuccess} />}
             </Modal>
-        </Layout>
+        </div>
     );
 }
+
+Index.layout = (page) => <Layout children={page} type={'admin'}/>;
 
 const AddCategoryForm = ({ closeModal, onSuccess }) => {
     const initialValues = {
