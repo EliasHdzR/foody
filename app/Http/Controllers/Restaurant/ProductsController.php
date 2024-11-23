@@ -13,12 +13,14 @@ class ProductsController extends Controller
 {
     public function index()
     {
-        $ingredients = auth()->user()->restaurant->ingredients;
-        $products = auth()->user()->restaurant->products;
+        $restaurantId = auth()->user()->restaurant->id;
+        $products = Product::with(['ingredients' => function($query) {
+            $query->select('ingredients.id', 'ingredients.name', 'ingredients.stock','products_ingredients.quantity');
+        }])->where('restaurant_id', $restaurantId)->get();
         return Inertia::render('RestaurantViews/Products/Index', [
             'products' => $products,
             'restaurantID' => auth()->user()->restaurant->id,
-            'ingredients' => $ingredients,
+            'ingredients' => auth()->user()->restaurant->ingredients,
         ]);
     }
 
@@ -30,7 +32,7 @@ class ProductsController extends Controller
 
         try {
             $data = $request->validate([
-                'code' => 'required|string|max:20',
+                'code' => 'required|string|max:20|unique:products',
                 'name' => 'required|string|max:255',
                 'price' => 'required|numeric|min:1',
                 'ingredients' => 'required|array',

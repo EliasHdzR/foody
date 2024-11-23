@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Layout from '@/Layouts/Layout.jsx';
-import Tabla from '@/Components/Tabla.jsx';
+import TablaColapsable from '@/Components/TablaColapsable.jsx';
 import Modal from '@/Pages/RestaurantViews/Modal';
 import {Alert, AlertTitle, MenuItem, Select} from "@mui/material";
 import {useForm} from "@inertiajs/react";
@@ -44,9 +44,16 @@ const ProductsIndex = ({products, restaurantID, ingredients}) => {
         {id: 'actions', label: '', align: 'center'},
     ];
 
+    const collapsableColumns = [
+        {id: 'name', label: 'Nombre', align: 'left'},
+        {id: 'quantity', label: 'Cantidad Necesaria', align: 'right'},
+        {id: 'stock', label: 'Cantidad en Stock', align: 'right'},
+    ];
+
     const rows = products.map((product) => ({
+        id: product.id,
         name: product.name,
-        price: `$${product.price.toFixed(2)}`,
+        price: `$${Number(product.price).toFixed(2)}`,
         code: product.code,
         description: product.description,
         availability: product.availability ? 'Disponible' : 'No disponible',
@@ -61,6 +68,19 @@ const ProductsIndex = ({products, restaurantID, ingredients}) => {
             </button>,
         ]
     }));
+
+    const collapseRows = products.reduce((acc, product) => {
+        product.ingredients.forEach((ingredient) => {
+            acc.push({
+                parentId: product.id,
+                id: ingredient.id,
+                name: ingredient.name,
+                quantity: ingredient.quantity,
+                stock: ingredient.stock,
+            });
+        });
+        return acc;
+    }, []);
 
     return (
         <div>
@@ -81,10 +101,12 @@ const ProductsIndex = ({products, restaurantID, ingredients}) => {
                     </button>
                 </div>
 
-                <Tabla
+                <TablaColapsable
                     columns={columns}
                     rows={rows}
-                    rowsPerPageCustom={10}
+                    collapseColumns={collapsableColumns}
+                    collapseRows={collapseRows}
+                    subtitle="Ingredientes"
                 />
             </div>
             <Modal isOpen={isModalOpen} onClose={closeModal} title={modalType === 'edit' ? 'Editar' : 'Agregar'}>
@@ -135,14 +157,13 @@ const AddProductForm = ({ingredients, restaurantID, closeModal, onSuccess}) => {
 
     const setAmount = (index, amount) => {
         const updatedIngredients = selectedIngredients.map((item, i) =>
-            i === index ? {...item, quantity} : item
+            i === index ? {...item, quantity: amount} : item
         );
         setSelectedIngredients(updatedIngredients);
         setData('ingredients', updatedIngredients);
     }
 
     const submit = (e) => {
-        console.log(data);
         e.preventDefault();
         post(route('restaurante.products.store'), {
             onSuccess: () => {
@@ -235,10 +256,10 @@ const AddProductForm = ({ingredients, restaurantID, closeModal, onSuccess}) => {
                             className="w-1/2"
                             onChange={(e) => setAmount(index, e.target.value)}
                         />
-                        <button onClick={addIngredient} className="text-blue-500">Agregar</button>
-                        <button onClick={() => removeIngredient(index)} className="text-red-500">Eliminar</button>
+                        <button onClick={(e) => removeIngredient(e, index)} className="text-red-500">Eliminar</button>
                     </div>
                 ))}
+                <button onClick={addIngredient} className="text-blue-500">Agregar Ingrediente</button>
                 <InputError message={errors.ingredients} className="mt-2"/>
             </div>
             <PrimaryButton>Agregar Producto</PrimaryButton>
