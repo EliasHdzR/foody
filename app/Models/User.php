@@ -13,7 +13,7 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    const ROLE_ADMIN = 'administrator';
+    const ROLE_ADMIN = 'admin';
     const ROLE_CUSTOMER = 'customer';
     const ROLE_RESTAURANT = 'restaurant';
     const ROLE_DRIVER = 'driver';
@@ -69,6 +69,11 @@ class User extends Authenticatable
 
     public function isDriver(): bool{
         return $this->role === self::ROLE_DRIVER;
+    }
+
+    public function hasRole($role)
+    {
+        return $this->role === $role;
     }
 
     public function customer(): HasOne {

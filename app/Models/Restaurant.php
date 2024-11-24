@@ -35,4 +35,8 @@ class Restaurant extends Model
     public function coupons(): HasMany {
         return $this->hasMany(Coupon::class);
     }
+
+    public function ingredients(): HasMany {
+        return $this->hasMany(Ingredient::class);
+    }
 }

@@ -15,7 +15,8 @@ class Product extends Model
         'image_url',
         'description',
         'price',
-        'availability'
+        'availability',
+        'restaurant_id'
     ];
 
     public function restaurant(): BelongsTo {

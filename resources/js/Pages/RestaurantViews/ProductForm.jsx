@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import {useState} from "react";
 
-const ProductForm = ({ product, onUpdate }) => {
-  const [name, setName] = useState(product.name);
-  const [type, setType] = useState(product.type);
-  const [price, setPrice] = useState(product.price);
-  const [description, setDescription] = useState(product.description);
+const ProductForm = ({ product = {}, onUpdate }) => {
+  const [name, setName] = useState(product.name || '');
+  const [type, setType] = useState(product.type || '');
+  const [price, setPrice] = useState(product.price || 0);
+  const [description, setDescription] = useState(product.description || '');
 
   const handleSave = () => {
     const updatedProduct = {
@@ -19,7 +19,9 @@ const ProductForm = ({ product, onUpdate }) => {
 
   return (
     <div>
-      <h3 className="text-lg font-bold mb-4">Editar Producto</h3>
+      <h3 className="text-lg font-bold mb-4">
+        {product.id ? 'Editar' : 'Agregar'}
+      </h3>
       <div className="mb-4">
         <label className="block font-medium">Nombre</label>
         <input
@@ -43,7 +45,7 @@ const ProductForm = ({ product, onUpdate }) => {
         <input
           type="number"
           value={price}
-          onChange={(e) => setPrice(e.target.value)}
+          onChange={(e) => setPrice(parseFloat(e.target.value) || 0)}
           className="w-full border p-2 rounded"
         />
       </div>
