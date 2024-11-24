@@ -139,7 +139,7 @@ export default function CollapsibleTable({
                 <Table stickyHeader aria-label="collapsible table">
                     <TableHead>
                         <TableRow>
-                            <TableCell/>
+                            <TableCell style={headerCellStyle}/>
                             {columns.map((column) => (
                                 <TableCell key={column.id} align={column.align} style={headerCellStyle}>
                                     {column.label}

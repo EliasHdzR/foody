@@ -85,6 +85,8 @@
          * RUTAS ROL DE RESTAURANTE
          */
         Route::middleware([CheckRole::class . ':restaurant'])->prefix('/restaurante')->group((function () {
+            Route::inertia('/dashboard', 'RestaurantViews/Dashboard')->name('restaurante.dashboard');
+
             Route::prefix('/productos')->group(function () {
                 Route::get('/', [ProductsController::class, 'index'])->name('restaurante.products.index');
                 Route::post('/', [ProductsController::class, 'store'])->name('restaurante.products.store');
