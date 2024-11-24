@@ -90,7 +90,7 @@
             Route::prefix('/productos')->group(function () {
                 Route::get('/', [ProductsController::class, 'index'])->name('restaurante.products.index');
                 Route::post('/', [ProductsController::class, 'store'])->name('restaurante.products.store');
-                Route::put('/{product}', [ProductsController::class, 'update'])->name('restaurante.products.update');
+                Route::post('/{product}', [ProductsController::class, 'update'])->name('restaurante.products.update');
                 Route::delete('/{product}', [ProductsController::class, 'destroy'])->name('restaurante.products.destroy');
             });
 
@@ -121,4 +121,3 @@
 
 
     require __DIR__ . '/auth.php';
-    Route::inertia('/inventario', 'AdminViews/Inventory');

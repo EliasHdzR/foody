@@ -49,7 +49,7 @@ function Row(props) {
                                     <TableRow>
                                         {collapseColumns.map((column) => (
                                             <TableCell key={column.id} align={column.align}>
-                                                {column.label}
+                                                <strong>{column.label}</strong>
                                             </TableCell>
                                         ))}
                                     </TableRow>

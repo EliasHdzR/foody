@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ProductsController extends Controller
@@ -27,20 +28,24 @@ class ProductsController extends Controller
     public function store(Request $request)
     {
         $restaurantId = auth()->user()->restaurant->id;
+        $data = $request->validate([
+            'code' => 'required|string|max:20|unique:products',
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:1',
+            'ingredients' => 'required|array',
+            'ingredients.*.id' => 'required|exists:ingredients,id|distinct',
+            'ingredients.*.quantity' => 'required|numeric|min:1',
+            'description' => 'required|string',
+            'image' => 'mimes:png,jpg,jpeg,max:2048',
+        ]);
 
         DB::beginTransaction();
 
         try {
-            $data = $request->validate([
-                'code' => 'required|string|max:20|unique:products',
-                'name' => 'required|string|max:255',
-                'price' => 'required|numeric|min:1',
-                'ingredients' => 'required|array',
-                'ingredients.*.id' => 'required|exists:ingredients,id',
-                'ingredients.*.quantity' => 'required|numeric|min:1',
-                'description' => 'required|string',
-                'image' => 'nullable|image',
-            ]);
+            $image = $request->file('image');
+            $image_url = $image->store('product_images/restaurant_'.$restaurantId, ['disk' => 'public']);
+            $data['image_url'] = $image_url;
+
             $data['restaurant_id'] = $restaurantId;
             $product = Product::create($data);
 
@@ -51,27 +56,39 @@ class ProductsController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e);
         }
     }
 
     public function update(Request $request, Product $product)
     {
+        $restaurantId = auth()->user()->restaurant->id;
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:1',
+            'description' => 'required|string',
+            'ingredients' => 'required|array',
+            'ingredients.*.id' => 'required|exists:ingredients,id',
+            'ingredients.*.quantity' => 'required|numeric|min:1',
+            'image' => 'sometimes|nullable|mimes:png,jpg,jpeg|max:2048',
+        ]);
+
         DB::beginTransaction();
 
         try {
-            $data = $request->validate([
-                'code' => 'required|string|max:20',
-                'name' => 'required|string|max:255',
-                'type' => 'required|string',
-                'price' => 'required|numeric|min:1',
-                'description' => 'required|string',
-                'ingredients' => 'required|array',
-                'image' => 'nullable|image',
-            ]);
+            if($request->hasFile('image')){
+                Storage::disk('public')->delete($product->image_url);
+                $image = $request->file('image');
+                $image_url = $image->store('product_images/restaurant_'.$restaurantId, ['disk' => 'public']);
+                $data['image_url'] = $image_url;
+            }
+
             $product->update($data);
 
-            $product->ingredients()->sync($request->ingredients);
+            $ingredientsData = [];
+            foreach ($request->ingredients as $ingredient) {
+                $ingredientsData[$ingredient['id']] = ['quantity' => $ingredient['quantity']];
+            }
+            $product->ingredients()->sync($ingredientsData);
 
             DB::commit();
         } catch (\Exception $e) {

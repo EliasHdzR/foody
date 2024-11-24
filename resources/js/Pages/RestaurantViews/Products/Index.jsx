@@ -2,15 +2,11 @@ import React, {useState} from 'react';
 import Layout from '@/Layouts/Layout.jsx';
 import TablaColapsable from '@/Components/TablaColapsable.jsx';
 import Modal from '@/Pages/RestaurantViews/Modal';
-import {Alert, AlertTitle, MenuItem, Select} from "@mui/material";
-import {useForm} from "@inertiajs/react";
-import InputLabel from "@/Components/InputLabel.jsx";
-import TextInput from "@/Components/TextInput.jsx";
-import InputError from "@/Components/InputError.jsx";
-import PrimaryButton from "@/Components/PrimaryButton.jsx";
-import Input from '@mui/joy/Input';
-import PriceFormatInput from '@/Components/PriceFormatInput.jsx';
-import {Textarea} from "@mui/joy";
+import {Alert, AlertTitle} from "@mui/material";
+import RestaurantImage from "@/Components/RestaurantImage.jsx";
+import AddProductForm from "@/Pages/RestaurantViews/Products/AddProductForm.jsx";
+import EditProductForm from "@/Pages/RestaurantViews/Products/EditProductForm.jsx";
+import DeleteProductForm from "@/Pages/RestaurantViews/Products/DeleteProductForm.jsx";
 
 const ProductsIndex = ({products, restaurantID, ingredients}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,6 +54,10 @@ const ProductsIndex = ({products, restaurantID, ingredients}) => {
         description: product.description,
         availability: product.availability ? 'Disponible' : 'No disponible',
         actions: [
+            <button onClick={() => openModal('info', product)}
+                    className="ml-4 px-4 py-2 bg-blue-600 rounded-lg font-semibold hover:bg-blue-700 transition">
+                Ver
+            </button>,
             <button onClick={() => openModal('edit', product)}
                     className="ml-4 px-4 py-2 bg-green-600 rounded-lg font-semibold hover:bg-green-700 transition">
                 Editar
@@ -109,11 +109,14 @@ const ProductsIndex = ({products, restaurantID, ingredients}) => {
                     subtitle="Ingredientes"
                 />
             </div>
-            <Modal isOpen={isModalOpen} onClose={closeModal} title={modalType === 'edit' ? 'Editar' : 'Agregar'}>
+            <Modal isOpen={isModalOpen} onClose={closeModal} title={modalType === 'edit' ? 'Editar' :
+                                                                    modalType === 'add' ? 'Agregar' :
+                                                                    modalType === 'delete' ? 'Eliminar' : 'Ver'}>
                 <div className="max-h-[80vh] overflow-y-auto">
+                    {modalType === 'info' && <InfoProductForm product={selectedProduct} closeModal={closeModal}/>}
                     {modalType === 'add' && <AddProductForm ingredients={ingredients} restaurantID={restaurantID} closeModal={closeModal} onSuccess={handleSuccess}/>}
-                    {modalType === 'edit' && <EditProductForm closeModal={closeModal} ingredient={selectedProduct} onSuccess={handleSuccess}/>}
-                    {modalType === 'delete' && <DeleteProductForm closeModal={closeModal} ingredient={selectedProduct} onSuccess={handleSuccess}/>}
+                    {modalType === 'edit' && <EditProductForm closeModal={closeModal} product={selectedProduct} onSuccess={handleSuccess} ingredients={ingredients}/>}
+                    {modalType === 'delete' && <DeleteProductForm closeModal={closeModal} product={selectedProduct} onSuccess={handleSuccess}/>}
                 </div>
             </Modal>
         </div>
@@ -124,215 +127,24 @@ ProductsIndex.layout = (page) => <Layout children={page} type={'restaurant'}/>;
 
 export default ProductsIndex;
 
-const AddProductForm = ({ingredients, restaurantID, closeModal, onSuccess}) => {
-    const initialValues = {
-        name: "",
-        code: "",
-        price: 0,
-        ingredients: [],
-        description: "",
-        availability: false,
-    };
-
-    const {data, errors, setData, post} = useForm(initialValues);
-    const [selectedIngredients, setSelectedIngredients] = useState([{...ingredients[0], quantity: 1}]);
-
-    const addIngredient = (e) => {
-        e.preventDefault();
-        setSelectedIngredients([...selectedIngredients, {...ingredients[0], quantity: 1}]);
-    }
-
-    const removeIngredient = (e, index) => {
-        e.preventDefault();
-        setSelectedIngredients(selectedIngredients.filter((_, i) => i !== index));
-    }
-
-    const setIngredient = (index, ingredientId) => {
-        const updatedIngredients = selectedIngredients.map((item, i) =>
-            i === index ? {...ingredients.find(ing => ing.id === ingredientId), quantity: item.quantity} : item
-        );
-        setSelectedIngredients(updatedIngredients);
-        setData('ingredients', updatedIngredients);
-    }
-
-    const setAmount = (index, amount) => {
-        const updatedIngredients = selectedIngredients.map((item, i) =>
-            i === index ? {...item, quantity: amount} : item
-        );
-        setSelectedIngredients(updatedIngredients);
-        setData('ingredients', updatedIngredients);
-    }
-
-    const submit = (e) => {
-        e.preventDefault();
-        post(route('restaurante.products.store'), {
-            onSuccess: () => {
-                closeModal();
-                onSuccess(`Producto '${data.name}' agregado con éxito`);
-            },
-        });
-    }
-
+const InfoProductForm = ({product, closeModal}) => {
     return (
-        <form onSubmit={submit} className="space-y-4 overflow-scroll">
-            <div>
-                <InputLabel htmlFor="name" value="Nombre"/>
-                <TextInput
-                    id="name"
-                    type="text"
-                    name="name"
-                    value={data.name}
-                    className="mt-1 block w-full"
-                    isFocused={true}
-                    onChange={(e) => setData('name', e.target.value)}
-                />
-                <InputError message={errors.name} className="mt-2"/>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-gray-800 rounded-lg p-6 w-80 text-center shadow-lg relative">
+                <button
+                    onClick={closeModal}
+                    className="absolute top-3 right-3 text-white bg-red-500 rounded-full w-8 h-8 flex items-center justify-center"
+                >
+                    &times;
+                </button>
+                <div>
+                    <RestaurantImage imagePath={product.image_url}/>
+                </div>
+                <h2 className="text-white text-lg font-bold mt-4">{product.name}</h2>
+                <p className="text-gray-400 text-sm mt-2">{product.description}</p>
+                <p className="text-gray-400 text-sm mt-2">${Number(product.price).toFixed(2)}</p>
+                <p className="text-green-400 text-sm">{product.availability ? 'Disponible' : 'No Disponible'}</p>
             </div>
-            <div>
-                <InputLabel htmlFor="code" value="Código"/>
-                <Input
-                    id="code"
-                    startDecorator={`#${restaurantID}-`}
-                    type="text"
-                    name="code"
-                    value={data.code}
-                    className="mt-1 block w-full"
-                    onChange={(e) => setData('code', e.target.value)}
-                />
-                <InputError message={errors.code} className="mt-2"/>
-            </div>
-            <div>
-                <InputLabel htmlFor="price" value="Precio"/>
-                <Input
-                    startDecorator={'$'}
-                    type="price"
-                    id="price"
-                    name="price"
-                    value={data.price}
-                    className="mt-1 block w-full"
-                    onChange={(e) => setData('price', e.target.value)}
-                    slotProps={{
-                        input: {
-                            component: PriceFormatInput,
-                            min: 0,
-                        },
-                    }}
-                />
-                <InputError message={errors.price} className="mt-2"/>
-            </div>
-            <div>
-                <InputLabel htmlFor="description" value="Descripción"/>
-                <Textarea
-                    id="description"
-                    type="text"
-                    name="description"
-                    placeholder={'Descripción del producto'}
-                    value={data.description}
-                    onChange={(e) => setData('description', e.target.value)}
-                    minRows={4}
-                />
-                <InputError message={errors.description} className="mt-2"/>
-            </div>
-            <div>
-                <InputLabel htmlFor="ingredients" value="Ingredientes"/>
-                {selectedIngredients.map((ingredient, index) => (
-                    <div key={index} className="flex items-center space-x-4">
-                        <Select
-                            id="ingredient"
-                            value={ingredient.id}
-                            onChange={(e) => setIngredient(index, e.target.value)}
-                            className="mt-1 block w-full h-10 pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                        >
-                            {ingredients.map((ingredient) => (
-                                <MenuItem key={ingredient.id} value={ingredient.id}>
-                                    {ingredient.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                        <Input
-                            type="number"
-                            name={`ingredient-${index}`}
-                            value={ingredient.quantity}
-                            className="w-1/2"
-                            onChange={(e) => setAmount(index, e.target.value)}
-                        />
-                        <button onClick={(e) => removeIngredient(e, index)} className="text-red-500">Eliminar</button>
-                    </div>
-                ))}
-                <button onClick={addIngredient} className="text-blue-500">Agregar Ingrediente</button>
-                <InputError message={errors.ingredients} className="mt-2"/>
-            </div>
-            <PrimaryButton>Agregar Producto</PrimaryButton>
-        </form>
+        </div>
     );
-};
-
-const EditProductForm = ({closeModal, ingredient, onSuccess}) => {
-    const initialValues = {
-        name: ingredient.name,
-        stock: ingredient.stock,
-    };
-
-    const {data, errors, setData, put} = useForm(initialValues);
-
-    const submit = (e) => {
-        e.preventDefault();
-        put(route('restaurante.ingredients.update', ingredient), {
-            onSuccess: () => {
-                closeModal();
-                onSuccess(`Ingrediente '${data.name}' actualizado con éxito`);
-            },
-        });
-    }
-
-    return (
-        <form onSubmit={submit} className="space-y-4">
-            <InputLabel htmlFor="name" value="Nombre"/>
-            <TextInput
-                id="name"
-                type="text"
-                name="name"
-                value={data.name}
-                className="mt-1 block w-full"
-                isFocused={true}
-                onChange={(e) => setData('name', e.target.value)}
-            />
-            <InputError message={errors.name} className="mt-2"/>
-            <InputLabel htmlFor="stock" value="Cantidad en Stock"/>
-            <TextInput
-                id="stock"
-                type="number"
-                name="stock"
-                value={data.stock}
-                className="mt-1 block w-full"
-                onChange={(e) => setData('stock', e.target.value)}
-            />
-            <InputError message={errors.stock} className="mt-2"/>
-            <PrimaryButton>Guardar Cambios</PrimaryButton>
-        </form>
-    );
-};
-
-const DeleteProductForm = ({closeModal, ingredient, onSuccess}) => {
-    const {delete: destroy} = useForm();
-
-    const submit = (e) => {
-        e.preventDefault();
-        destroy(route('restaurante.ingredients.destroy', ingredient), {
-            onSuccess: () => {
-                closeModal();
-                onSuccess(`Ingrediente '${ingredient.name}' eliminado con éxito`);
-            },
-        });
-    }
-
-    return (
-        <form onSubmit={submit} className="space-y-4">
-            <Alert severity="warning">¿Estás seguro de que deseas eliminar el ingrediente '{ingredient.name}'?</Alert>
-            <div className="flex justify-end space-x-2">
-                <PrimaryButton type="button" onClick={closeModal}>Cancelar</PrimaryButton>
-                <PrimaryButton color="error">Eliminar</PrimaryButton>
-            </div>
-        </form>
-    );
-};
+}
