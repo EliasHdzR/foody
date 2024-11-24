@@ -78,7 +78,6 @@
             });
 
             Route::inertia('/reportes', 'AdminViews/Reports')->name('admin.reports.index');
-            Route::inertia('/promociones', 'AdminViews/Promotions')->name('admin.promotions.index');
             Route::inertia('/producto-info', 'AdminViews/ProductInfo');
         });
 

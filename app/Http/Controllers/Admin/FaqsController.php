@@ -19,6 +19,7 @@ class FaqsController extends Controller
         return Inertia::render('AdminViews/Faqs/Index', [
             'faqs' => $faqs->map(function ($faq) {
                 return [
+                    'id' => $faq->id,
                     'question' => $faq->question,
                     'answer' => $faq->answer,
                     'created_at' => $this->getCreatedAtAttribute($faq->created_at),

@@ -8,7 +8,7 @@ const menuItems = [
     { label: 'Repartidores', icon: 'delivery-icon', link: 'admin.drivers.index' },
     { label: 'Clientes', icon: 'user-icon', link: 'admin.customers.index' },
     { label: 'Reportes', icon: 'report-icon', link: 'admin.reports.index' },
-    { label: 'Promociones', icon: 'promo-icon', link: 'admin.promotions.index' },
+    { label: 'Preguntas Frecuentes', icon: 'faq-icon', link: 'admin.faqs.index' },
 ];
 function Sidebar() {
     return (
