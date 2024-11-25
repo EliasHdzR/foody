@@ -7,12 +7,19 @@ import RestaurantImage from "@/Components/RestaurantImage.jsx";
 import AddProductForm from "@/Pages/RestaurantViews/Products/AddProductForm.jsx";
 import EditProductForm from "@/Pages/RestaurantViews/Products/EditProductForm.jsx";
 import DeleteProductForm from "@/Pages/RestaurantViews/Products/DeleteProductForm.jsx";
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
-const ProductsIndex = ({products, restaurantID, ingredients}) => {
+const ProductsIndex = ({ products, restaurantID, ingredients }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalType, setModalType] = useState(null);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
+
+    const [nameFilter, setNameFilter] = useState('');
+    const [priceRange, setPriceRange] = useState(['','']);
+    const [availabilityFilter, setAvailabilityFilter] = useState('');
+    const [descriptionFilter, setDescriptionFilter] = useState('');
 
     const openModal = (type, product = null) => {
         setModalType(type);
@@ -31,22 +38,58 @@ const ProductsIndex = ({products, restaurantID, ingredients}) => {
         setTimeout(() => setSuccessMessage(null), 3000);
     };
 
+    const handleNameFilterChange = (e) => setNameFilter(e.target.value);
+    const handlePriceRangeChange = (value, index) => {
+        const updatedRange = [...priceRange];
+        updatedRange[index] = value === '' ? '' : Number(value);
+        setPriceRange(updatedRange);
+    };
+    const priceValidation = (price) => {
+        const minPrice = priceRange[0] === '' ? null : Number(priceRange[0]);
+        const maxPrice = priceRange[1] === '' ? null : Number(priceRange[1]);
+
+        if (minPrice === null && maxPrice === null) return true;
+        if (minPrice !== null && maxPrice === null) return price >= minPrice;
+        if (minPrice === null && maxPrice !== null) return price <= maxPrice;
+        return minPrice <= maxPrice && price >= minPrice && price <= maxPrice;
+    }
+    const handleAvailabilityFilterChange = (e) => setAvailabilityFilter(e.target.value);
+    const handleDescriptionFilterChange = (e) => setDescriptionFilter(e.target.value);
+
+    const resetFilters = () => {
+        setNameFilter('');
+        setPriceRange(['','']);
+        setAvailabilityFilter('');
+        setDescriptionFilter('');
+    };
+
+    const filteredProducts = products.filter(product => {
+        const matchesName = nameFilter ? product.name.toLowerCase().includes(nameFilter.toLowerCase()) : true;
+        const matchesPrice = priceValidation(product.price);
+        const matchesAvailability = availabilityFilter ? availabilityFilter === 'available' ? product.availability : !product.availability
+            : true;
+        const matchesDescription = descriptionFilter
+            ? product.description.toLowerCase().includes(descriptionFilter.toLowerCase())
+            : true;
+        return matchesName && matchesPrice && matchesAvailability && matchesDescription;
+    });
+
     const columns = [
-        {id: 'name', label: 'Nombre', align: 'left'},
-        {id: 'code', label: 'Código', align: 'left'},
-        {id: 'price', label: 'Precio', align: 'right'},
-        {id: 'description', label: 'Descripción', align: 'left'},
-        {id: 'availability', label: 'Disponibilidad', align: 'center'},
-        {id: 'actions', label: '', align: 'center'},
+        { id: 'name', label: 'Nombre', align: 'left' },
+        { id: 'code', label: 'Código', align: 'left' },
+        { id: 'price', label: 'Precio', align: 'right' },
+        { id: 'description', label: 'Descripción', align: 'left' },
+        { id: 'availability', label: 'Disponibilidad', align: 'center' },
+        { id: 'actions', label: '', align: 'center' },
     ];
 
     const collapsableColumns = [
-        {id: 'name', label: 'Nombre', align: 'left'},
-        {id: 'quantity', label: 'Cantidad Necesaria', align: 'right'},
-        {id: 'stock', label: 'Cantidad en Stock', align: 'right'},
+        { id: 'name', label: 'Nombre', align: 'left' },
+        { id: 'quantity', label: 'Cantidad Necesaria', align: 'right' },
+        { id: 'stock', label: 'Cantidad en Stock', align: 'right' },
     ];
 
-    const rows = products.map((product) => ({
+    const rows = filteredProducts.map((product) => ({
         id: product.id,
         name: product.name,
         price: `$${Number(product.price).toFixed(2)}`,
@@ -69,7 +112,7 @@ const ProductsIndex = ({products, restaurantID, ingredients}) => {
         ]
     }));
 
-    const collapseRows = products.reduce((acc, product) => {
+    const collapseRows = filteredProducts.reduce((acc, product) => {
         product.ingredients.forEach((ingredient) => {
             acc.push({
                 parentId: product.id,
@@ -81,6 +124,54 @@ const ProductsIndex = ({products, restaurantID, ingredients}) => {
         });
         return acc;
     }, []);
+
+    const convertToCSV = (data) => {
+        const exportableColumns = columns.filter(col => col.id && col.id !== 'actions');
+        const headers = exportableColumns.map(col => col.label).join(',');
+        const rows = data.map(row =>
+            exportableColumns.map(col => {
+                return row[col.id];
+            }).join(',')
+        ).join('\n');
+        return `${headers}\n${rows}`;
+    };
+
+    const downloadCSV = () => {
+        const csvData = convertToCSV(rows);
+        const blob = new Blob([csvData], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.setAttribute('hidden', '');
+        a.setAttribute('href', url);
+        a.setAttribute('download', 'productos.csv');
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    };
+
+    const downloadPDF = () => {
+        const doc = new jsPDF();
+
+        const exportableColumns = columns.filter(col => col.id && col.id !== 'actions');
+        const headers = exportableColumns.map(col => col.label);
+
+        const cleanText = (text) =>
+            typeof text === 'string' ? text.replace(/[\r\n]+/g, ' ').trim() : text;
+
+        const data = rows.map(row =>
+            exportableColumns.map(col => cleanText(row[col.id]))
+        );
+
+        doc.autoTable({
+            head: [headers],
+            body: data,
+            styles: { cellPadding: 3, fontSize: 10 },
+            startY: 10,
+            theme: 'grid',
+        });
+
+        doc.save('productos.pdf');
+    };
 
     return (
         <div>
@@ -94,7 +185,56 @@ const ProductsIndex = ({products, restaurantID, ingredients}) => {
             )}
             <div className="container mx-auto">
                 <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">Gestión de productos</h2>
-                <div className="flex justify-end mb-2">
+                <div className="flex justify-start mb-2">
+                    <input
+                        type="text"
+                        placeholder="Filtrar por nombre"
+                        value={nameFilter}
+                        onChange={handleNameFilterChange}
+                        className="mr-2 p-2 border rounded"
+                    />
+                    <input
+                        type="number"
+                        placeholder="Precio mínimo"
+                        value={priceRange[0]}
+                        onChange={(e) => handlePriceRangeChange(e.target.value, 0)}
+                        className="mr-2 p-2 w-[10rem] border rounded"
+                    />
+                    <input
+                        type="number"
+                        placeholder="Precio máximo"
+                        value={priceRange[1]}
+                        onChange={(e) => handlePriceRangeChange(e.target.value, 1)}
+                        className="mr-2 p-2 w-[10rem] border rounded"
+                    />
+                    <select
+                        value={availabilityFilter}
+                        onChange={handleAvailabilityFilterChange}
+                        className="mr-2 p-2 border rounded"
+                    >
+                        <option value="">Todos</option>
+                        <option value="available">Disponible</option>
+                        <option value="not_available">No disponible</option>
+                    </select>
+                    <input
+                        type="text"
+                        placeholder="Filtrar por descripción"
+                        value={descriptionFilter}
+                        onChange={handleDescriptionFilterChange}
+                        className="p-2 border rounded"
+                    />
+                    <button onClick={resetFilters}
+                            className="ml-4 px-4 py-2 bg-gray-500 text-white rounded-lg font-semibold hover:bg-gray-600 transition">
+                        Reiniciar
+                    </button>
+                    <button onClick={downloadCSV}
+                            className="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition">
+                        Descargar CSV
+                    </button>
+                    <button onClick={downloadPDF}
+                            className="ml-4 px-4 py-2 bg-red-500 text-white rounded-lg font-semibold hover:bg-red-600 transition">
+                        Descargar PDF
+                    </button>
                     <button onClick={() => openModal('add')}
                             className="ml-4 px-4 py-2 bg-yellow-500 text-white rounded-lg font-semibold hover:bg-yellow-600 transition">
                         Agregar
@@ -110,13 +250,18 @@ const ProductsIndex = ({products, restaurantID, ingredients}) => {
                 />
             </div>
             <Modal isOpen={isModalOpen} onClose={closeModal} title={modalType === 'edit' ? 'Editar' :
-                                                                    modalType === 'add' ? 'Agregar' :
-                                                                    modalType === 'delete' ? 'Eliminar' : 'Ver'}>
+                modalType === 'add' ? 'Agregar' :
+                    modalType === 'delete' ? 'Eliminar' : 'Ver'}>
                 <div className="max-h-[80vh] overflow-y-auto">
                     {modalType === 'info' && <InfoProductForm product={selectedProduct} closeModal={closeModal}/>}
-                    {modalType === 'add' && <AddProductForm ingredients={ingredients} restaurantID={restaurantID} closeModal={closeModal} onSuccess={handleSuccess}/>}
-                    {modalType === 'edit' && <EditProductForm closeModal={closeModal} product={selectedProduct} onSuccess={handleSuccess} ingredients={ingredients}/>}
-                    {modalType === 'delete' && <DeleteProductForm closeModal={closeModal} product={selectedProduct} onSuccess={handleSuccess}/>}
+                    {modalType === 'add' &&
+                        <AddProductForm ingredients={ingredients} restaurantID={restaurantID} closeModal={closeModal}
+                                        onSuccess={handleSuccess}/>}
+                    {modalType === 'edit' &&
+                        <EditProductForm closeModal={closeModal} product={selectedProduct} onSuccess={handleSuccess}
+                                         ingredients={ingredients}/>}
+                    {modalType === 'delete' && <DeleteProductForm closeModal={closeModal} product={selectedProduct}
+                                                                  onSuccess={handleSuccess}/>}
                 </div>
             </Modal>
         </div>

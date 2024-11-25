@@ -99,6 +99,8 @@ class ProductsController extends Controller
 
     public function destroy(Product $product)
     {
+        $image_url = $product->image_url;
+        Storage::disk('public')->delete($image_url);
         $product->delete();
     }
 }
