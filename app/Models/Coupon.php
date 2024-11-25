@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Coupon extends Model
 {
     protected $fillable = [
+        'restaurant_id',
         'code',
         'discount',
         'discount_percent',

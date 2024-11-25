@@ -6,6 +6,7 @@
     use App\Http\Controllers\Admin\CustomersController;
     use App\Http\Controllers\Admin\FaqsController;
     use App\Http\Controllers\Restaurant\IngredientsController;
+    use App\Http\Controllers\Restaurant\CouponsController;
     use App\Http\Controllers\Restaurant\ProductsController;
     use App\Http\Controllers\ProfileController;
     use App\Http\Middleware\CheckRole;
@@ -100,6 +101,13 @@
                 Route::put('/ingredientes/{ingredient}', 'update')->name('restaurante.ingredients.update');
                 Route::delete('/ingredientes/{ingredient}', 'destroy')->name('restaurante.ingredients.destroy');
             });
+
+            Route::controller(CouponsController::class)->group(function () {
+                Route::get('/cupones', 'index')->name('restaurante.coupons.index');
+                Route::post('/cupones', 'store')->name('restaurante.coupons.store');
+                Route::put('/cupones/{coupon}', 'update')->name('restaurante.coupons.update');
+                Route::delete('/cupones/{coupon}', 'destroy')->name('restaurante.coupons.destroy');
+            });                              
 
             Route::inertia('/menu', 'RestaurantViews/MenuStore');
         }));
