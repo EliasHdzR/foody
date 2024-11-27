@@ -34,6 +34,62 @@ const itemsMock = [
       price: 8.75,
       quantity: 1,
     },
+    {
+      id: 4, 
+      name: "Hamburguesa Clásica",
+      description: "Con papas fritas",
+      price: 8.75,
+      quantity: 1,
+    },
+    {
+      id: 4, 
+      name: "Hamburguesa Clásica",
+      description: "Con papas fritas",
+      price: 8.75,
+      quantity: 1,
+    },
+    {
+      id: 4, 
+      name: "Hamburguesa Clásica",
+      description: "Con papas fritas",
+      price: 8.75,
+      quantity: 1,
+    },
+    {
+      id: 4, 
+      name: "Hamburguesa Clásica",
+      description: "Con papas fritas",
+      price: 8.75,
+      quantity: 1,
+    },
+    {
+      id: 4, 
+      name: "Hamburguesa Clásica",
+      description: "Con papas fritas",
+      price: 8.75,
+      quantity: 1,
+    },
+    {
+      id: 4, 
+      name: "Hamburguesa Clásica",
+      description: "Con papas fritas",
+      price: 8.75,
+      quantity: 1,
+    },
+    {
+      id: 4, 
+      name: "Hamburguesa Clásica",
+      description: "Con papas fritas",
+      price: 8.75,
+      quantity: 1,
+    },
+    {
+      id: 4, 
+      name: "Hamburguesa Clásica",
+      description: "Con papas fritas",
+      price: 8.75,
+      quantity: 1,
+    },
   ];
   
 
