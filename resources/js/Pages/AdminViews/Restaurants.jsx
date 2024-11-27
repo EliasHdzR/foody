@@ -1,18 +1,67 @@
 import Tienda from '../../Components/Tienda.jsx';
 import '../../../css/app.css';
 import Layout from '@/Layouts/Layout.jsx';
-import {Link} from "@inertiajs/react";
-import Dashboard from "@/Pages/RestaurantViews/Dashboard.jsx";
+import { Link } from "@inertiajs/react";
+import { Box, Button, Typography, useTheme } from "@mui/material";
+import { tokens } from "@/theme";
 
 export default function Restaurants({ restaurants }) {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+
     return (
-        <div>
-            <h1 className="text-2xl font-semibold text-gray-800 mb-4">Tiendas</h1>
-            <Link href={route('admin.categories.index')}>Ver Categorías</Link>
-            <div className="bg-white p-6 rounded-lg shadow">
-                <div className="flex justify-end mb-4">
-                    <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Añadir</button>
-                </div>
+        <Box
+            sx={{
+                padding: "20px",
+                backgroundColor: colors.primary[400],
+                color: colors.grey[100],
+                borderRadius: "8px",
+            }}
+        >
+            <Typography
+                variant="h4"
+                sx={{
+                    color: colors.greenAccent[500], 
+                    marginBottom: "16px",
+                    fontWeight: "bold",
+                }}
+            >
+                Tiendas
+            </Typography>
+
+            <Link
+                href={route('admin.categories.index')}
+                style={{
+                    color: colors.blueAccent[300], 
+                    textDecoration: "underline",
+                }}
+            >
+                Ver Categorías
+            </Link>
+
+            <Box
+                sx={{
+                    backgroundColor: colors.primary[500], 
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.2)", 
+                    marginTop: "20px",
+                }}
+            >
+                <Box display="flex" justifyContent="end" marginBottom="16px">
+                    <Button
+                        sx={{
+                            backgroundColor: colors.greenAccent[500], 
+                            color: colors.grey[100],
+                            fontWeight: "bold",
+                            "&:hover": {
+                                backgroundColor: colors.greenAccent[400],
+                            },
+                        }}
+                    >
+                        Añadir
+                    </Button>
+                </Box>
+
                 {restaurants && restaurants.length > 0 ? (
                     restaurants.map((restaurant, index) => (
                         <Tienda
@@ -27,11 +76,16 @@ export default function Restaurants({ restaurants }) {
                         />
                     ))
                 ) : (
-                    <p>No hay restaurantes disponibles.</p>
+                    <Typography
+                        variant="body2"
+                        sx={{ color: colors.blueAccent[300], textAlign: "center" }}
+                    >
+                        No hay restaurantes disponibles.
+                    </Typography>
                 )}
-            </div>
-        </div>
+            </Box>
+        </Box>
     );
 }
 
-Restaurants.layout = (page) => <Layout children={page} type={'admin'}/>;
+Restaurants.layout = (page) => <Layout children={page} type={'admin'} />;

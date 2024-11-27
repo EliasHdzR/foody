@@ -101,6 +101,8 @@
          */
         Route::middleware([CheckRole::class . ':customer'])->prefix('/cliente')->group((function () {
             Route::inertia('/dashboard', 'ClientViews/Dashboard')->name('cliente.dashboard');
+            Route::inertia('/tiendas', 'ClientViews/Tiendas')->name('cliente.tiendas');
+
         }));
 
         /**
