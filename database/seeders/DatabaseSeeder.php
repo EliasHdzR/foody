@@ -13,17 +13,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([
-            CategoriesSeeder::class,
-            IngredientsSeeder::class,
-        ]);
-
-        $this->call(RestaurantsTableSeeder::class);
-        $this->call(ProductsTableSeeder::class);
-
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'dante',
+            'email' => 'dante@correo.com',
+            'password' => bcrypt('pruebita'),
+            'role' => 'admin',
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
     }
 }
