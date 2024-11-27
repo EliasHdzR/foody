@@ -1,7 +1,6 @@
 import '../../../css/app.css';
 import Layout from '@/Layouts/Layout.jsx';
 import Tabla from '@/Components/TablaColapsable.jsx';
-import Dashboard from "@/Pages/RestaurantViews/Dashboard.jsx";
 
 function createData(name, description, price, availability) {
     return {
@@ -36,4 +35,4 @@ export default function Inventory() {
     );
 }
 
-Inventory.layout = (page) => <Layout children={page} type={'admin'}/>;
+Inventory.layout = (page) => <Layout children={page} type={'admin'} />;

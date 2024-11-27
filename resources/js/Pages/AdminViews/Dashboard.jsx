@@ -1,4 +1,4 @@
-import {Box, Button, Typography, useTheme} from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import EmailIcon from "@mui/icons-material/Email";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
@@ -9,11 +9,12 @@ import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 import Header from "@/Components/Header";
 import LineChart from "@/Components/LineChart";
 import BarChart from "@/Components/BarChart";
-import {tokens} from "@/theme.js";
+import { tokens } from "@/theme.js";
 import CustomTable from "@/Components/CustomTable";
 import TopSelling from "@/Components/TopSelling";
+import Layout from "@/Layouts/Layout"; 
 
-const StatBox = ({title, subtitle, icon}) => {
+const StatBox = ({ title, subtitle, icon }) => {
     return (
         <Box
             display="flex"
@@ -53,7 +54,7 @@ const Dashboard = () => {
                 alignItems="center"
                 mb="20px"
             >
-                <Header title="DASHBOARD" subtitle="Bienvenido a tu dashboard"/>
+                <Header title="DASHBOARD" subtitle="Bienvenido a tu dashboard" />
                 <Button
                     sx={{
                         backgroundColor: colors.blueAccent[700],
@@ -63,7 +64,7 @@ const Dashboard = () => {
                         padding: "10px 20px",
                     }}
                 >
-                    <DownloadOutlinedIcon sx={{mr: "10px"}}/>
+                    <DownloadOutlinedIcon sx={{ mr: "10px" }} />
                     Download Reports
                 </Button>
             </Box>
@@ -75,7 +76,6 @@ const Dashboard = () => {
                     borderRadius="8px"
                     p="20px"
                     height="150px"
-                    sx={{boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)"}}
                 >
                     <Typography
                         variant="h6"
@@ -89,38 +89,22 @@ const Dashboard = () => {
                         <StatBox
                             title="150"
                             subtitle="Productos"
-                            icon={
-                                <EmailIcon
-                                    sx={{color: colors.greenAccent[600], fontSize: "30px"}}
-                                />
-                            }
+                            icon={<EmailIcon sx={{ color: colors.greenAccent[600], fontSize: "30px" }} />}
                         />
                         <StatBox
                             title="20,000"
                             subtitle="Usuarios"
-                            icon={
-                                <PointOfSaleIcon
-                                    sx={{color: colors.greenAccent[600], fontSize: "30px"}}
-                                />
-                            }
+                            icon={<PointOfSaleIcon sx={{ color: colors.greenAccent[600], fontSize: "30px" }} />}
                         />
                         <StatBox
                             title="100"
                             subtitle="Repartidores"
-                            icon={
-                                <PersonAddIcon
-                                    sx={{color: colors.greenAccent[600], fontSize: "30px"}}
-                                />
-                            }
+                            icon={<PersonAddIcon sx={{ color: colors.greenAccent[600], fontSize: "30px" }} />}
                         />
                         <StatBox
                             title="15"
                             subtitle="Restaurantes"
-                            icon={
-                                <TrafficIcon
-                                    sx={{color: colors.greenAccent[600], fontSize: "30px"}}
-                                />
-                            }
+                            icon={<TrafficIcon sx={{ color: colors.greenAccent[600], fontSize: "30px" }} />}
                         />
                     </Box>
                 </Box>
@@ -131,7 +115,6 @@ const Dashboard = () => {
                     borderRadius="8px"
                     p="22px"
                     height="150px"
-                    sx={{boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)"}}
                 >
                     <Typography
                         variant="h6"
@@ -145,20 +128,12 @@ const Dashboard = () => {
                         <StatBox
                             title="868"
                             subtitle="En línea"
-                            icon={
-                                <AccessTimeIcon
-                                    sx={{color: colors.greenAccent[600], fontSize: "30px"}}
-                                />
-                            }
+                            icon={<AccessTimeIcon sx={{ color: colors.greenAccent[600], fontSize: "30px" }} />}
                         />
                         <StatBox
                             title="200"
                             subtitle="Fuera de servicio"
-                            icon={
-                                <DirectionsRunIcon
-                                    sx={{color: colors.redAccent[600], fontSize: "30px"}}
-                                />
-                            }
+                            icon={<DirectionsRunIcon sx={{ color: colors.redAccent[600], fontSize: "30px" }} />}
                         />
                     </Box>
                 </Box>
@@ -169,7 +144,6 @@ const Dashboard = () => {
                     borderRadius="8px"
                     p="20px"
                     height="300px"
-                    sx={{boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)"}}
                 >
                     <Typography
                         variant="h6"
@@ -179,7 +153,7 @@ const Dashboard = () => {
                     >
                         Pedidos
                     </Typography>
-                    <LineChart isDashboard={true}/>
+                    <LineChart isDashboard={true} />
                 </Box>
                 <Box
                     gridColumn="span 6"
@@ -187,7 +161,6 @@ const Dashboard = () => {
                     borderRadius="8px"
                     p="20px"
                     height="300px"
-                    sx={{boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)"}}
                 >
                     <Typography
                         variant="h6"
@@ -197,7 +170,7 @@ const Dashboard = () => {
                     >
                         Pedidos por repartidor
                     </Typography>
-                    <BarChart isDashboard={true}/>
+                    <BarChart isDashboard={true} />
                 </Box>
                 <Box
                     gridColumn="span 6"
@@ -205,9 +178,8 @@ const Dashboard = () => {
                     borderRadius="8px"
                     p="20px"
                     height="300px"
-                    sx={{boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)"}}
                 >
-                    <CustomTable/>
+                    <CustomTable />
                 </Box>
                 <Box
                     gridColumn="span 6"
@@ -215,15 +187,14 @@ const Dashboard = () => {
                     borderRadius="8px"
                     p="20px"
                     height="300px"
-                    sx={{boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)"}}
                 >
-                    <TopSelling></TopSelling>
+                    <TopSelling />
                 </Box>
-
             </Box>
-
         </Box>
     );
 };
+
+Dashboard.layout = (page) => <Layout children={page} type={'admin'}/>;
 
 export default Dashboard;
