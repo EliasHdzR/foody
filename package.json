@@ -29,6 +29,8 @@
         "@mui/x-data-grid": "^7.22.3",
         "@nivo/bar": "^0.88.0",
         "@nivo/line": "^0.88.0",
+        "jspdf": "^2.5.2",
+        "jspdf-autotable": "^3.8.4",
         "prop-types": "^15.8.1",
         "react-number-format": "^5.4.2"
     }

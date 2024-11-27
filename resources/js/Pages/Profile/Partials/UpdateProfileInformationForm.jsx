@@ -62,7 +62,6 @@ export default function UpdateProfileInformation({
                         className="mt-1 block w-full"
                         value={data.phone_number}
                         onChange={(e) => setData('phone_number', e.target.value)}
-                        required
                         isFocused
                         autoComplete="phone_number"
                     />

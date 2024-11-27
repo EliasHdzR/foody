@@ -8,6 +8,7 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
@@ -15,53 +16,52 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 function Row(props) {
-    const { row } = props;
+    const {row, columns, collapseColumns, collapseRows, subtitle, tableCellStyle} = props;
     const [open, setOpen] = React.useState(false);
 
     return (
         <React.Fragment>
-            <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-                <TableCell>
+            <TableRow sx={{'& > *': {borderBottom: 'unset'}}}>
+                <TableCell style={tableCellStyle}>
                     <IconButton
                         aria-label="expand row"
                         size="small"
                         onClick={() => setOpen(!open)}
                     >
-                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                        {open ? <KeyboardArrowUpIcon/> : <KeyboardArrowDownIcon/>}
                     </IconButton>
                 </TableCell>
-                <TableCell component="th" scope="row">{row.name}</TableCell>
-                <TableCell align="left">{row.description}</TableCell>
-                <TableCell align="right">{row.price}</TableCell>
-                <TableCell align="right">{row.availability}</TableCell>
+                {columns.map((column) => (
+                    <TableCell key={column.id} align={column.align} style={tableCellStyle}>
+                        {row[column.id]}
+                    </TableCell>
+                ))}
             </TableRow>
             <TableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={columns.length + 1}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
-                        <Box sx={{ margin: 1 }}>
+                        <Box sx={{margin: 1}}>
                             <Typography variant="h6" gutterBottom component="div">
-                                Historial
+                                {subtitle}
                             </Typography>
-                            <Table size="small" aria-label="purchases">
+                            <Table size="small" aria-label="details">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Fecha</TableCell>
-                                        <TableCell>Cliente</TableCell>
-                                        <TableCell align="right">Cantidad</TableCell>
-                                        <TableCell align="right">Precio Total ($MXN)</TableCell>
+                                        {collapseColumns.map((column) => (
+                                            <TableCell key={column.id} align={column.align}>
+                                                <strong>{column.label}</strong>
+                                            </TableCell>
+                                        ))}
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {row.history.map((historyRow) => (
-                                        <TableRow key={historyRow.date}>
-                                            <TableCell component="th" scope="row">
-                                                {historyRow.date}
-                                            </TableCell>
-                                            <TableCell>{historyRow.customerId}</TableCell>
-                                            <TableCell align="right">{historyRow.amount}</TableCell>
-                                            <TableCell align="right">
-                                                {Math.round(historyRow.amount * row.price * 100) / 100}
-                                            </TableCell>
+                                    {collapseRows.map((collapseRow) => (
+                                        <TableRow key={collapseRow.id}>
+                                            {collapseColumns.map((column) => (
+                                                <TableCell key={column.id} align={column.align}>
+                                                    {collapseRow[column.id]}
+                                                </TableCell>
+                                            ))}
                                         </TableRow>
                                     ))}
                                 </TableBody>
@@ -75,58 +75,128 @@ function Row(props) {
 }
 
 Row.propTypes = {
-    row: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        availability: PropTypes.string.isRequired,
-        history: PropTypes.arrayOf(
-            PropTypes.shape({
-                date: PropTypes.string.isRequired,
-                customerName: PropTypes.string.isRequired,
-                amount: PropTypes.number.isRequired,
-            }),
-        ),
-    }).isRequired,
+    row: PropTypes.object.isRequired,
+    columns: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            label: PropTypes.string.isRequired,
+            align: PropTypes.string,
+        })
+    ).isRequired,
+    collapseColumns: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            label: PropTypes.string.isRequired,
+            align: PropTypes.string,
+        })
+    ).isRequired,
+    collapseRows: PropTypes.arrayOf(PropTypes.object).isRequired,
+    subtitle: PropTypes.string.isRequired,
+    tableCellStyle: PropTypes.object,
 };
 
-export default function CollapsibleTable({ data }) {
+export default function CollapsibleTable({
+                                             columns,
+                                             rows,
+                                             collapseColumns,
+                                             collapseRows,
+                                             subtitle,
+                                             tableContainerStyle = {
+                                                 maxHeight: '100%',
+                                                 borderRadius: '12px',
+                                                 boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)'
+                                             },
+                                             tableCellStyle = {minWidth: 50},
+                                             headerCellStyle = {
+                                                 backgroundColor: '#3B3B3B',
+                                                 color: '#FFF',
+                                                 fontWeight: '600',
+                                                 fontSize: '15px',
+                                                 textTransform: 'uppercase',
+                                                 padding: '14px'
+                                             },
+                                             bodyCellStyle = {
+                                                 backgroundColor: '#FFFFFF',
+                                                 transition: 'background-color 0.3s'
+                                             },
+                                             paginationStyle = {width: '100%', height: '100%', overflow: 'hidden'}
+                                         }) {
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
+
     return (
-        <TableContainer component={Paper}>
-            <Table aria-label="collapsible table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell />
-                        <TableCell>Producto</TableCell>
-                        <TableCell align="left">Descripción</TableCell>
-                        <TableCell align="right">Precio (MXN)</TableCell>
-                        <TableCell align="right">Disponibilidad</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {data.map((row) => (
-                        <Row key={row.name} row={row} />
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <Paper sx={paginationStyle}>
+            <TableContainer sx={tableContainerStyle}>
+                <Table stickyHeader aria-label="collapsible table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell style={headerCellStyle}/>
+                            {columns.map((column) => (
+                                <TableCell key={column.id} align={column.align} style={headerCellStyle}>
+                                    {column.label}
+                                </TableCell>
+                            ))}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+                            <Row
+                                key={row.id}
+                                row={row}
+                                columns={columns}
+                                collapseColumns={collapseColumns}
+                                subtitle={subtitle}
+                                collapseRows={collapseRows.filter(collapseRow => collapseRow.parentId === row.id)}
+                                tableCellStyle={tableCellStyle}
+                                bodyCellStyle={bodyCellStyle}
+                            />
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <TablePagination
+                rowsPerPageOptions={[10, 25, 100]}
+                component="div"
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+        </Paper>
     );
 }
 
 CollapsibleTable.propTypes = {
-    data: PropTypes.arrayOf(
+    columns: PropTypes.arrayOf(
         PropTypes.shape({
-            name: PropTypes.string.isRequired,
-            description: PropTypes.string.isRequired,
-            price: PropTypes.number.isRequired,
-            availability: PropTypes.string.isRequired,
-            history: PropTypes.arrayOf(
-                PropTypes.shape({
-                    date: PropTypes.string.isRequired,
-                    customerName: PropTypes.string.isRequired,
-                    amount: PropTypes.number.isRequired,
-                }),
-            ),
+            id: PropTypes.string.isRequired,
+            label: PropTypes.string.isRequired,
+            align: PropTypes.string,
         })
     ).isRequired,
+    rows: PropTypes.arrayOf(PropTypes.object).isRequired,
+    collapseColumns: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            label: PropTypes.string.isRequired,
+            align: PropTypes.string,
+        })
+    ).isRequired,
+    collapseRows: PropTypes.arrayOf(PropTypes.object).isRequired,
+    subtitle: PropTypes.string.isRequired,
+    tableContainerStyle: PropTypes.object,
+    tableCellStyle: PropTypes.object,
+    headerCellStyle: PropTypes.object,
+    bodyCellStyle: PropTypes.object,
+    paginationStyle: PropTypes.object,
 };

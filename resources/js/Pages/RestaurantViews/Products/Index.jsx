@@ -1,22 +1,25 @@
 import React, {useState} from 'react';
 import Layout from '@/Layouts/Layout.jsx';
-import Tabla from '@/Components/Tabla.jsx';
+import TablaColapsable from '@/Components/TablaColapsable.jsx';
 import Modal from '@/Pages/RestaurantViews/Modal';
-import {Alert, AlertTitle, MenuItem, Select} from "@mui/material";
-import {useForm} from "@inertiajs/react";
-import InputLabel from "@/Components/InputLabel.jsx";
-import TextInput from "@/Components/TextInput.jsx";
-import InputError from "@/Components/InputError.jsx";
-import PrimaryButton from "@/Components/PrimaryButton.jsx";
-import Input from '@mui/joy/Input';
-import PriceFormatInput from '@/Components/PriceFormatInput.jsx';
-import {Textarea} from "@mui/joy";
+import {Alert, AlertTitle} from "@mui/material";
+import RestaurantImage from "@/Components/RestaurantImage.jsx";
+import AddProductForm from "@/Pages/RestaurantViews/Products/AddProductForm.jsx";
+import EditProductForm from "@/Pages/RestaurantViews/Products/EditProductForm.jsx";
+import DeleteProductForm from "@/Pages/RestaurantViews/Products/DeleteProductForm.jsx";
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
-const ProductsIndex = ({products, restaurantID, ingredients}) => {
+const ProductsIndex = ({ products, restaurantID, ingredients }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalType, setModalType] = useState(null);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
+
+    const [nameFilter, setNameFilter] = useState('');
+    const [priceRange, setPriceRange] = useState(['','']);
+    const [availabilityFilter, setAvailabilityFilter] = useState('');
+    const [descriptionFilter, setDescriptionFilter] = useState('');
 
     const openModal = (type, product = null) => {
         setModalType(type);
@@ -35,22 +38,69 @@ const ProductsIndex = ({products, restaurantID, ingredients}) => {
         setTimeout(() => setSuccessMessage(null), 3000);
     };
 
+    const handleNameFilterChange = (e) => setNameFilter(e.target.value);
+    const handlePriceRangeChange = (value, index) => {
+        const updatedRange = [...priceRange];
+        updatedRange[index] = value === '' ? '' : Number(value);
+        setPriceRange(updatedRange);
+    };
+    const priceValidation = (price) => {
+        const minPrice = priceRange[0] === '' ? null : Number(priceRange[0]);
+        const maxPrice = priceRange[1] === '' ? null : Number(priceRange[1]);
+
+        if (minPrice === null && maxPrice === null) return true;
+        if (minPrice !== null && maxPrice === null) return price >= minPrice;
+        if (minPrice === null && maxPrice !== null) return price <= maxPrice;
+        return minPrice <= maxPrice && price >= minPrice && price <= maxPrice;
+    }
+    const handleAvailabilityFilterChange = (e) => setAvailabilityFilter(e.target.value);
+    const handleDescriptionFilterChange = (e) => setDescriptionFilter(e.target.value);
+
+    const resetFilters = () => {
+        setNameFilter('');
+        setPriceRange(['','']);
+        setAvailabilityFilter('');
+        setDescriptionFilter('');
+    };
+
+    const filteredProducts = products.filter(product => {
+        const matchesName = nameFilter ? product.name.toLowerCase().includes(nameFilter.toLowerCase()) : true;
+        const matchesPrice = priceValidation(product.price);
+        const matchesAvailability = availabilityFilter ? availabilityFilter === 'available' ? product.availability : !product.availability
+            : true;
+        const matchesDescription = descriptionFilter
+            ? product.description.toLowerCase().includes(descriptionFilter.toLowerCase())
+            : true;
+        return matchesName && matchesPrice && matchesAvailability && matchesDescription;
+    });
+
     const columns = [
-        {id: 'name', label: 'Nombre', align: 'left'},
-        {id: 'code', label: 'Código', align: 'left'},
-        {id: 'price', label: 'Precio', align: 'right'},
-        {id: 'description', label: 'Descripción', align: 'left'},
-        {id: 'availability', label: 'Disponibilidad', align: 'center'},
-        {id: 'actions', label: '', align: 'center'},
+        { id: 'name', label: 'Nombre', align: 'left' },
+        { id: 'code', label: 'Código', align: 'left' },
+        { id: 'price', label: 'Precio', align: 'right' },
+        { id: 'description', label: 'Descripción', align: 'left' },
+        { id: 'availability', label: 'Disponibilidad', align: 'center' },
+        { id: 'actions', label: '', align: 'center' },
     ];
 
-    const rows = products.map((product) => ({
+    const collapsableColumns = [
+        { id: 'name', label: 'Nombre', align: 'left' },
+        { id: 'quantity', label: 'Cantidad Necesaria', align: 'right' },
+        { id: 'stock', label: 'Cantidad en Stock', align: 'right' },
+    ];
+
+    const rows = filteredProducts.map((product) => ({
+        id: product.id,
         name: product.name,
-        price: `$${product.price.toFixed(2)}`,
+        price: `$${Number(product.price).toFixed(2)}`,
         code: product.code,
         description: product.description,
         availability: product.availability ? 'Disponible' : 'No disponible',
         actions: [
+            <button onClick={() => openModal('info', product)}
+                    className="ml-4 px-4 py-2 bg-blue-600 rounded-lg font-semibold hover:bg-blue-700 transition">
+                Ver
+            </button>,
             <button onClick={() => openModal('edit', product)}
                     className="ml-4 px-4 py-2 bg-green-600 rounded-lg font-semibold hover:bg-green-700 transition">
                 Editar
@@ -61,6 +111,67 @@ const ProductsIndex = ({products, restaurantID, ingredients}) => {
             </button>,
         ]
     }));
+
+    const collapseRows = filteredProducts.reduce((acc, product) => {
+        product.ingredients.forEach((ingredient) => {
+            acc.push({
+                parentId: product.id,
+                id: ingredient.id,
+                name: ingredient.name,
+                quantity: ingredient.quantity,
+                stock: ingredient.stock,
+            });
+        });
+        return acc;
+    }, []);
+
+    const convertToCSV = (data) => {
+        const exportableColumns = columns.filter(col => col.id && col.id !== 'actions');
+        const headers = exportableColumns.map(col => col.label).join(',');
+        const rows = data.map(row =>
+            exportableColumns.map(col => {
+                return row[col.id];
+            }).join(',')
+        ).join('\n');
+        return `${headers}\n${rows}`;
+    };
+
+    const downloadCSV = () => {
+        const csvData = convertToCSV(rows);
+        const blob = new Blob([csvData], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.setAttribute('hidden', '');
+        a.setAttribute('href', url);
+        a.setAttribute('download', 'productos.csv');
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    };
+
+    const downloadPDF = () => {
+        const doc = new jsPDF();
+
+        const exportableColumns = columns.filter(col => col.id && col.id !== 'actions');
+        const headers = exportableColumns.map(col => col.label);
+
+        const cleanText = (text) =>
+            typeof text === 'string' ? text.replace(/[\r\n]+/g, ' ').trim() : text;
+
+        const data = rows.map(row =>
+            exportableColumns.map(col => cleanText(row[col.id]))
+        );
+
+        doc.autoTable({
+            head: [headers],
+            body: data,
+            styles: { cellPadding: 3, fontSize: 10 },
+            startY: 10,
+            theme: 'grid',
+        });
+
+        doc.save('productos.pdf');
+    };
 
     return (
         <div>
@@ -74,24 +185,83 @@ const ProductsIndex = ({products, restaurantID, ingredients}) => {
             )}
             <div className="container mx-auto">
                 <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">Gestión de productos</h2>
-                <div className="flex justify-end mb-2">
+                <div className="flex justify-start mb-2">
+                    <input
+                        type="text"
+                        placeholder="Filtrar por nombre"
+                        value={nameFilter}
+                        onChange={handleNameFilterChange}
+                        className="mr-2 p-2 border rounded"
+                    />
+                    <input
+                        type="number"
+                        placeholder="Precio mínimo"
+                        value={priceRange[0]}
+                        onChange={(e) => handlePriceRangeChange(e.target.value, 0)}
+                        className="mr-2 p-2 w-[10rem] border rounded"
+                    />
+                    <input
+                        type="number"
+                        placeholder="Precio máximo"
+                        value={priceRange[1]}
+                        onChange={(e) => handlePriceRangeChange(e.target.value, 1)}
+                        className="mr-2 p-2 w-[10rem] border rounded"
+                    />
+                    <select
+                        value={availabilityFilter}
+                        onChange={handleAvailabilityFilterChange}
+                        className="mr-2 p-2 border rounded"
+                    >
+                        <option value="">Todos</option>
+                        <option value="available">Disponible</option>
+                        <option value="not_available">No disponible</option>
+                    </select>
+                    <input
+                        type="text"
+                        placeholder="Filtrar por descripción"
+                        value={descriptionFilter}
+                        onChange={handleDescriptionFilterChange}
+                        className="p-2 border rounded"
+                    />
+                    <button onClick={resetFilters}
+                            className="ml-4 px-4 py-2 bg-gray-500 text-white rounded-lg font-semibold hover:bg-gray-600 transition">
+                        Reiniciar
+                    </button>
+                    <button onClick={downloadCSV}
+                            className="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition">
+                        Descargar CSV
+                    </button>
+                    <button onClick={downloadPDF}
+                            className="ml-4 px-4 py-2 bg-red-500 text-white rounded-lg font-semibold hover:bg-red-600 transition">
+                        Descargar PDF
+                    </button>
                     <button onClick={() => openModal('add')}
                             className="ml-4 px-4 py-2 bg-yellow-500 text-white rounded-lg font-semibold hover:bg-yellow-600 transition">
                         Agregar
                     </button>
                 </div>
 
-                <Tabla
+                <TablaColapsable
                     columns={columns}
                     rows={rows}
-                    rowsPerPageCustom={10}
+                    collapseColumns={collapsableColumns}
+                    collapseRows={collapseRows}
+                    subtitle="Ingredientes"
                 />
             </div>
-            <Modal isOpen={isModalOpen} onClose={closeModal} title={modalType === 'edit' ? 'Editar' : 'Agregar'}>
+            <Modal isOpen={isModalOpen} onClose={closeModal} title={modalType === 'edit' ? 'Editar' :
+                modalType === 'add' ? 'Agregar' :
+                    modalType === 'delete' ? 'Eliminar' : 'Ver'}>
                 <div className="max-h-[80vh] overflow-y-auto">
-                    {modalType === 'add' && <AddProductForm ingredients={ingredients} restaurantID={restaurantID} closeModal={closeModal} onSuccess={handleSuccess}/>}
-                    {modalType === 'edit' && <EditProductForm closeModal={closeModal} ingredient={selectedProduct} onSuccess={handleSuccess}/>}
-                    {modalType === 'delete' && <DeleteProductForm closeModal={closeModal} ingredient={selectedProduct} onSuccess={handleSuccess}/>}
+                    {modalType === 'info' && <InfoProductForm product={selectedProduct} closeModal={closeModal}/>}
+                    {modalType === 'add' &&
+                        <AddProductForm ingredients={ingredients} restaurantID={restaurantID} closeModal={closeModal}
+                                        onSuccess={handleSuccess}/>}
+                    {modalType === 'edit' &&
+                        <EditProductForm closeModal={closeModal} product={selectedProduct} onSuccess={handleSuccess}
+                                         ingredients={ingredients}/>}
+                    {modalType === 'delete' && <DeleteProductForm closeModal={closeModal} product={selectedProduct}
+                                                                  onSuccess={handleSuccess}/>}
                 </div>
             </Modal>
         </div>
@@ -102,216 +272,24 @@ ProductsIndex.layout = (page) => <Layout children={page} type={'restaurant'}/>;
 
 export default ProductsIndex;
 
-const AddProductForm = ({ingredients, restaurantID, closeModal, onSuccess}) => {
-    const initialValues = {
-        name: "",
-        code: "",
-        price: 0,
-        ingredients: [],
-        description: "",
-        availability: false,
-    };
-
-    const {data, errors, setData, post} = useForm(initialValues);
-    const [selectedIngredients, setSelectedIngredients] = useState([{...ingredients[0], quantity: 1}]);
-
-    const addIngredient = (e) => {
-        e.preventDefault();
-        setSelectedIngredients([...selectedIngredients, {...ingredients[0], quantity: 1}]);
-    }
-
-    const removeIngredient = (e, index) => {
-        e.preventDefault();
-        setSelectedIngredients(selectedIngredients.filter((_, i) => i !== index));
-    }
-
-    const setIngredient = (index, ingredientId) => {
-        const updatedIngredients = selectedIngredients.map((item, i) =>
-            i === index ? {...ingredients.find(ing => ing.id === ingredientId), quantity: item.quantity} : item
-        );
-        setSelectedIngredients(updatedIngredients);
-        setData('ingredients', updatedIngredients);
-    }
-
-    const setAmount = (index, amount) => {
-        const updatedIngredients = selectedIngredients.map((item, i) =>
-            i === index ? {...item, quantity} : item
-        );
-        setSelectedIngredients(updatedIngredients);
-        setData('ingredients', updatedIngredients);
-    }
-
-    const submit = (e) => {
-        console.log(data);
-        e.preventDefault();
-        post(route('restaurante.products.store'), {
-            onSuccess: () => {
-                closeModal();
-                onSuccess(`Producto '${data.name}' agregado con éxito`);
-            },
-        });
-    }
-
+const InfoProductForm = ({product, closeModal}) => {
     return (
-        <form onSubmit={submit} className="space-y-4 overflow-scroll">
-            <div>
-                <InputLabel htmlFor="name" value="Nombre"/>
-                <TextInput
-                    id="name"
-                    type="text"
-                    name="name"
-                    value={data.name}
-                    className="mt-1 block w-full"
-                    isFocused={true}
-                    onChange={(e) => setData('name', e.target.value)}
-                />
-                <InputError message={errors.name} className="mt-2"/>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-gray-800 rounded-lg p-6 w-80 text-center shadow-lg relative">
+                <button
+                    onClick={closeModal}
+                    className="absolute top-3 right-3 text-white bg-red-500 rounded-full w-8 h-8 flex items-center justify-center"
+                >
+                    &times;
+                </button>
+                <div>
+                    <RestaurantImage imagePath={product.image_url}/>
+                </div>
+                <h2 className="text-white text-lg font-bold mt-4">{product.name}</h2>
+                <p className="text-gray-400 text-sm mt-2">{product.description}</p>
+                <p className="text-gray-400 text-sm mt-2">${Number(product.price).toFixed(2)}</p>
+                <p className="text-green-400 text-sm">{product.availability ? 'Disponible' : 'No Disponible'}</p>
             </div>
-            <div>
-                <InputLabel htmlFor="code" value="Código"/>
-                <Input
-                    id="code"
-                    startDecorator={`#${restaurantID}-`}
-                    type="text"
-                    name="code"
-                    value={data.code}
-                    className="mt-1 block w-full"
-                    onChange={(e) => setData('code', e.target.value)}
-                />
-                <InputError message={errors.code} className="mt-2"/>
-            </div>
-            <div>
-                <InputLabel htmlFor="price" value="Precio"/>
-                <Input
-                    startDecorator={'$'}
-                    type="price"
-                    id="price"
-                    name="price"
-                    value={data.price}
-                    className="mt-1 block w-full"
-                    onChange={(e) => setData('price', e.target.value)}
-                    slotProps={{
-                        input: {
-                            component: PriceFormatInput,
-                            min: 0,
-                        },
-                    }}
-                />
-                <InputError message={errors.price} className="mt-2"/>
-            </div>
-            <div>
-                <InputLabel htmlFor="description" value="Descripción"/>
-                <Textarea
-                    id="description"
-                    type="text"
-                    name="description"
-                    placeholder={'Descripción del producto'}
-                    value={data.description}
-                    onChange={(e) => setData('description', e.target.value)}
-                    minRows={4}
-                />
-                <InputError message={errors.description} className="mt-2"/>
-            </div>
-            <div>
-                <InputLabel htmlFor="ingredients" value="Ingredientes"/>
-                {selectedIngredients.map((ingredient, index) => (
-                    <div key={index} className="flex items-center space-x-4">
-                        <Select
-                            id="ingredient"
-                            value={ingredient.id}
-                            onChange={(e) => setIngredient(index, e.target.value)}
-                            className="mt-1 block w-full h-10 pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                        >
-                            {ingredients.map((ingredient) => (
-                                <MenuItem key={ingredient.id} value={ingredient.id}>
-                                    {ingredient.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                        <Input
-                            type="number"
-                            name={`ingredient-${index}`}
-                            value={ingredient.quantity}
-                            className="w-1/2"
-                            onChange={(e) => setAmount(index, e.target.value)}
-                        />
-                        <button onClick={addIngredient} className="text-blue-500">Agregar</button>
-                        <button onClick={() => removeIngredient(index)} className="text-red-500">Eliminar</button>
-                    </div>
-                ))}
-                <InputError message={errors.ingredients} className="mt-2"/>
-            </div>
-            <PrimaryButton>Agregar Producto</PrimaryButton>
-        </form>
+        </div>
     );
-};
-
-const EditProductForm = ({closeModal, ingredient, onSuccess}) => {
-    const initialValues = {
-        name: ingredient.name,
-        stock: ingredient.stock,
-    };
-
-    const {data, errors, setData, put} = useForm(initialValues);
-
-    const submit = (e) => {
-        e.preventDefault();
-        put(route('restaurante.ingredients.update', ingredient), {
-            onSuccess: () => {
-                closeModal();
-                onSuccess(`Ingrediente '${data.name}' actualizado con éxito`);
-            },
-        });
-    }
-
-    return (
-        <form onSubmit={submit} className="space-y-4">
-            <InputLabel htmlFor="name" value="Nombre"/>
-            <TextInput
-                id="name"
-                type="text"
-                name="name"
-                value={data.name}
-                className="mt-1 block w-full"
-                isFocused={true}
-                onChange={(e) => setData('name', e.target.value)}
-            />
-            <InputError message={errors.name} className="mt-2"/>
-            <InputLabel htmlFor="stock" value="Cantidad en Stock"/>
-            <TextInput
-                id="stock"
-                type="number"
-                name="stock"
-                value={data.stock}
-                className="mt-1 block w-full"
-                onChange={(e) => setData('stock', e.target.value)}
-            />
-            <InputError message={errors.stock} className="mt-2"/>
-            <PrimaryButton>Guardar Cambios</PrimaryButton>
-        </form>
-    );
-};
-
-const DeleteProductForm = ({closeModal, ingredient, onSuccess}) => {
-    const {delete: destroy} = useForm();
-
-    const submit = (e) => {
-        e.preventDefault();
-        destroy(route('restaurante.ingredients.destroy', ingredient), {
-            onSuccess: () => {
-                closeModal();
-                onSuccess(`Ingrediente '${ingredient.name}' eliminado con éxito`);
-            },
-        });
-    }
-
-    return (
-        <form onSubmit={submit} className="space-y-4">
-            <Alert severity="warning">¿Estás seguro de que deseas eliminar el ingrediente '{ingredient.name}'?</Alert>
-            <div className="flex justify-end space-x-2">
-                <PrimaryButton type="button" onClick={closeModal}>Cancelar</PrimaryButton>
-                <PrimaryButton color="error">Eliminar</PrimaryButton>
-            </div>
-        </form>
-    );
-};
+}

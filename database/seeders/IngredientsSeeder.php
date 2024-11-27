@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class IngredientsSeeder extends Seeder
@@ -14,14 +15,30 @@ class IngredientsSeeder extends Seeder
     public function run(): void
     {
         DB::table('ingredients')->insert([
-            ['name' => 'Zanahoria',
-             'stock' => 10],
-            ['name' => 'Manzana',
-             'stock' => 20],
-            ['name' => 'Kiwi',
-             'stock' => 30],
-            ['name' => 'Papa',
-             'stock' => 40],
+            ['restaurant_id' => 1,
+             'name' => 'Zanahoria',
+             'stock' => 10,
+             'created_at' => now(),
+             'updated_at' => now(),
+            ],
+            ['restaurant_id' => 1,
+             'name' => 'Manzana',
+             'stock' => 20,
+             'created_at' => now(),
+             'updated_at' => now(),
+            ],
+            ['restaurant_id' => 1,
+             'name' => 'Kiwi',
+             'stock' => 30,
+             'created_at' => now(),
+             'updated_at' => now(),
+            ],
+            ['restaurant_id' => 1,
+             'name' => 'Papa',
+             'stock' => 40,
+             'created_at' => now(),
+             'updated_at' => now(),
+            ],
         ]);
     }
 }
