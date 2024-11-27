@@ -28,8 +28,9 @@ const PaymentAside = ({ onCancel, onConfirm }) => {
     <Box
       sx={{
         width: "100%",
-        height: "100%",
+        height: "50%",
         padding: "20px",
+        position: "sticky", 
         backgroundColor: "rgba(31, 29, 43, 1)",
         color: "#fff",
         display: "flex",

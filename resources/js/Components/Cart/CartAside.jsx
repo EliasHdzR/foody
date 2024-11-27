@@ -4,8 +4,15 @@ import CartSummary from "./CartSummary";
 
 const CartAside = ({ items, subtotal, shipping, tax, total, onCheckout }) => {
   return (
-    <Asidebar title="Carrito">
-      <div>
+    <Asidebar
+      title="Carrito"
+      sx={{
+        position: "sticky", 
+        top: 0, 
+        overflowY: "auto",
+      }}
+    >
+      <div >
         <div
           style={{
             display: "flex",
@@ -16,7 +23,13 @@ const CartAside = ({ items, subtotal, shipping, tax, total, onCheckout }) => {
           }}
         >
           <span>Artículo</span>
-          <div style={{ display: "flex", justifyContent: "space-between", width: "150px" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "150px",
+            }}
+          >
             <span>Cant</span>
             <span>Precio</span>
           </div>
@@ -37,7 +50,7 @@ const CartAside = ({ items, subtotal, shipping, tax, total, onCheckout }) => {
         shipping={shipping}
         tax={tax}
         total={total}
-        onCheckout={onCheckout} 
+        onCheckout={onCheckout}
       />
     </Asidebar>
   );

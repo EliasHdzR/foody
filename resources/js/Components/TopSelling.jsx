@@ -16,13 +16,12 @@ const TopSelling = () => {
       height="100%"
       bgcolor="background.default"
       borderRadius="8px"
-      p="15px" // Ajuste de padding general
+      p="15px"
       sx={{
         boxShadow: theme.shadows[1],
         overflow: "hidden",
       }}
     >
-      {/* Encabezado */}
       <Box display="flex" justifyContent="space-between" alignItems="center" mb="10px">
         <Typography variant="h6" fontWeight="600" color="text.primary">
           Más vendidos
@@ -39,7 +38,6 @@ const TopSelling = () => {
         </Typography>
       </Box>
 
-      {/* Lista de productos */}
       <Box
         sx={{
           overflowY: "auto",
@@ -51,9 +49,9 @@ const TopSelling = () => {
             key={index}
             display="flex"
             alignItems="center"
-            mb="5px" // Espacio más compacto entre filas
-            p="5px" // Reducción del padding interno de las filas
-            borderRadius="6px" // Bordes más pequeños
+            mb="5px" 
+            p="5px" 
+            borderRadius="6px" 
             bgcolor={
               index % 2 === 0
                 ? theme.palette.background.paper
@@ -63,30 +61,28 @@ const TopSelling = () => {
               "&:hover": { bgcolor: theme.palette.action.selected },
             }}
           >
-            {/* Imagen del producto */}
             <Box
               component="img"
               src={item.image}
               alt={item.name}
               sx={{
-                width: "40px", // Reducción de tamaño de la imagen
-                height: "40px", // Reducción de tamaño de la imagen
-                borderRadius: "4px", // Bordes más pequeños en las imágenes
+                width: "40px", 
+                height: "40px", 
+                borderRadius: "4px", 
                 objectFit: "cover",
-                mr: "8px", // Menor separación horizontal
+                mr: "8px", 
               }}
             />
-            {/* Detalles del producto */}
             <Box>
               <Typography
-                variant="body2" // Fuente más pequeña
-                fontWeight="500" // Peso más ligero
+                variant="body2" 
+                fontWeight="500" 
                 color="text.primary"
               >
                 {item.name}
               </Typography>
               <Typography
-                variant="caption" // Fuente aún más pequeña
+                variant="caption" 
                 color="text.secondary"
               >
                 {item.store}

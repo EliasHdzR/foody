@@ -3,51 +3,39 @@ import Layout from "@/Layouts/Layout.jsx";
 import Busqueda from "./Dashboard/Busqueda";
 import CartAside from "@/Components/Cart/CartAside";
 import PaymentAside from "@/Components/PaymentAside";
+import CategoriesTabs from "@/Components/CategoriesTabs";
 
 const itemsMock = [
-  {
-    id: 1,
-    name: "Pizza Margarita",
-    description: "Clásica con queso mozzarella",
-    price: 10.5,
-    quantity: 2,
-  },
-  {
-    id: 2,
-    name: "Hamburguesa Clásica",
-    description: "Con papas fritas",
-    price: 8.75,
-    quantity: 1,
-  },
-  {
-    id: 2,
-    name: "Hamburguesa Clásica",
-    description: "Con papas fritas",
-    price: 8.75,
-    quantity: 1,
-  },
-  {
-    id: 2,
-    name: "Hamburguesa Clásica",
-    description: "Con papas fritas",
-    price: 8.75,
-    quantity: 1,
-  },
-  {
-    id: 2,
-    name: "Hamburguesa Clásica",
-    description: "Con papas fritas",
-    price: 8.75,
-    quantity: 1,
-  },
-  {
-    id: 2,
-    name: "Hamburguesa Clásica",
-    description: "Con papas fritas",
-    price: 8.75,
-    quantity: 1,
-  },
-];
+    {
+      id: 1,
+      name: "Pizza Margarita",
+      description: "Clásica con queso mozzarella",
+      price: 10.5,
+      quantity: 2,
+    },
+    {
+      id: 2,
+      name: "Hamburguesa Clásica",
+      description: "Con papas fritas",
+      price: 8.75,
+      quantity: 1,
+    },
+    {
+      id: 3, 
+      name: "Hamburguesa Clásica",
+      description: "Con papas fritas",
+      price: 8.75,
+      quantity: 1,
+    },
+    {
+      id: 4, 
+      name: "Hamburguesa Clásica",
+      description: "Con papas fritas",
+      price: 8.75,
+      quantity: 1,
+    },
+  ];
+  
 
 export default function Tiendas() {
   const [showPayment, setShowPayment] = useState(false);
@@ -62,6 +50,7 @@ export default function Tiendas() {
     >
       <div style={{ padding: "20px" }}>
         <Busqueda />
+        <CategoriesTabs />
       </div>
 
       <div
