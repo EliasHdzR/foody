@@ -2,6 +2,8 @@
 
     use App\Http\Controllers\Admin\CategoriesController;
     use App\Http\Controllers\Admin\RestaurantsController;
+    use App\Http\Controllers\Customer\RestaurantController as CustomerRestaurantController;
+    use App\Http\Controllers\Restaurant\CategoriesController as RestaurantCategoriesController;
     use App\Http\Controllers\Admin\DriversController;
     use App\Http\Controllers\Admin\CustomersController;
     use App\Http\Controllers\Admin\FaqsController;
@@ -109,27 +111,37 @@
                 Route::post('/cupones', 'store')->name('restaurante.coupons.store');
                 Route::put('/cupones/{coupon}', 'update')->name('restaurante.coupons.update');
                 Route::delete('/cupones/{coupon}', 'destroy')->name('restaurante.coupons.destroy');
-            });                              
+            });
+
+            Route::controller(RestaurantCategoriesController::class)->group(function () {
+                Route::get('/categorias', 'index')->name('restaurante.categories.index');
+                Route::post('/categorias', 'store')->name('restaurante.categories.store');
+                Route::put('/categorias/{category}', 'update')->name('restaurante.categories.update');
+                Route::delete('/categorias/{category}', 'destroy')->name('restaurante.categories.destroy');
+            });
 
             Route::inertia('/menu', 'RestaurantViews/MenuStore');
         }));
+
+        /**
+         * RUTAS ROL CLIENTE
+         */
+        Route::middleware([CheckRole::class . ':customer'])->prefix('/cliente')->group((function () {
+            Route::inertia('/dashboard', 'CustomerViews/Dashboard')->name('cliente.dashboard');
+
+            Route::controller(CustomerRestaurantController::class)->group(function () {
+                Route::get('/restaurante/{restaurant}', 'index')->name('cliente.restaurant.index');
+            });
+
+        }));
+
+        /**
+         * RUTAS ROL REPARTIDOR
+         */
+        Route::middleware([CheckRole::class . ':driver'])->prefix('/repartidor')->group((function () {
+            Route::inertia('/dashboard', 'DriverViews/Dashboard')->name('driver.dashboard');
+        }));
     });
-
-    /**
-     * RUTAS ROL CLIENTE
-     */
-    Route::middleware([CheckRole::class . ':customer'])->prefix('/cliente')->group((function () {
-            Route::inertia('/dashboard', 'ClientViews/Dashboard')->name('cliente.dashboard');
-            Route::inertia('/tiendas', 'ClientViews/Tiendas')->name('cliente.tiendas');
-
-    }));
-
-    /**
-     * RUTAS ROL REPARTIDOR
-     */
-    Route::middleware([CheckRole::class . ':driver'])->prefix('/repartidor')->group((function () {
-        Route::inertia('/dashboard', 'DriverViews/Dashboard')->name('driver.dashboard');
-    }));
 
 
     require __DIR__ . '/auth.php';

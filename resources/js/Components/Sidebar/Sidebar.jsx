@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Typography, useTheme, IconButton } from "@mui/material";
-import { tokens } from "@/theme"; 
+import { tokens } from "@/theme";
 import SidebarItem from "./SidebarItem";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -15,6 +15,7 @@ import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import ViewListIcon from '@mui/icons-material/ViewList';
 
 const Sidebar = ({ role }) => {
   const theme = useTheme();
@@ -39,6 +40,7 @@ const Sidebar = ({ role }) => {
       { title: "Menú", to: "/restaurante/menu", icon: <MenuBookIcon /> },
       { title: "Productos", to: "/restaurante/productos", icon: <InventoryIcon /> },
       { title: "Ingredientes", to: "/restaurante/ingredientes", icon: <CategoryIcon /> },
+      { title: "Categorías", to: "/restaurante/categorias", icon: <ViewListIcon /> },
     ],
     driver: [
       { title: "Dashboard", to: "/repartidor/dashboard", icon: <DashboardIcon /> },
@@ -47,7 +49,7 @@ const Sidebar = ({ role }) => {
     ],
   };
 
-  const menuItems = menus[role] || []; 
+  const menuItems = menus[role] || [];
 
   useEffect(() => {
     const currentPath = window.location.pathname;

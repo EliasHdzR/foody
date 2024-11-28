@@ -15,13 +15,14 @@ class ProductsController extends Controller
     public function index()
     {
         $restaurantId = auth()->user()->restaurant->id;
-        $products = Product::with(['ingredients' => function($query) {
+        $products = Product::with(['category',  'ingredients' => function($query) {
             $query->select('ingredients.id', 'ingredients.name', 'ingredients.stock','products_ingredients.quantity');
         }])->where('restaurant_id', $restaurantId)->get();
         return Inertia::render('RestaurantViews/Products/Index', [
             'products' => $products,
             'restaurantID' => auth()->user()->restaurant->id,
             'ingredients' => auth()->user()->restaurant->ingredients,
+            'productCategories' => auth()->user()->restaurant->productCategories,
         ]);
     }
 
@@ -31,6 +32,7 @@ class ProductsController extends Controller
         $data = $request->validate([
             'code' => 'required|string|max:20|unique:products',
             'name' => 'required|string|max:255',
+            'product_category_id' => 'required',
             'price' => 'required|numeric|min:1',
             'ingredients' => 'required|array',
             'ingredients.*.id' => 'required|exists:ingredients,id|distinct',
@@ -48,7 +50,6 @@ class ProductsController extends Controller
 
             $data['restaurant_id'] = $restaurantId;
             $product = Product::create($data);
-
             foreach ($request->ingredients as $ingredient) {
                 $product->ingredients()->attach($ingredient['id'], ['quantity' => $ingredient['quantity']]);
             }
@@ -56,6 +57,7 @@ class ProductsController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
+            dd($e);
         }
     }
 
@@ -65,6 +67,7 @@ class ProductsController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:1',
+            'product_category_id' => 'required',
             'description' => 'required|string',
             'ingredients' => 'required|array',
             'ingredients.*.id' => 'required|exists:ingredients,id',

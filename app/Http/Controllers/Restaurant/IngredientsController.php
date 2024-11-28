@@ -24,6 +24,7 @@ class IngredientsController extends Controller
         return Inertia::render('RestaurantViews/Ingredients/Index', [
             'ingredients' => $ingredients->map(function ($ingredient) {
                 return [
+                    'id' => $ingredient->id,
                     'name' => $ingredient->name,
                     'stock' => $ingredient->stock,
                     'created_at' => $this->getCreatedAtAttribute($ingredient->created_at),

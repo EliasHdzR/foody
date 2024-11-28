@@ -16,7 +16,8 @@ class Product extends Model
         'description',
         'price',
         'availability',
-        'restaurant_id'
+        'restaurant_id',
+        'product_category_id'
     ];
 
     public function restaurant(): BelongsTo {
@@ -39,5 +40,9 @@ class Product extends Model
 
     public function reviews(): HasMany {
         return $this->hasMany(Review::class);
+    }
+
+    public function category(): BelongsTo {
+        return $this->belongsTo(ProductCategory::class,'product_category_id');
     }
 }

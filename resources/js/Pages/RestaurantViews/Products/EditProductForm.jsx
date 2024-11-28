@@ -7,10 +7,11 @@ import PriceFormatInput from "@/Components/PriceFormatInput.jsx";
 import {MenuItem, Select} from "@mui/material";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 
-const EditProductForm = ({closeModal, product, ingredients, onSuccess}) => {
+const EditProductForm = ({closeModal, product, ingredients, productCategories, onSuccess}) => {
     const initialValues = {
         name: product.name,
         price: product.price,
+        product_category_id: product.product_category_id,
         ingredients: product.ingredients.map(ingredient => ({
             id: ingredient.id,
             name: ingredient.name,
@@ -75,6 +76,24 @@ const EditProductForm = ({closeModal, product, ingredients, onSuccess}) => {
                     onChange={(e) => setData('name', e.target.value)}
                 />
                 <InputError message={errors.name} className="mt-2"/>
+            </div>
+            <div>
+                <InputLabel htmlFor="product_category_id" value="Categoría"/>
+                <Select
+                    id="product_category_id"
+                    value={data.product_category_id}
+                    onChange={(e) => setData('product_category_id', e.target.value)}
+                    className="mt-1 block w-full h-10 pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                >
+                    {productCategories.map((category) => {
+                        return (
+                            <MenuItem key={category.id} value={category.id}>
+                                {category.name}
+                            </MenuItem>
+                        );
+                    })};
+                </Select>
+                <InputError message={errors.product_category_id} className="mt-2"/>
             </div>
             <div>
                 <InputLabel htmlFor="price" value="Precio"/>

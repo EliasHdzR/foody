@@ -21,5 +21,39 @@ class DatabaseSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        User::factory()->create([
+            'name' => 'elias',
+            'email' => 'elias@correo.com',
+            'password' => bcrypt('pruebita'),
+            'role' => 'admin',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        User::factory()->create([
+            'name' => 'elias',
+            'email' => 'elias@customer.com',
+            'password' => bcrypt('pruebita'),
+            'role' => 'customer',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        User::factory()->create([
+            'name' => 'elias',
+            'email' => 'elias@restaurante.com',
+            'password' => bcrypt('pruebita'),
+            'role' => 'restaurant',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $this->call([
+            CategoriesSeeder::class,
+            RestaurantsTableSeeder::class,
+            IngredientsSeeder::class,
+            ProductCategorySeeder::class,
+        ]);
     }
 }

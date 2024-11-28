@@ -10,13 +10,15 @@ import DeleteProductForm from "@/Pages/RestaurantViews/Products/DeleteProductFor
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
-const ProductsIndex = ({ products, restaurantID, ingredients }) => {
+const ProductsIndex = ({ products, restaurantID, ingredients, productCategories }) => {
+    console.log(products);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalType, setModalType] = useState(null);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
 
     const [nameFilter, setNameFilter] = useState('');
+    const [categoryFilter, setCategoryFilter] = useState('');
     const [priceRange, setPriceRange] = useState(['','']);
     const [availabilityFilter, setAvailabilityFilter] = useState('');
     const [descriptionFilter, setDescriptionFilter] = useState('');
@@ -39,6 +41,7 @@ const ProductsIndex = ({ products, restaurantID, ingredients }) => {
     };
 
     const handleNameFilterChange = (e) => setNameFilter(e.target.value);
+    const handleCategoryFilterChange = (e) => setCategoryFilter(e.target.value);
     const handlePriceRangeChange = (value, index) => {
         const updatedRange = [...priceRange];
         updatedRange[index] = value === '' ? '' : Number(value);
@@ -58,6 +61,7 @@ const ProductsIndex = ({ products, restaurantID, ingredients }) => {
 
     const resetFilters = () => {
         setNameFilter('');
+        setCategoryFilter('');
         setPriceRange(['','']);
         setAvailabilityFilter('');
         setDescriptionFilter('');
@@ -65,18 +69,20 @@ const ProductsIndex = ({ products, restaurantID, ingredients }) => {
 
     const filteredProducts = products.filter(product => {
         const matchesName = nameFilter ? product.name.toLowerCase().includes(nameFilter.toLowerCase()) : true;
+        const matchesCategory = categoryFilter ? product.category.name === categoryFilter : true;
         const matchesPrice = priceValidation(product.price);
         const matchesAvailability = availabilityFilter ? availabilityFilter === 'available' ? product.availability : !product.availability
             : true;
         const matchesDescription = descriptionFilter
             ? product.description.toLowerCase().includes(descriptionFilter.toLowerCase())
             : true;
-        return matchesName && matchesPrice && matchesAvailability && matchesDescription;
+        return matchesName && matchesCategory && matchesPrice && matchesAvailability && matchesDescription;
     });
 
     const columns = [
         { id: 'name', label: 'Nombre', align: 'left' },
         { id: 'code', label: 'Código', align: 'left' },
+        { id: 'category', label: 'Categoría', align: 'left' },
         { id: 'price', label: 'Precio', align: 'right' },
         { id: 'description', label: 'Descripción', align: 'left' },
         { id: 'availability', label: 'Disponibilidad', align: 'center' },
@@ -92,6 +98,7 @@ const ProductsIndex = ({ products, restaurantID, ingredients }) => {
     const rows = filteredProducts.map((product) => ({
         id: product.id,
         name: product.name,
+        category: product.category.name,
         price: `$${Number(product.price).toFixed(2)}`,
         code: product.code,
         description: product.description,
@@ -193,6 +200,16 @@ const ProductsIndex = ({ products, restaurantID, ingredients }) => {
                         onChange={handleNameFilterChange}
                         className="mr-2 p-2 border rounded"
                     />
+                    <select
+                        value={categoryFilter}
+                        onChange={handleCategoryFilterChange}
+                        className="mr-2 p-2 border rounded"
+                    >
+                        <option value="">Categoría</option>
+                        {productCategories.map(category => (
+                            <option key={category.id} value={category.name}>{category.name}</option>
+                        ))}
+                    </select>
                     <input
                         type="number"
                         placeholder="Precio mínimo"
@@ -255,11 +272,11 @@ const ProductsIndex = ({ products, restaurantID, ingredients }) => {
                 <div className="max-h-[80vh] overflow-y-auto">
                     {modalType === 'info' && <InfoProductForm product={selectedProduct} closeModal={closeModal}/>}
                     {modalType === 'add' &&
-                        <AddProductForm ingredients={ingredients} restaurantID={restaurantID} closeModal={closeModal}
-                                        onSuccess={handleSuccess}/>}
+                        <AddProductForm ingredients={ingredients} restaurantID={restaurantID} productCategories={productCategories}
+                                        closeModal={closeModal} onSuccess={handleSuccess}/>}
                     {modalType === 'edit' &&
-                        <EditProductForm closeModal={closeModal} product={selectedProduct} onSuccess={handleSuccess}
-                                         ingredients={ingredients}/>}
+                        <EditProductForm closeModal={closeModal} product={selectedProduct}  productCategories={productCategories}
+                                         onSuccess={handleSuccess} ingredients={ingredients}/>}
                     {modalType === 'delete' && <DeleteProductForm closeModal={closeModal} product={selectedProduct}
                                                                   onSuccess={handleSuccess}/>}
                 </div>
