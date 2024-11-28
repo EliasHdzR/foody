@@ -3,9 +3,7 @@ import React, {useState} from "react";
 import InputLabel from "@/Components/InputLabel.jsx";
 import TextInput from "@/Components/TextInput.jsx";
 import InputError from "@/Components/InputError.jsx";
-import Input from "@mui/joy/Input";
 import PriceFormatInput from "@/Components/PriceFormatInput.jsx";
-import {Textarea} from "@mui/joy";
 import {MenuItem, Select} from "@mui/material";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 
@@ -80,7 +78,7 @@ const EditProductForm = ({closeModal, product, ingredients, onSuccess}) => {
             </div>
             <div>
                 <InputLabel htmlFor="price" value="Precio"/>
-                <Input
+                <TextInput
                     startDecorator={'$'}
                     type="price"
                     id="price"
@@ -110,7 +108,7 @@ const EditProductForm = ({closeModal, product, ingredients, onSuccess}) => {
             </div>
             <div>
                 <InputLabel htmlFor="description" value="Descripción"/>
-                <Textarea
+                <TextInput
                     id="description"
                     type="text"
                     name="description"
@@ -142,7 +140,7 @@ const EditProductForm = ({closeModal, product, ingredients, onSuccess}) => {
                                     </MenuItem>
                                 ))}
                             </Select>
-                            <Input
+                            <TextInput
                                 type="number"
                                 name={`ingredient-${index}`}
                                 value={ingredient.quantity}

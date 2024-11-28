@@ -3,9 +3,7 @@ import React, {useState} from "react";
 import InputLabel from "@/Components/InputLabel.jsx";
 import TextInput from "@/Components/TextInput.jsx";
 import InputError from "@/Components/InputError.jsx";
-import Input from "@mui/joy/Input";
 import PriceFormatInput from "@/Components/PriceFormatInput.jsx";
-import {Textarea} from "@mui/joy";
 import {MenuItem, Select} from "@mui/material";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 
@@ -78,7 +76,7 @@ const AddProductForm = ({ingredients, restaurantID, closeModal, onSuccess}) => {
             </div>
             <div>
                 <InputLabel htmlFor="code" value="Código"/>
-                <Input
+                <TextInput
                     id="code"
                     startDecorator={`#${restaurantID}-`}
                     type="text"
@@ -91,7 +89,7 @@ const AddProductForm = ({ingredients, restaurantID, closeModal, onSuccess}) => {
             </div>
             <div>
                 <InputLabel htmlFor="price" value="Precio"/>
-                <Input
+                <TextInput
                     startDecorator={'$'}
                     type="price"
                     id="price"
@@ -121,7 +119,7 @@ const AddProductForm = ({ingredients, restaurantID, closeModal, onSuccess}) => {
             </div>
             <div>
                 <InputLabel htmlFor="description" value="Descripción"/>
-                <Textarea
+                <TextInput
                     id="description"
                     type="text"
                     name="description"
@@ -153,7 +151,7 @@ const AddProductForm = ({ingredients, restaurantID, closeModal, onSuccess}) => {
                                     </MenuItem>
                                 ))}
                             </Select>
-                            <Input
+                            <TextInput
                                 type="number"
                                 name={`ingredient-${index}`}
                                 placeholder={'Cantidad'}
