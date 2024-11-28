@@ -210,18 +210,6 @@ const CouponsIndex = ({coupons, restaurantID}) => {
                         onChange={(e) => handleDiscountRangeChange(e.target.value, 1)}
                         className="mr-2 p-2 w-[13rem] border rounded"
                     />
-                    {/*<input
-                        type="date"
-                        value={discountRange[0]}
-                        onChange={(e) => handleDiscountRangeChange(e.target.value, 0)}
-                        className="mr-2 p-2 w-[13rem] border rounded"
-                    />
-                    <input
-                        type="date"
-                        value={discountRange[1]}
-                        onChange={(e) => handleDiscountRangeChange(e.target.value, 1)}
-                        className="mr-2 p-2 w-[13rem] border rounded"
-                    />*/}
                     <button onClick={resetFilters}
                             className="ml-4 px-4 py-2 bg-gray-500 text-white rounded-lg font-semibold hover:bg-gray-600 transition">
                         Reiniciar

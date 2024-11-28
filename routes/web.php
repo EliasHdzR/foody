@@ -82,7 +82,6 @@
 
             Route::inertia('/reportes', 'AdminViews/Reports')->name('admin.reports.index');
             Route::inertia('/inventario', 'AdminViews/Inventory');
-            Route::inertia('/promociones', 'AdminViews/Promotions')->name('admin.promotions.index');
             Route::inertia('/producto-info', 'AdminViews/ProductInfo');
         });
 
@@ -120,7 +119,7 @@
                 Route::delete('/categorias/{category}', 'destroy')->name('restaurante.categories.destroy');
             });
 
-            Route::inertia('/menu', 'RestaurantViews/MenuStore');
+            Route::inertia('/menu', 'RestaurantViews/MenuStore')->name('restaurante.menu.index');
         }));
 
         /**

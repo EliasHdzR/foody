@@ -16,6 +16,7 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import ViewListIcon from '@mui/icons-material/ViewList';
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 
 const Sidebar = ({ role }) => {
   const theme = useTheme();
@@ -26,24 +27,24 @@ const Sidebar = ({ role }) => {
 
   const menus = {
     admin: [
-      { title: "Dashboard", to: "/admin/dashboard", icon: <DashboardIcon /> },
-      { title: "Restaurantes", to: "/admin/restaurantes", icon: <RestaurantIcon /> },
-      { title: "Categorías", to: "/admin/categorias", icon: <CategoryIcon /> },
-      { title: "Clientes", to: "/admin/clientes", icon: <PeopleIcon /> },
-      { title: "Repartidores", to: "/admin/repartidores", icon: <DeliveryDiningIcon /> },
-      { title: "Reportes", to: "/admin/reportes", icon: <AssessmentIcon /> },
-      { title: "Inventario", to: "/admin/inventario", icon: <InventoryIcon /> },
-      { title: "Promociones", to: "/admin/promociones", icon: <LocalOfferIcon /> },
+      { title: "Dashboard", to: "admin.dashboard", icon: <DashboardIcon /> },
+      { title: "Restaurantes", to: "admin.restaurant.index", icon: <RestaurantIcon /> },
+      { title: "Categorías", to: "admin.categories.index", icon: <CategoryIcon /> },
+      { title: "Clientes", to: "admin.customers.index", icon: <PeopleIcon /> },
+      { title: "Repartidores", to: "admin.drivers.index", icon: <DeliveryDiningIcon /> },
+      { title: "Reportes", to: "admin.reports.index", icon: <AssessmentIcon /> },
+      { title: "Preguntas Frecuentes", to: "admin.faqs.index", icon: <QuestionAnswerIcon /> },
     ],
     restaurant: [
-      { title: "Dashboard", to: "/restaurante/dashboard", icon: <DashboardIcon /> },
-      { title: "Menú", to: "/restaurante/menu", icon: <MenuBookIcon /> },
-      { title: "Productos", to: "/restaurante/productos", icon: <InventoryIcon /> },
-      { title: "Ingredientes", to: "/restaurante/ingredientes", icon: <CategoryIcon /> },
-      { title: "Categorías", to: "/restaurante/categorias", icon: <ViewListIcon /> },
+      { title: "Dashboard", to: "restaurante.dashboard", icon: <DashboardIcon /> },
+      { title: "Menú", to: "restaurante.menu.index", icon: <MenuBookIcon /> },
+      { title: "Productos", to: "restaurante.products.index", icon: <InventoryIcon /> },
+      { title: "Ingredientes", to: "restaurante.ingredients.index", icon: <CategoryIcon /> },
+      { title: "Categorías", to: "restaurante.categories.index", icon: <ViewListIcon /> },
+      { title: "Promociones", to: "restaurante.coupons.index", icon: <LocalOfferIcon /> },
     ],
     driver: [
-      { title: "Dashboard", to: "/repartidor/dashboard", icon: <DashboardIcon /> },
+      { title: "Dashboard", to: "driver.dashboard", icon: <DashboardIcon /> },
       { title: "Pedidos Activos", to: "/repartidor/pedidos", icon: <ReceiptLongIcon /> },
       { title: "Mi Perfil", to: "/repartidor/perfil", icon: <PersonOutlineIcon /> },
     ],

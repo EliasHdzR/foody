@@ -9,7 +9,7 @@ const SidebarItem = ({ title, to, icon, selected, setSelected, isCollapsed }) =>
 
   return (
     <Link
-      href={to} // Utiliza href para las rutas en Inertia.js
+      href={route(`${to}`)} // Utiliza href para las rutas en Inertia.js
       onClick={() => setSelected(title)}
       style={{
         textDecoration: "none", // Elimina el subrayado de los enlaces

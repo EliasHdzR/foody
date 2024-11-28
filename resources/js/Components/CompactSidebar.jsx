@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, useTheme } from "@mui/material";
-import { tokens } from "@/theme"; 
+import { tokens } from "@/theme";
 import CompactItem from "./CompactItem";
 
 import HomeIcon from "@mui/icons-material/Home";
@@ -15,10 +15,10 @@ const CompactSidebar = () => {
   const [selected, setSelected] = useState("");
 
   const menuItems = [
-    { title: "Dashboard", to: "/cliente/dashboard", icon: <HomeIcon /> },
-    { title: "Tiendas", to: "/cliente/tiendas", icon: <StoreIcon /> },
-    { title: "Configuración", to: "/settings", icon: <SettingsIcon /> },
-    { title: "Logout", to: "/logout", icon: <ExitToAppIcon /> },
+    { title: "Dashboard", to: "cliente.dashboard", icon: <HomeIcon />, method: "GET" },
+    { title: "Tiendas", to: "cliente.dashboard", icon: <StoreIcon />, method: "GET" },
+    { title: "Configuración", to: "profile.edit", icon: <SettingsIcon />, method: "GET" },
+    { title: "Logout", to: "logout", icon: <ExitToAppIcon />, method: "POST" },
   ];
 
   useEffect(() => {
@@ -47,6 +47,7 @@ const CompactSidebar = () => {
           key={item.title}
           title={item.title}
           to={item.to}
+          method={item.method}
           icon={item.icon}
           selected={selected}
           setSelected={setSelected}
