@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Box, Typography, Button, TextField, ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 const PaymentAside = ({ onCancel, onConfirm }) => {
@@ -28,14 +28,15 @@ const PaymentAside = ({ onCancel, onConfirm }) => {
     <Box
       sx={{
         width: "100%",
-        height: "50%",
-        padding: "20px",
+        maxHeight: "100vh", 
         position: "sticky", 
+        top: 0, 
+        overflowY: "auto", 
         backgroundColor: "rgba(31, 29, 43, 1)",
         color: "#fff",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
+        padding: "20px",
       }}
     >
       <Typography
@@ -66,54 +67,27 @@ const PaymentAside = ({ onCancel, onConfirm }) => {
             marginBottom: "20px",
           }}
         >
-          <ToggleButton
-            value="Tarjeta"
-            sx={{
-              flex: 1,
-              backgroundColor:
-                paymentMethod === "Tarjeta" ? "rgba(234, 124, 105, 0.9)" : "rgba(31, 29, 43, 1)",
-              color: "#fff",
-              fontWeight: "bold",
-              border: "1px solid rgba(255, 255, 255, 0.2)",
-              "&:hover": {
-                backgroundColor: "rgba(234, 124, 105, 1)",
-              },
-            }}
-          >
-            Tarjeta
-          </ToggleButton>
-          <ToggleButton
-            value="Paypal"
-            sx={{
-              flex: 1,
-              backgroundColor:
-                paymentMethod === "Paypal" ? "rgba(234, 124, 105, 0.9)" : "rgba(31, 29, 43, 1)",
-              color: "#fff",
-              fontWeight: "bold",
-              border: "1px solid rgba(255, 255, 255, 0.2)",
-              "&:hover": {
-                backgroundColor: "rgba(234, 124, 105, 1)",
-              },
-            }}
-          >
-            Paypal
-          </ToggleButton>
-          <ToggleButton
-            value="Efectivo"
-            sx={{
-              flex: 1,
-              backgroundColor:
-                paymentMethod === "Efectivo" ? "rgba(234, 124, 105, 0.9)" : "rgba(31, 29, 43, 1)",
-              color: "#fff",
-              fontWeight: "bold",
-              border: "1px solid rgba(255, 255, 255, 0.2)",
-              "&:hover": {
-                backgroundColor: "rgba(234, 124, 105, 1)",
-              },
-            }}
-          >
-            Efectivo
-          </ToggleButton>
+          {["Tarjeta", "Paypal", "Efectivo"].map((method) => (
+            <ToggleButton
+              key={method}
+              value={method}
+              sx={{
+                flex: 1,
+                backgroundColor:
+                  paymentMethod === method
+                    ? "rgba(234, 124, 105, 0.9)"
+                    : "rgba(31, 29, 43, 1)",
+                color: "#fff",
+                fontWeight: "bold",
+                border: "1px solid rgba(255, 255, 255, 0.2)",
+                "&:hover": {
+                  backgroundColor: "rgba(234, 124, 105, 1)",
+                },
+              }}
+            >
+              {method}
+            </ToggleButton>
+          ))}
         </ToggleButtonGroup>
 
         <Box>
@@ -130,10 +104,8 @@ const PaymentAside = ({ onCancel, onConfirm }) => {
               borderRadius: "5px",
               input: { color: "#fff" },
               "& .MuiInputLabel-root": { color: "#fff" },
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "rgba(255, 255, 255, 0.2)",
-                },
+              "& .MuiOutlinedInput-root fieldset": {
+                borderColor: "rgba(255, 255, 255, 0.2)",
               },
             }}
           />
@@ -150,10 +122,8 @@ const PaymentAside = ({ onCancel, onConfirm }) => {
               borderRadius: "5px",
               input: { color: "#fff" },
               "& .MuiInputLabel-root": { color: "#fff" },
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "rgba(255, 255, 255, 0.2)",
-                },
+              "& .MuiOutlinedInput-root fieldset": {
+                borderColor: "rgba(255, 255, 255, 0.2)",
               },
             }}
           />
@@ -170,10 +140,8 @@ const PaymentAside = ({ onCancel, onConfirm }) => {
                 borderRadius: "5px",
                 input: { color: "#fff" },
                 "& .MuiInputLabel-root": { color: "#fff" },
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "rgba(255, 255, 255, 0.2)",
-                  },
+                "& .MuiOutlinedInput-root fieldset": {
+                  borderColor: "rgba(255, 255, 255, 0.2)",
                 },
               }}
             />
@@ -189,10 +157,8 @@ const PaymentAside = ({ onCancel, onConfirm }) => {
                 borderRadius: "5px",
                 input: { color: "#fff" },
                 "& .MuiInputLabel-root": { color: "#fff" },
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "rgba(255, 255, 255, 0.2)",
-                  },
+                "& .MuiOutlinedInput-root fieldset": {
+                  borderColor: "rgba(255, 255, 255, 0.2)",
                 },
               }}
             />
