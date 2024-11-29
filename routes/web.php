@@ -19,6 +19,7 @@
         return redirect()->route('login');
     });
 
+    
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -84,6 +85,7 @@
             Route::inertia('/inventario', 'AdminViews/Inventory');
             Route::inertia('/promociones', 'AdminViews/Promotions')->name('admin.promotions.index');
             Route::inertia('/producto-info', 'AdminViews/ProductInfo');
+            
         });
 
         /**
@@ -131,10 +133,11 @@
 
             Route::controller(CustomerRestaurantController::class)->group(function () {
                 Route::get('/restaurante/{restaurant}', 'index')->name('cliente.restaurant.index');
+                Route::inertia('/orders', 'CustomerViews/OrdersPage');
             });
-
+            
         }));
-
+        
         /**
          * RUTAS ROL REPARTIDOR
          */

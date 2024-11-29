@@ -58,4 +58,4 @@ export default function Tiendas({restaurant}) {
     );
 }
 
-Tiendas.layout = (page) => <Layout children={page} type={"customer"}/>;
+Tiendas.layout = (page) => <Layout children={page} type={"customer"} />;
