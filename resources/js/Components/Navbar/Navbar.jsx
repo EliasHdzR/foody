@@ -106,10 +106,6 @@ const Navbar = ({ role }) => {
             </Link>
           </MenuItem>
           <MenuItem
-            onClick={() => {
-              console.log("Log Out clicked");
-              handleCloseMenu();
-            }}
             sx={{
               "&:hover": {
                 backgroundColor: colors.primary[300],
@@ -117,7 +113,7 @@ const Navbar = ({ role }) => {
             }}
           >
             <Link
-              href={route("logout")}
+              href={route('logout')}
               method="post"
               as="button"
               style={{ textDecoration: "none", color: "inherit" }}
