@@ -54,6 +54,9 @@ class ProductsController extends Controller
                 $product->ingredients()->attach($ingredient['id'], ['quantity' => $ingredient['quantity']]);
             }
 
+            $product->load('ingredients');
+            $product->updateAvailability();
+
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
@@ -92,6 +95,9 @@ class ProductsController extends Controller
                 $ingredientsData[$ingredient['id']] = ['quantity' => $ingredient['quantity']];
             }
             $product->ingredients()->sync($ingredientsData);
+
+            $product->load('ingredients');
+            $product->updateAvailability();
 
             DB::commit();
         } catch (\Exception $e) {

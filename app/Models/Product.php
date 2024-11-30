@@ -45,4 +45,12 @@ class Product extends Model
     public function category(): BelongsTo {
         return $this->belongsTo(ProductCategory::class,'product_category_id');
     }
+
+    public function updateAvailability()
+    {
+        $this->availability = $this->ingredients->every(function ($ingredient) {
+            return $ingredient->madeWith->quantity <= $ingredient->stock;
+        });
+        $this->save();
+    }
 }
