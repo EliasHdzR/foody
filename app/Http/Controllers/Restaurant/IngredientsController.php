@@ -57,6 +57,11 @@ class IngredientsController extends Controller
             'stock' => 'required|numeric',
         ]);
         $ingredient->update($data);
+
+        $products = $ingredient->products;
+        $products->each(function ($product) {
+            $product->updateAvailability();
+        });
     }
 
     /**
@@ -64,6 +69,10 @@ class IngredientsController extends Controller
      */
     public function destroy(Ingredient $ingredient)
     {
+        $products = $ingredient->products;
+        $products->each(function ($product) {
+            $product->delete();
+        });
         $ingredient->delete();
     }
 }

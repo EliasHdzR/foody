@@ -207,7 +207,10 @@ const DeleteIngredientForm = ({ closeModal, ingredient, onSuccess }) => {
 
     return (
         <form onSubmit={submit} className="space-y-4">
-            <Alert severity="warning">¿Estás seguro de que deseas eliminar el ingrediente '{ingredient.name}'?</Alert>
+            <Alert severity="warning">
+                ¿Estás seguro de que deseas eliminar el ingrediente '{ingredient.name}'?
+                Se eliminarán todos los productos relacionados.
+            </Alert>
             <div className="flex justify-end space-x-2">
                 <PrimaryButton type="button" onClick={closeModal}>Cancelar</PrimaryButton>
                 <PrimaryButton color="error">Eliminar</PrimaryButton>

@@ -53,4 +53,13 @@ class Product extends Model
         });
         $this->save();
     }
+
+    public function reduceIngredientsStock()
+    {
+        $this->ingredients->each(function ($ingredient) {
+            $ingredient->stock -= $ingredient->madeWith->quantity;
+            $ingredient->save();
+        });
+        $this->updateAvailability();
+    }
 }

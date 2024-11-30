@@ -25,4 +25,24 @@ class Driver extends Model
     public function reviews(): HasMany {
         return $this->hasMany(Review::class);
     }
+
+    public static function getAvailableDriver(){
+        $drivers = Driver::all();
+        foreach ($drivers as $driver) {
+            $order = Order::where('driver_id', $driver->id)
+                ->orderBy('updated_at', 'desc')
+                ->first();
+
+            if($order == null){
+                return $driver;
+            }
+
+            if($order->status == 'delivered' || $order->status == 'canceled_restaurant' || $order->status == 'canceled_driver' ||
+                $order->status == 'canceled_customer'){
+                return $driver;
+            }
+        }
+
+        return null;
+    }
 }

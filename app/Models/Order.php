@@ -13,7 +13,12 @@ class Order extends Model
         'status',
         'subtotal',
         'discount',
-        'total_price'
+        'total_price',
+        'customer_id',
+        'driver_id',
+        'restaurant_id',
+        'shipping_cost',
+        'taxes'
     ];
 
     public function customer(): BelongsTo {
@@ -22,6 +27,10 @@ class Order extends Model
 
     public function driver(): BelongsTo {
         return $this->belongsTo(Driver::class);
+    }
+
+    public function restaurant(): BelongsTo {
+        return $this->belongsTo(Restaurant::class);
     }
 
     public function products(): BelongsToMany {

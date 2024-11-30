@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -40,6 +41,15 @@ class DatabaseSeeder extends Seeder
             'updated_at' => now(),
         ]);
 
+        DB::table('customers')->insert([
+            [
+                'id' => 1,
+                'user_id' => 3,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
+
         User::factory()->create([
             'name' => 'elias',
             'email' => 'elias@restaurante.com',
@@ -47,6 +57,26 @@ class DatabaseSeeder extends Seeder
             'role' => 'restaurant',
             'created_at' => now(),
             'updated_at' => now(),
+        ]);
+
+        User::factory()->create([
+            'name' => 'elias',
+            'email' => 'elias@driver.com',
+            'password' => bcrypt('pruebita'),
+            'role' => 'driver',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('drivers')->insert([
+            [
+                'id' => 1,
+                'user_id' => 5,
+                'shift_start' => now(),
+                'shift_end' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
 
         $this->call([

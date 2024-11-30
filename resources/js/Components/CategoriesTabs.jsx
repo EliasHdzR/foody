@@ -1,55 +1,14 @@
 import React, {useState} from "react";
-import {Box, Typography, Tabs, Tab} from "@mui/material";
+import {Box, Tabs, Tab} from "@mui/material";
 import ProductsGrid from "./ProductsGrid";
 
-const categories = [
-    {label: "Plato Principal", value: "main"},
-    {label: "Entrada", value: "entrada"},
-    {label: "Complementos", value: "complementos"},
-    {label: "Bebidas", value: "bebidas"},
-    {label: "Postres", value: "postres"},
-];
+const CategoriesTabs = ({products, categories, addToCart}) => {
+    const categorizedProducts = categories.reduce((acc, category) => {
+        acc[category.id] = products.filter(product => product.category.id === category.id) || [];
+        return acc;
+    }, {});
 
-const CategoriesTabs = ({products}) => {
-    const mockProducts = {
-        main: Array(8).fill({
-            name: "Otra Pizza Simple",
-            price: 99.0,
-            description: "Disponible",
-            rating: 4,
-            image: "https://via.placeholder.com/150",
-        }),
-        entrada: Array(5).fill({
-            name: "Entrada Clásica",
-            price: 49.0,
-            description: "Disponible",
-            rating: 3,
-            image: "https://via.placeholder.com/150",
-        }),
-        complementos: Array(6).fill({
-            name: "Complemento Básico",
-            price: 29.0,
-            description: "Disponible",
-            rating: 5,
-            image: "https://via.placeholder.com/150",
-        }),
-        bebidas: Array(4).fill({
-            name: "Bebida Refrescante",
-            price: 19.0,
-            description: "Disponible",
-            rating: 4,
-            image: "https://via.placeholder.com/150",
-        }),
-        postres: Array(3).fill({
-            name: "Postre Dulce",
-            price: 59.0,
-            description: "Disponible",
-            rating: 5,
-            image: "https://via.placeholder.com/150",
-        }),
-    };
-
-    const [selectedCategory, setSelectedCategory] = useState("main");
+    const [selectedCategory, setSelectedCategory] = useState(categories[0].id);
 
     const handleTabChange = (event, newValue) => {
         setSelectedCategory(newValue);
@@ -76,11 +35,11 @@ const CategoriesTabs = ({products}) => {
                 }}
             >
                 {categories.map((category) => (
-                    <Tab key={category.value} label={category.label} value={category.value}/>
+                    <Tab key={category.id} label={category.name} value={category.id}/>
                 ))}
             </Tabs>
 
-            <ProductsGrid products={mockProducts[selectedCategory]}/>
+            <ProductsGrid products={categorizedProducts[selectedCategory]} addToCart={addToCart}/>
         </Box>
     );
 };
