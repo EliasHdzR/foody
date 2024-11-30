@@ -131,6 +131,7 @@
             Route::controller(CustomerRestaurantController::class)->group(function () {
                 Route::get('/restaurante/{restaurant}', 'index')->name('cliente.restaurant.index');
                 Route::post('/restaurante/{restaurant}', 'store')->name('cliente.restaurant.store');
+                Route::inertia('/orders', 'CustomerViews/OrdersPage')->name('cliente.orders.index');
             });
 
         }));

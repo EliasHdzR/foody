@@ -7,6 +7,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import StoreIcon from "@mui/icons-material/Store";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import ReceiptIcon from '@mui/icons-material/Receipt';
 
 const CompactSidebar = () => {
   const theme = useTheme();
@@ -17,6 +18,7 @@ const CompactSidebar = () => {
   const menuItems = [
     { title: "Dashboard", to: "cliente.dashboard", icon: <HomeIcon />, method: "GET" },
     { title: "Tiendas", to: "cliente.dashboard", icon: <StoreIcon />, method: "GET" },
+    { title: "Orders",to: "cliente.orders.index",icon : <ReceiptIcon />},
     { title: "Configuración", to: "profile.edit", icon: <SettingsIcon />, method: "GET" },
     { title: "Logout", to: "logout", icon: <ExitToAppIcon />, method: "POST" },
   ];

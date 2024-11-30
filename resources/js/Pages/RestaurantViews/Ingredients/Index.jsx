@@ -88,6 +88,7 @@ const Index = ({ingredients}) => {
                 {modalType === 'edit' && <EditIngredientForm closeModal={closeModal} ingredient={selectedIngredient} onSuccess={handleSuccess} />}
                 {modalType === 'delete' && <DeleteIngredientForm closeModal={closeModal} ingredient={selectedIngredient} onSuccess={handleSuccess} />}
             </Modal>
+            
         </div>
     );
 }
@@ -99,7 +100,7 @@ export default Index;
 const AddIngredientForm = ({ closeModal, onSuccess }) => {
     const initialValues = {
         name: "",
-        stock: "", // Incluimos el stock inicial para el ingrediente
+        stock: "", 
     };
 
     const { data, errors, setData, post } = useForm(initialValues);
