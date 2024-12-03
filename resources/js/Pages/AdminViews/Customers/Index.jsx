@@ -4,6 +4,8 @@ import { tokens } from "@/theme.js";
 import { mockDataUsers } from "@/data/mockData";
 import Header from "@/Components/Header";
 import { useTheme } from "@mui/material";
+import Layout from "@/Layouts/Layout.jsx";
+import Dashboard from "@/Pages/AdminViews/Dashboard.jsx";
 
 const Index = () => {
   const theme = useTheme();
@@ -12,11 +14,7 @@ const Index = () => {
   const columns = [
     { field: "id", headerName: "ID", flex: 0.3 },
     { field: "username", headerName: "Username", flex: 1 },
-    {
-      field: "email",
-      headerName: "Email",
-      flex: 1,
-    },
+    { field: "email", headerName: "Email", flex: 1, },
     {
       field: "role",
       headerName: "Role",
@@ -33,7 +31,6 @@ const Index = () => {
       field: "createdAt",
       headerName: "Created At",
       flex: 1,
-      valueGetter: (params) => new Date(params.row.createdAt).toLocaleDateString(),
     },
   ];
 
@@ -81,5 +78,7 @@ const Index = () => {
     </Box>
   );
 };
+
+Index.layout = (page) => <Layout children={page} type={'admin'}/>;
 
 export default Index;

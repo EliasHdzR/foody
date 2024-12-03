@@ -56,6 +56,8 @@
 
             Route::controller(RestaurantsController::class)->group(function () {
                 Route::get('/restaurantes', 'index')->name('admin.restaurant.index');
+                Route::get('/restaurantes/{restaurant}/productos', 'indexProducts')->name('admin.restaurant.products.index');
+                Route::get('/restaurantes/{restaurant}/pedidos', 'indexOrders')->name('admin.restaurant.orders.index');
             });
 
             Route::controller(FaqsController::class)->group(function () {
@@ -83,7 +85,6 @@
             });
 
             Route::inertia('/reportes', 'AdminViews/Reports')->name('admin.reports.index');
-            Route::inertia('/inventario', 'AdminViews/Inventory');
             Route::inertia('/producto-info', 'AdminViews/ProductInfo');
         });
 

@@ -63,7 +63,7 @@ export default function Index({ drivers }) {
                     </Alert>
                 </div>
             )}
-            <div className="flex w-full bg-gray-100 min-h-screen py-10 px-4">
+            <div className="w-full bg-gray-100 min-h-screen py-10 px-4">
                 <div className="w-full max-w-7xl mx-auto bg-white shadow-2xl rounded-lg p-10">
                     <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">Repartidores</h2>
 

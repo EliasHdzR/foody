@@ -35,11 +35,15 @@ export default function Index({categories}) {
 
     const columns = [
         {id: 'name', label: 'Nombre'},
+        {id: 'created_at', label: 'Fecha de Creación'},
+        {id: 'updated_at', label: 'Última Actualización'},
         {id: 'actions', label: 'Acciones', align: 'center'}
     ];
 
     const rows = categories.map((category) => ({
         name: category.name,
+        created_at: category.created_at,
+        updated_at: category.updated_at,
         actions: [
             <button onClick={() => openModal('edit', category)}
                     className="ml-4 px-4 py-2 bg-green-600 rounded-lg font-semibold hover:bg-green-700 transition">
@@ -62,26 +66,32 @@ export default function Index({categories}) {
                     </Alert>
                 </div>
             )}
-            <div className="container mx-auto">
-                <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">Categorías</h2>
-                <div className="flex justify-end mb-2">
-                    <button onClick={() => openModal('add')}
-                            className="ml-4 px-4 py-2 bg-yellow-500 text-white rounded-lg font-semibold hover:bg-yellow-600 transition">
-                        Agregar
-                    </button>
-                </div>
 
-                <Tabla
-                    columns={columns}
-                    rows={rows}
-                    rowsPerPageCustom={10}
-                />
+            <div className="w-full bg-gray-100 min-h-screen py-10 px-4">
+                <div className="w-full max-w-7xl mx-auto bg-white shadow-2xl rounded-lg p-10">
+                    <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">Categorías</h2>
+                    <div className="flex justify-end mb-2">
+                        <button onClick={() => openModal('add')}
+                                className="ml-4 px-4 py-2 bg-yellow-500 text-white rounded-lg font-semibold hover:bg-yellow-600 transition">
+                            Agregar
+                        </button>
+                    </div>
+
+                    <Tabla
+                        columns={columns}
+                        rows={rows}
+                        rowsPerPageCustom={10}
+                    />
+                </div>
             </div>
 
-            <Modal isOpen={isModalOpen} onClose={closeModal} title={modalType === 'edit' ? "Editar Categoría" : modalType === 'delete' ? "Eliminar Categoría" : "Agregar Categoría"}>
-                {modalType === 'add' && <AddCategoryForm closeModal={closeModal} onSuccess={handleSuccess} />}
-                {modalType === 'edit' && <EditCategoryForm closeModal={closeModal} category={selectedCategory} onSuccess={handleSuccess} />}
-                {modalType === 'delete' && <DeleteCategoryForm closeModal={closeModal} category={selectedCategory} onSuccess={handleSuccess} />}
+            <Modal isOpen={isModalOpen} onClose={closeModal}
+                   title={modalType === 'edit' ? "Editar Categoría" : modalType === 'delete' ? "Eliminar Categoría" : "Agregar Categoría"}>
+                {modalType === 'add' && <AddCategoryForm closeModal={closeModal} onSuccess={handleSuccess}/>}
+                {modalType === 'edit' &&
+                    <EditCategoryForm closeModal={closeModal} category={selectedCategory} onSuccess={handleSuccess}/>}
+                {modalType === 'delete' &&
+                    <DeleteCategoryForm closeModal={closeModal} category={selectedCategory} onSuccess={handleSuccess}/>}
             </Modal>
         </div>
     );
