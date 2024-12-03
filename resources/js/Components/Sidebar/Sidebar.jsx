@@ -45,8 +45,7 @@ const Sidebar = ({ role }) => {
     ],
     driver: [
       { title: "Dashboard", to: "driver.dashboard", icon: <DashboardIcon /> },
-      { title: "Pedidos Activos", to: "/repartidor/pedidos", icon: <ReceiptLongIcon /> },
-      { title: "Mi Perfil", to: "/repartidor/perfil", icon: <PersonOutlineIcon /> },
+      { title: "Pedidos", to: "driver.orders.index", icon: <ReceiptLongIcon /> },
     ],
   };
 

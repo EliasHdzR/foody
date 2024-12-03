@@ -11,6 +11,7 @@
     use App\Http\Controllers\Restaurant\CouponsController;
     use App\Http\Controllers\Restaurant\ProductsController;
     use App\Http\Controllers\ProfileController;
+    use App\Http\Controllers\Driver\OrdersController as DriverOrdersController;
     use App\Http\Middleware\CheckRole;
     use Illuminate\Support\Facades\Route;
     use Inertia\Inertia;
@@ -141,6 +142,10 @@
          */
         Route::middleware([CheckRole::class . ':driver'])->prefix('/repartidor')->group((function () {
             Route::inertia('/dashboard', 'DriverViews/Dashboard')->name('driver.dashboard');
+
+            Route::controller(DriverOrdersController::class)->group(function () {
+                Route::get('/pedidos', 'index')->name('driver.orders.index');
+            });
         }));
     });
 
