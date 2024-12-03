@@ -67,26 +67,32 @@ export default function Index({faqs}) {
                     </Alert>
                 </div>
             )}
-            <div className="container mx-auto">
-                <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">Preguntas Frecuentes</h2>
-                <div className="flex justify-end mb-2">
-                    <button onClick={() => openModal('add')}
-                            className="ml-4 px-4 py-2 bg-yellow-500 text-white rounded-lg font-semibold hover:bg-yellow-600 transition">
-                        Agregar
-                    </button>
-                </div>
 
-                <Tabla
-                    columns={columns}
-                    rows={rows}
-                    rowsPerPageCustom={10}
-                />
+            <div className="w-full bg-gray-100 min-h-screen py-10 px-4">
+                <div className="w-full max-w-7xl mx-auto bg-white shadow-2xl rounded-lg p-10">
+                    <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">Preguntas Frecuentes</h2>
+                    <div className="flex justify-end mb-2">
+                        <button onClick={() => openModal('add')}
+                                className="ml-4 px-4 py-2 bg-yellow-500 text-white rounded-lg font-semibold hover:bg-yellow-600 transition">
+                            Agregar
+                        </button>
+                    </div>
+
+                    <Tabla
+                        columns={columns}
+                        rows={rows}
+                        rowsPerPageCustom={10}
+                    />
+                </div>
             </div>
 
-            <Modal isOpen={isModalOpen} onClose={closeModal} title={modalType === 'edit' ? "Editar Pregunta" : modalType === 'delete' ? "Eliminar Pregunta" : "Agregar Pregunta"}>
-                {modalType === 'add' && <AddFAQForm closeModal={closeModal} onSuccess={handleSuccess} />}
-                {modalType === 'edit' && <EditFAQForm closeModal={closeModal} faq={selectedFAQ} onSuccess={handleSuccess} />}
-                {modalType === 'delete' && <DeleteFAQForm closeModal={closeModal} faq={selectedFAQ} onSuccess={handleSuccess} />}
+            <Modal isOpen={isModalOpen} onClose={closeModal}
+                   title={modalType === 'edit' ? "Editar Pregunta" : modalType === 'delete' ? "Eliminar Pregunta" : "Agregar Pregunta"}>
+                {modalType === 'add' && <AddFAQForm closeModal={closeModal} onSuccess={handleSuccess}/>}
+                {modalType === 'edit' &&
+                    <EditFAQForm closeModal={closeModal} faq={selectedFAQ} onSuccess={handleSuccess}/>}
+                {modalType === 'delete' &&
+                    <DeleteFAQForm closeModal={closeModal} faq={selectedFAQ} onSuccess={handleSuccess}/>}
             </Modal>
         </div>
     );
@@ -94,8 +100,8 @@ export default function Index({faqs}) {
 
 Index.layout = (page) => <Layout children={page} type={'admin'}/>;
 
-const AddFAQForm = ({ closeModal, onSuccess }) => {
-    const { data, errors, setData, post } = useForm({
+const AddFAQForm = ({closeModal, onSuccess}) => {
+    const {data, errors, setData, post} = useForm({
         question: "",
         answer: "",
     });
@@ -113,7 +119,7 @@ const AddFAQForm = ({ closeModal, onSuccess }) => {
     return (
         <form onSubmit={submit} className="space-y-4">
             <div>
-                <InputLabel htmlFor="question" value="Pregunta" />
+                <InputLabel htmlFor="question" value="Pregunta"/>
                 <TextInput
                     id="question"
                     type="text"

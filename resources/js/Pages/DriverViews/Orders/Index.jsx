@@ -39,7 +39,7 @@ const Index = ({orders}) => {
             acc.push({
                 parentId: order.id,
                 id: product.id,
-                image: <img src={`../storage/${product.image_url}`} className="w-20 h-20 object-cover"/>,
+                image: <img src={`/storage/${product.image_url}`} className="w-20 h-20 object-cover"/>,
                 name: product.name,
                 quantity: product.sold.quantity,
                 individual_price: `$${Number(product.price).toFixed(2)}`,
