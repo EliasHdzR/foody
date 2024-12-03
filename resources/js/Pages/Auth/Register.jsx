@@ -37,8 +37,8 @@ export default function Register() {
                         <h2 className="text-2xl font-semibold text-gray-800 mb-4">Crea tu cuenta</h2>
                         <p className="text-sm text-gray-500 mb-6">¡Únete a foody!</p>
 
-                        <form onSubmit={submit}>
-                            <div>
+                        <form className='text-neutral-950' onSubmit={submit}>
+                            <div >
                                 <InputLabel htmlFor="name" value="Name" />
                                 <TextInput
                                     id="name"
