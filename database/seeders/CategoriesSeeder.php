@@ -14,10 +14,16 @@ class CategoriesSeeder extends Seeder
     public function run(): void
     {
         DB::table('categories')->insert([
-            ['name' => 'Comida China'],
-            ['name' => 'Comida Mexicana'],
-            ['name' => 'Comida Rápida'],
-            ['name' => 'Comida India'],
+            ['name' => 'Comida China','created_at' => now(),'updated_at' => now()],
+            ['name' => 'Comida Italiana','created_at' => now(),'updated_at' => now()],
+            ['name' => 'Comida Mexicana','created_at' => now(),'updated_at' => now()],
+            ['name' => 'Comida Rápida','created_at' => now(),'updated_at' => now()],
+            ['name' => 'Comida India','created_at' => now(),'updated_at' => now()],
+            ['name' => 'Comida Japonesa','created_at' => now(),'updated_at' => now()],
+            ['name' => 'Comida Árabe','created_at' => now(),'updated_at' => now()],
+            ['name' => 'Comida Peruana','created_at' => now(),'updated_at' => now()],
+            ['name' => 'Comida Española','created_at' => now(),'updated_at' => now()],
+            ['name' => 'Comida Francesa','created_at' => now(),'updated_at' => now()],
         ]);
     }
 }

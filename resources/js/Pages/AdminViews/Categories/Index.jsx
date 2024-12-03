@@ -35,11 +35,15 @@ export default function Index({categories}) {
 
     const columns = [
         {id: 'name', label: 'Nombre'},
+        {id: 'created_at', label: 'Fecha de Creación'},
+        {id: 'updated_at', label: 'Última Actualización'},
         {id: 'actions', label: 'Acciones', align: 'center'}
     ];
 
     const rows = categories.map((category) => ({
         name: category.name,
+        created_at: category.created_at,
+        updated_at: category.updated_at,
         actions: [
             <button onClick={() => openModal('edit', category)}
                     className="ml-4 px-4 py-2 bg-green-600 rounded-lg font-semibold hover:bg-green-700 transition">
