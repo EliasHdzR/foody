@@ -12,6 +12,7 @@
     use App\Http\Controllers\Restaurant\ProductsController;
     use App\Http\Controllers\ProfileController;
     use App\Http\Controllers\Driver\OrdersController as DriverOrdersController;
+    use App\Http\Controllers\Customer\OrdersController as CustomerOrdersController;
     use App\Http\Middleware\CheckRole;
     use Illuminate\Support\Facades\Route;
     use Inertia\Inertia;
@@ -135,6 +136,8 @@
                 Route::inertia('/orders', 'CustomerViews/OrdersPage')->name('cliente.orders.index');
             });
 
+            Route::get('orders/fetch', [CustomerOrdersController::class, 'fetchOrders'])->name('cliente.orders.fetch');
+            Route::post('/orders/cancel/{orderId}', [CustomerOrdersController::class, 'cancelOrder'])->name('cliente.orders.cancel');
         }));
 
         /**
