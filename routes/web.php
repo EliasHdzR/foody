@@ -58,6 +58,7 @@
                 Route::get('/restaurantes/{restaurant}/productos', 'indexProducts')->name('admin.restaurant.products.index');
                 Route::get('/restaurantes/{restaurant}/pedidos', 'indexOrders')->name('admin.restaurant.orders.index');
                 Route::get('/restaurantes/{restaurant}/inventario', 'indexInventory')->name('admin.restaurant.inventory.index');
+                Route::get('/restaurantes/{restaurant}/categorias', 'indexCategories')->name('admin.restaurant.categories.index');
             });
 
             Route::controller(FaqsController::class)->group(function () {

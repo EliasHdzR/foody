@@ -1,6 +1,6 @@
 import {Link} from "@inertiajs/react";
 
-function Tienda({logo, nombre, direccion, telefono, categoria, abre, cierra, rutaInventario, rutaPedidos, rutaProductos}) {
+function Tienda({logo, nombre, direccion, telefono, categoria, abre, cierra, rutaInventario, rutaPedidos, rutaProductos, rutaCategorias}) {
     console.log(logo)
     return (
         <div className="tienda bg-gray-100 p-4 rozunded-lg shadow-sm flex items-center justify-between mb-4">
@@ -32,6 +32,12 @@ function Tienda({logo, nombre, direccion, telefono, categoria, abre, cierra, rut
                     <Link href={rutaProductos}
                           className="text-blue-500 font-semibold border border-blue-500 rounded-lg px-10 py-1 hover:bg-blue-500 hover:text-white transition">
                         Ver Productos
+                    </Link>
+                </div>
+                <div className={"flex items-stretch justify-between mb-4"}>
+                    <Link href={rutaCategorias}
+                          className="text-red-500 font-semibold border border-red-500 rounded-lg px-10 py-1 hover:bg-red-500 hover:text-white transition">
+                        Ver Categorías
                     </Link>
                 </div>
             </div>

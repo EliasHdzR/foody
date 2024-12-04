@@ -55,4 +55,20 @@ class RestaurantsController extends Controller
             }),
         ]);
     }
+
+    public function indexCategories($id): Response {
+        $restaurant = Restaurant::find($id);
+        $categories = $restaurant->productCategories;
+        return Inertia::render('AdminViews/Restaurants/restaurant-categories', [
+            'categories' => $categories->map(function ($category) {
+                return [
+                    'id' => $category->id,
+                    'name' => $category->name,
+                    'stock' => $category->stock,
+                    'created_at' => Util::formatDate($category->created_at),
+                    'updated_at' => Util::formatDate($category->updated_at)
+                ];
+            }),
+        ]);
+    }
 }

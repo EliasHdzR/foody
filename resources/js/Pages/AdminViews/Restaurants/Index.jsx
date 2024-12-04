@@ -22,6 +22,7 @@ export default function Index({restaurants}) {
                                 rutaProductos={ route("admin.restaurant.products.index", restaurant.id) }
                                 rutaPedidos={ route("admin.restaurant.orders.index", restaurant.id) }
                                 rutaInventario={ route("admin.restaurant.inventory.index", restaurant.id) }
+                                rutaCategorias={ route("admin.restaurant.categories.index", restaurant.id) }
                             />
                         ))
                     ) : (
