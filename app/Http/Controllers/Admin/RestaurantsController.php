@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Restaurant;
+use App\Models\Util;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -36,6 +37,22 @@ class RestaurantsController extends Controller
         $orders->load('customer', 'products', 'restaurant');
         return Inertia::render('AdminViews/Restaurants/restaurant-orders', [
             'orders' => $orders,
+        ]);
+    }
+
+    public function indexInventory($id): Response {
+        $restaurant = Restaurant::find($id);
+        $ingredients = $restaurant->ingredients;
+        return Inertia::render('AdminViews/Restaurants/restaurant-inventory', [
+            'ingredients' => $ingredients->map(function ($ingredient) {
+                return [
+                    'id' => $ingredient->id,
+                    'name' => $ingredient->name,
+                    'stock' => $ingredient->stock,
+                    'created_at' => Util::formatDate($ingredient->created_at),
+                    'updated_at' => Util::formatDate($ingredient->updated_at)
+                ];
+            }),
         ]);
     }
 }
