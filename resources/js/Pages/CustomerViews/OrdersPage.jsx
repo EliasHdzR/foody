@@ -20,7 +20,7 @@ const orders = [
         { name: "Pizza Hawaiana", quantity: 1, price: 3.29 },
       ],
       deliveryFee: 5.0,
-      taxRate: 0.05, 
+      taxRate: 0.05,
       discount: 0.0,
     },
   },
@@ -39,14 +39,12 @@ const orders = [
         { name: "Pizza de Queso", quantity: 1, price: 3.99 },
         { name: "Pizza de Queso", quantity: 1, price: 3.99 },
         { name: "Pizza de Queso", quantity: 1, price: 3.99 },
-
       ],
       deliveryFee: 5.0,
-      taxRate: 0.08, 
-      discount: 2.0, 
+      taxRate: 0.08,
+      discount: 2.0,
     },
   },
-
 ];
 
 const calculateOrderSummary = (details) => {
@@ -71,8 +69,8 @@ const OrdersPage = () => {
   };
 
   return (
-    <div style={{ display: "flex", height: "100%" }}>
-      <div style={{ flex: 2, overflowY: "auto", maxHeight: "100vh", paddingRight: "10px" }}>
+    <div className="flex h-full">
+      <div className="flex-2 overflow-y-auto max-h-screen pr-2.5">
         <Header title="Mis Pedidos" />
         <OrderList
           orders={orders.map((order) => ({
@@ -82,14 +80,14 @@ const OrdersPage = () => {
         />
       </div>
 
-      <div style={{ flex: 1, backgroundColor: "#1F1F2B", padding: "20px", overflowY: "auto", maxHeight: "100vh" }}>
+      <div className="flex-1 bg-[#1F1F2B] p-5 overflow-y-auto max-h-screen">
         {selectedOrder ? (
           <OrderDetails
             {...selectedOrder.details}
             {...calculateOrderSummary(selectedOrder.details)}
           />
         ) : (
-          <p style={{ color: "#fff" }}>Selecciona un pedido para ver los detalles</p>
+          <p className="text-white">Selecciona un pedido para ver los detalles</p>
         )}
       </div>
     </div>

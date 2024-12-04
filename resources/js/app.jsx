@@ -16,7 +16,7 @@ const AppWrapper = ({ App, props }) => {
         <ColorModeContext.Provider value={colorMode}>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
-                <div className="app">
+                <div >
                     <App {...props} />
                 </div>
             </ThemeProvider>

@@ -1,53 +1,34 @@
 import React from "react";
-import { Box, IconButton, useTheme } from "@mui/material";
 import { Link } from "@inertiajs/react";
-import { tokens } from "@/theme";
 
-const CompactItem = ({ title, to, icon, selected, setSelected, method }) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-
+const CompactItem = ({ title, to, icon: Icon, selected, setSelected, method }) => {
   const isSelected = selected === title;
+
+  const outerDivClasses = `w-full h-20 rounded-l-full flex justify-center items-center shadow-lg ${
+    isSelected ? "bg-slate-800" : ""
+  }`;
 
   return (
     <Link
       href={route(`${to}`)}
       method={method}
-      onClick={() => setSelected(title)}
-      style={{
-        textDecoration: "none",
-        width: "100%",
-        display: "flex",
-        justifyContent: "center",
+      onClick={() => {
+        setSelected(title);
       }}
+      className="w-full flex justify-center"
     >
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "50px",
-          height: "50px",
-          margin: "10px 0",
-          borderRadius: "12px",
-          backgroundColor: isSelected
-            ? "rgba(234, 124, 105, 1)"
-            : "rgba(31, 29, 43, 1)",
-          cursor: "pointer",
-          "&:hover": {
-            backgroundColor: "rgba(234, 124, 105, 0.8)",
-          },
-        }}
-      >
-        <IconButton
-          sx={{
-            color: isSelected ? "#FFFFFF" : "rgba(234, 124, 105, 1)",
-            fontSize: "24px",
-          }}
+      <div className={outerDivClasses}>
+        <div
+          className={`w-14 h-14 rounded-xl flex justify-center items-center ${
+            isSelected ? "bg-red-400" : "text-[#EA7C69]"
+          } hover:bg-red-400 cursor-pointer transition-all duration-200`}
         >
-          {icon}
-        </IconButton>
-      </Box>
+          <Icon
+            color={isSelected ? "#FFFFFF" : "#EA7C69"} 
+            size={28} 
+          />
+        </div>
+      </div>
     </Link>
   );
 };

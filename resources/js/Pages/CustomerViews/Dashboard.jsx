@@ -1,37 +1,21 @@
 import Layout from "@/Layouts/Layout.jsx";
-import Busqueda from "./Dashboard/Busqueda";
 import DashboardAside from "@/Components/Asidebar/DashboardAside";
-import Platillos from "./Dashboard/Platillos";
 import Resultados from "./Dashboard/Resultados";
 
 const Dashboard = () => {
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "5fr 3fr", 
-        height: "100vh", 
-      }}
-    >
-      <div style={{ padding: "20px" }}>
-        <Busqueda />
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-            gap: "20px",
-          }}
-        >
-          <Resultados>
-            <Platillos />
-          </Resultados>
-        </div>
+    <div className="grid grid-cols-[5fr_3fr] bg-slate-800 h-screen text-white overflow-hidden">
+      <div className="p-5 space-y-6 overflow-auto">
+        <Resultados />
       </div>
 
-      <DashboardAside />
+      <div className="overflow-auto">
+        <DashboardAside />
+      </div>
     </div>
   );
 };
 
 Dashboard.layout = (page) => <Layout children={page} type={"customer"} />;
 export default Dashboard;
+

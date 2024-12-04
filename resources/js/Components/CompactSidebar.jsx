@@ -1,61 +1,69 @@
 import React, { useState, useEffect } from "react";
-import { Box, useTheme } from "@mui/material";
-import { tokens } from "@/theme";
 import CompactItem from "./CompactItem";
 
-import HomeIcon from "@mui/icons-material/Home";
-import StoreIcon from "@mui/icons-material/Store";
-import SettingsIcon from "@mui/icons-material/Settings";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import ReceiptIcon from '@mui/icons-material/Receipt';
+import Home from "../../svg/Home.jsx";
+import Store from "../../svg/Store.jsx";
+import Order from "../../svg/Order.jsx";
+import Settings from "../../svg/Settings.jsx";
+import IconCustom from "../../svg/IconCustom.jsx";
+import LogOut from "../../svg/LogOut.jsx";
 
 const CompactSidebar = () => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-
   const [selected, setSelected] = useState("");
 
   const menuItems = [
-    { title: "Dashboard", to: "cliente.dashboard", icon: <HomeIcon />, method: "GET" },
-    { title: "Tiendas", to: "cliente.dashboard", icon: <StoreIcon />, method: "GET" },
-    { title: "Orders",to: "cliente.orders.index",icon : <ReceiptIcon />},
-    { title: "Configuración", to: "profile.edit", icon: <SettingsIcon />, method: "GET" },
-    { title: "Logout", to: "logout", icon: <ExitToAppIcon />, method: "POST" },
+    { title: "Dashboard", to: "cliente.dashboard", icon: Home, method: "GET" },
+    { title: "Tiendas", to: "cliente.dashboard", icon: Store, method: "GET" },
+    { title: "Orders", to: "cliente.orders.index", icon: Order },
   ];
 
   useEffect(() => {
     const currentPath = window.location.pathname;
-    const activeItem = menuItems.find((item) => item.to === currentPath);
+    const activeItem = menuItems.find((item) => route(`${item.to}`) === currentPath);
     if (activeItem) {
       setSelected(activeItem.title);
     }
-  }, [menuItems]);
+  }, []);
 
   return (
-    <Box
-      sx={{
-        width: "80px",
-        height: "100vh",
-        backgroundColor: "rgba(31, 29, 43, 1)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "10px 0",
-        boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
-      }}
-    >
-      {menuItems.map((item) => (
+    <div className="w-[120px] h-screen bg-[rgba(0,0,0,.9)] flex flex-col justify-between items-center py-8">
+      <div className="w-full h-16 flex items-center justify-center rounded-lg">
+        <IconCustom />
+      </div>
+
+      <div className="flex flex-col w-full space-y-5">
+        {menuItems.map((item) => (
+          <CompactItem
+            key={item.title}
+            title={item.title}
+            to={item.to}
+            method={item.method}
+            icon={item.icon}
+            selected={selected}
+            setSelected={setSelected} 
+          />
+        ))}
+      </div>
+
+      <div className="flex flex-col w-full mb-5 space-y-5">
         <CompactItem
-          key={item.title}
-          title={item.title}
-          to={item.to}
-          method={item.method}
-          icon={item.icon}
+          title="Configuración"
+          to="profile.edit"
+          method="GET"
+          icon={Settings}
           selected={selected}
           setSelected={setSelected}
         />
-      ))}
-    </Box>
+        <CompactItem
+          title="Logout"
+          to="logout"
+          method="GET"
+          icon={LogOut}
+          selected={selected}
+          setSelected={setSelected}
+        />
+      </div>
+    </div>
   );
 };
 

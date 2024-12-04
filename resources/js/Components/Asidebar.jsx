@@ -21,7 +21,7 @@ const Asidebar = ({ title, children, sx }) => {
         <Typography
           variant="h4"
           sx={{
-            color: "rgba(234, 124, 105, 1)", 
+            color: "", 
             fontWeight: "bold",
             textAlign: "center",
           }}

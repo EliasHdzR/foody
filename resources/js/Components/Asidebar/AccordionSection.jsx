@@ -4,18 +4,17 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
 
-
 const AccordionSection = ({ title, children }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <Box
       sx={{
-        backgroundColor: "rgba(45, 43, 56, 1)",
-        borderRadius: "3px",
-        border: "1px solid rgba(0,0,0,1)",
-        padding: "10px",
-        boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)",
+        backgroundColor: "rgba(31, 29, 43, 1)",
+        borderRadius: "8px",
+        padding: "16px",
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+        border: "1px solid rgba(0, 0, 0, 0.5)",
       }}
     >
       <Box
@@ -30,7 +29,7 @@ const AccordionSection = ({ title, children }) => {
         <Typography
           variant="body1"
           sx={{
-            color: "rgba(234, 124, 105, 1)",
+            color: "",
             fontWeight: "bold",
           }}
         >
@@ -39,7 +38,7 @@ const AccordionSection = ({ title, children }) => {
         <IconButton
           size="small"
           sx={{
-            color: "rgba(234, 124, 105, 1)",
+            color: "#FFFFFF",
           }}
         >
           {isOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
@@ -50,10 +49,12 @@ const AccordionSection = ({ title, children }) => {
         <Box
           sx={{
             marginTop: "10px",
-            paddingLeft: "10px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "15px",
             color: "#fff",
-            maxHeight: "350px", 
-            overflowY: "auto", 
+            maxHeight: "350px",
+            overflowY: "auto",
           }}
         >
           {children}
