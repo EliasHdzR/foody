@@ -57,7 +57,7 @@ const CompactSidebar = () => {
         <CompactItem
           title="Logout"
           to="logout"
-          method="GET"
+          method="POST"
           icon={LogOut}
           selected={selected}
           setSelected={setSelected}
