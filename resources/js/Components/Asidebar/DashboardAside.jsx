@@ -7,7 +7,8 @@ const platillosMock = [
     name: "Tacos al Pastor",
     description: "3 piezas con cebolla y cilantro",
     image: "/img/tacos.png", 
-  {
+  },
+   {
     name: "Pizza Margarita",
     description: "Clásica con albahaca",
     image: "/img/tacos.png", 
