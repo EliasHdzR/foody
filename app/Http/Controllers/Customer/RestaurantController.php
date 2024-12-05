@@ -25,6 +25,46 @@ class RestaurantController extends Controller
         ]);
     }
 
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $category = $request->input('category');
+
+        $restaurants = Restaurant::query()
+            ->when($query, function ($q) use ($query) {
+                $q->where('name', 'like', "%$query%");
+            })
+            ->when($category, function ($q) use ($category) {
+                $q->whereHas('category', function ($catQuery) use ($category) {
+                    $catQuery->where('name', $category);
+                });
+            })
+            ->with(['products'])
+            ->get();
+
+        return response()->json([
+            'restaurants' => $restaurants,
+            'platillos' => $restaurants->flatMap->products,
+        ]);
+    }
+
+
+    public function list()
+    {
+        $restaurants = Restaurant::with('products')->get();
+
+        return response()->json([
+            'restaurants' => $restaurants,
+        ]);
+    }
+
+    public function showProduct(Product $product)
+    {
+        return response()->json([
+            'product' => $product->load('category', 'restaurant')
+        ]);
+    }
+
     public function store(Request $request, Restaurant $restaurant)
     {
         $data = $request->validate([
