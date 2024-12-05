@@ -68,10 +68,27 @@ class DatabaseSeeder extends Seeder
             'updated_at' => now(),
         ]);
 
+        User::factory()->create([
+            'name' => 'luis',
+            'email' => 'luis@driver.com',
+            'password' => bcrypt('pruebita'),
+            'role' => 'driver',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
         DB::table('drivers')->insert([
             [
                 'id' => 1,
                 'user_id' => 5,
+                'shift_start' => now(),
+                'shift_end' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => 2,
+                'user_id' => 6,
                 'shift_start' => now(),
                 'shift_end' => now(),
                 'created_at' => now(),
@@ -84,6 +101,9 @@ class DatabaseSeeder extends Seeder
             RestaurantsTableSeeder::class,
             IngredientsSeeder::class,
             ProductCategorySeeder::class,
+            ProductsTableSeeder::class,
+            OrdersTableSeeder::class,
+            OrderDetailsTableSeeder::class,
         ]);
     }
 }

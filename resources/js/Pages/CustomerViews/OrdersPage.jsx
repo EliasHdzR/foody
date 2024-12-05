@@ -1,93 +1,81 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Header from "@/Components/Orders/Header";
 import OrderDetails from "@/Components/Orders/OrderDetails";
 import OrderList from "@/Components/Orders/OrderList";
 import Layout from "@/Layouts/Layout";
 
-const orders = [
-  {
-    id: 1,
-    status: "En Proceso",
-    date: null,
-    logo: "/path/to/logo.png",
-    restaurant: "Pizza Hut",
-    price: "27.03",
-    details: {
-      items: [
-        { name: "Otra Pizza Simple", quantity: 2, price: 2.29 },
-        { name: "Una Pizza", quantity: 1, price: 2.69 },
-        { name: "Pizza Sin Carne", quantity: 3, price: 3.49 },
-        { name: "Pizza Hawaiana", quantity: 1, price: 3.29 },
-      ],
-      deliveryFee: 5.0,
-      taxRate: 0.05,
-      discount: 0.0,
-    },
-  },
-  {
-    id: 2,
-    status: "Completado",
-    date: "27 Octubre 2024",
-    logo: "/path/to/logo.png",
-    restaurant: "Pizza Hut",
-    price: "27.03",
-    details: {
-      items: [
-        { name: "Pizza de Pepperoni", quantity: 2, price: 5.99 },
-        { name: "Pizza de Queso", quantity: 1, price: 3.99 },
-        { name: "Pizza de Queso", quantity: 1, price: 3.99 },
-        { name: "Pizza de Queso", quantity: 1, price: 3.99 },
-        { name: "Pizza de Queso", quantity: 1, price: 3.99 },
-        { name: "Pizza de Queso", quantity: 1, price: 3.99 },
-      ],
-      deliveryFee: 5.0,
-      taxRate: 0.08,
-      discount: 2.0,
-    },
-  },
-];
-
-const calculateOrderSummary = (details) => {
-  const subtotal = details.items.reduce((sum, item) => sum + item.quantity * item.price, 0);
-  const tax = subtotal * details.taxRate;
-  const total = subtotal + details.deliveryFee + tax - details.discount;
-
-  return {
-    subtotal: subtotal.toFixed(2),
-    deliveryFee: details.deliveryFee.toFixed(2),
-    tax: tax.toFixed(2),
-    discount: details.discount.toFixed(2),
-    total: total.toFixed(2),
-  };
-};
-
 const OrdersPage = () => {
+  const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    axios.get(route('cliente.orders.fetch'))
+      .then(response => {
+        console.log("Fetched orders:", response.data); // Log fetched orders
+        setOrders(response.data);
+      })
+      .catch(error => {
+        console.error("There was an error fetching the orders!", error);
+        setError("Unable to fetch orders. Please try again later.");
+      });
+  }, []);
 
   const handleViewDetails = (order) => {
+    console.log("Selected order:", order); // Log selected order
     setSelectedOrder(order);
   };
 
+  const handleCancelOrder = (orderId) => {
+    console.log("Cancelling order with ID:", orderId); // Log order ID
+    axios.post(route('cliente.orders.cancel', { orderId }))
+      .then(response => {
+        console.log("Order canceled:", response.data); // Log canceled order
+        setOrders(orders.map(order => order.id === orderId ? response.data.order : order));
+        setSelectedOrder(response.data.order);
+      })
+      .catch(error => {
+        console.error("There was an error canceling the order!", error);
+        setError("Unable to cancel order. Please try again later.");
+      });
+  };
+
   return (
-    <div className="flex h-full">
-      <div className="flex-2 overflow-y-auto max-h-screen pr-2.5">
+    <div style={{ display: "flex", height: "100%" }}>
+      <div style={{ flex: 2, overflowY: "auto", maxHeight: "100vh", paddingRight: "10px" }}>
         <Header title="Mis Pedidos" />
-        <OrderList
-          orders={orders.map((order) => ({
-            ...order,
-            onViewDetails: () => handleViewDetails(order),
-          }))}
-        />
+        {error ? (
+          <p style={{ color: "red" }}>{error}</p>
+        ) : (
+          <OrderList
+            orders={orders.map((order) => ({
+              ...order,
+              onViewDetails: () => handleViewDetails(order),
+              onCancelOrder: () => handleCancelOrder(order.id),
+            }))}
+          />
+        )}
       </div>
 
-      <div className="flex-1 bg-[#1F1F2B] p-5 overflow-y-auto max-h-screen">
-        {selectedOrder ? (
+      <div style={{ flex: 1, backgroundColor: "#1F1F2B", padding: "20px", overflowY: "auto", maxHeight: "100vh" }}>
+        {selectedOrder && selectedOrder.products ? (
           <OrderDetails
-            {...selectedOrder.details}
-            {...calculateOrderSummary(selectedOrder.details)}
+            items={selectedOrder.products.map(product => ({
+              name: product.name,
+              quantity: product.sold.quantity,
+              price: product.price,
+              image_url: product.image_url,
+            }))}
+            subtotal={selectedOrder.subtotal}
+            deliveryFee={selectedOrder.shipping_cost}
+            tax={selectedOrder.taxes}
+            discount={selectedOrder.discount}
+            total={selectedOrder.total_price}
+            status={selectedOrder.status}
           />
         ) : (
-          <p className="text-white">Selecciona un pedido para ver los detalles</p>
+          <p style={{ color: "#fff" }}>Selecciona un pedido para ver los detalles</p>
         )}
       </div>
     </div>

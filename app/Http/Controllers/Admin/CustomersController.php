@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\StoreRequest;
 use App\Models\Customer;
 use App\Models\User;
+use App\Models\Util;
 use Inertia\Inertia;
 
 class CustomersController extends Controller
@@ -18,15 +19,17 @@ class CustomersController extends Controller
                     'id' => $customer->id,
                     'user_name' => $customer->user->name,
                     'email' => $customer->user->email,
-                    'phone_number' => $customer->user->phone_number
+                    'phone_number' => $customer->user->phone_number,
+                    'created_at' => Util::formatDate($customer->created_at),
+                    'updated_at' => Util::formatDate($customer->updated_at),
                 ];
             }),
         ]);
     }
-    
-    public function destroy(Customer $customer) {   
+
+    public function destroy(Customer $customer) {
         $user = $customer->user;
-    
+
         if ($user) {
             $user->delete();
         }

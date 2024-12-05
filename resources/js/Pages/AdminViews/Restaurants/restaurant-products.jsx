@@ -6,6 +6,7 @@ import {Alert, AlertTitle} from "@mui/material";
 import RestaurantImage from "@/Components/RestaurantImage.jsx";
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import BackButton from "@/Components/BackButton.jsx";
 
 const ProductsIndex = ({ products, productCategories }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -164,7 +165,7 @@ const ProductsIndex = ({ products, productCategories }) => {
     };
 
     return (
-        <div>
+        <div className="w-full bg-gray-100 min-h-full py-10 px-4">
             {successMessage && (
                 <div className="fixed top-0 left-0 right-0 z-50 flex justify-center mt-4">
                     <Alert severity="success" onClose={() => setSuccessMessage(null)}>
@@ -174,8 +175,9 @@ const ProductsIndex = ({ products, productCategories }) => {
                 </div>
             )}
 
-            <div className="w-full bg-gray-100 min-h-screen py-10 px-4">
-                <div className="w-full max-w-fit mx-auto bg-white shadow-2xl rounded-lg p-10">
+            <div>
+                <div className="w-full max-w-8xl mx-auto bg-white shadow-2xl rounded-lg p-10">
+                    <BackButton to={ route("admin.restaurant.index") } />
                     <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">Productos</h2>
                     <div className="flex justify-start mb-2">
                         <input

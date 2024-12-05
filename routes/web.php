@@ -4,6 +4,7 @@
     use App\Http\Controllers\Admin\RestaurantsController;
     use App\Http\Controllers\Customer\RestaurantController as CustomerRestaurantController;
     use App\Http\Controllers\Restaurant\CategoriesController as RestaurantCategoriesController;
+    use App\Http\Controllers\Restaurant\OrdersController as RestaurantOrdersController;
     use App\Http\Controllers\Admin\DriversController;
     use App\Http\Controllers\Admin\CustomersController;
     use App\Http\Controllers\Admin\FaqsController;
@@ -11,7 +12,9 @@
     use App\Http\Controllers\Restaurant\CouponsController;
     use App\Http\Controllers\Restaurant\ProductsController;
     use App\Http\Controllers\ProfileController;
+    use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
     use App\Http\Controllers\Driver\OrdersController as DriverOrdersController;
+    use App\Http\Controllers\Customer\OrdersController as CustomerOrdersController;
     use App\Http\Middleware\CheckRole;
     use Illuminate\Support\Facades\Route;
     use Inertia\Inertia;
@@ -51,12 +54,14 @@
          * RUTAS ROL DE ADMIN
          */
         Route::middleware([CheckRole::class . ':admin'])->prefix('/admin')->group(function () {
-            Route::inertia('/dashboard', 'AdminViews/Dashboard')->name('admin.dashboard');
+            Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
             Route::controller(RestaurantsController::class)->group(function () {
                 Route::get('/restaurantes', 'index')->name('admin.restaurant.index');
                 Route::get('/restaurantes/{restaurant}/productos', 'indexProducts')->name('admin.restaurant.products.index');
                 Route::get('/restaurantes/{restaurant}/pedidos', 'indexOrders')->name('admin.restaurant.orders.index');
+                Route::get('/restaurantes/{restaurant}/inventario', 'indexInventory')->name('admin.restaurant.inventory.index');
+                Route::get('/restaurantes/{restaurant}/categorias', 'indexCategories')->name('admin.restaurant.categories.index');
             });
 
             Route::controller(FaqsController::class)->group(function () {
@@ -121,13 +126,17 @@
                 Route::delete('/categorias/{category}', 'destroy')->name('restaurante.categories.destroy');
             });
 
+            Route::controller(RestaurantOrdersController::class)->group(function () {
+                Route::get('/ordenes', 'index')->name('restaurante.orders.index');
+            });
+
             Route::inertia('/menu', 'RestaurantViews/MenuStore')->name('restaurante.menu.index');
         }));
 
         /**
          * RUTAS ROL CLIENTE
          */
-        Route::middleware([CheckRole::class . ':customer'])->prefix('/cliente')->group(function () {
+        Route::middleware([CheckRole::class . ':customer'])->prefix('/cliente')->group((function () {
             Route::inertia('/dashboard', 'CustomerViews/Dashboard')->name('cliente.dashboard');
 
             Route::controller(CustomerRestaurantController::class)->group(function () {
@@ -138,7 +147,10 @@
                 Route::get('/cliente/product/{product}', [CustomerRestaurantController::class, 'showProduct'])->name('cliente.product.show');
                 Route::inertia('/orders', 'CustomerViews/OrdersPage')->name('cliente.orders.index');
             });
-        });
+
+            Route::get('orders/fetch', [CustomerOrdersController::class, 'fetchOrders'])->name('cliente.orders.fetch');
+            Route::post('/orders/cancel/{orderId}', [CustomerOrdersController::class, 'cancelOrder'])->name('cliente.orders.cancel');
+        }));
 
         /**
          * RUTAS ROL REPARTIDOR
