@@ -14,45 +14,25 @@ class ProductsTableSeeder extends Seeder
     {
         DB::table('products')->insert([
             [
-                'restaurant_id' => 1,
-                'code' => 'PIZZA01',
-                'name' => 'Pizza Margarita',
-                'image_url' => 'pizza_margarita.jpg',
-                'description' => 'Pizza clásica con tomate, albahaca y queso mozzarella.',
+                'restaurant_id' => 1, // Ensure this restaurant exists in the `restaurants` table
+                'product_category_id' => 1, // Ensure this category exists in the `product_categories` table
+                'code' => 'PROD001',
+                'name' => 'Spaghetti Carbonara',
+                'image_url' => 'product_images/restaurant_1/spaghetti_carbonara.jpg',
+                'description' => 'Delicious spaghetti with creamy carbonara sauce.',
                 'price' => 12.99,
                 'availability' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'restaurant_id' => 1,
-                'code' => 'PASTA01',
-                'name' => 'Pasta Alfredo',
-                'image_url' => 'pasta_alfredo.jpg',
-                'description' => 'Pasta cremosa con salsa Alfredo y queso parmesano.',
-                'price' => 10.50,
-                'availability' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'restaurant_id' => 2,
-                'code' => 'BURGER01',
-                'name' => 'Hamburguesa Clásica',
-                'image_url' => 'hamburguesa_clasica.jpg',
-                'description' => 'Hamburguesa con carne de res, queso cheddar y salsa especial.',
-                'price' => 8.99,
-                'availability' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'restaurant_id' => 2,
-                'code' => 'SALAD01',
-                'name' => 'Ensalada César',
-                'image_url' => 'ensalada_cesar.jpg',
-                'description' => 'Ensalada fresca con lechuga, aderezo César y crutones.',
-                'price' => 6.50,
+                'restaurant_id' => 1, // Ensure this restaurant exists in the `restaurants` table
+                'product_category_id' => 2, // Ensure this category exists in the `product_categories` table
+                'code' => 'PROD002',
+                'name' => 'Bruschetta',
+                'image_url' => 'product_images/restaurant_1/bruschetta.jpg',
+                'description' => 'Crispy bread topped with fresh tomatoes and basil.',
+                'price' => 6.99,
                 'availability' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
