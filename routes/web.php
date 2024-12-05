@@ -11,6 +11,7 @@
     use App\Http\Controllers\Restaurant\CouponsController;
     use App\Http\Controllers\Restaurant\ProductsController;
     use App\Http\Controllers\ProfileController;
+    use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
     use App\Http\Controllers\Driver\OrdersController as DriverOrdersController;
     use App\Http\Middleware\CheckRole;
     use Illuminate\Support\Facades\Route;
@@ -51,7 +52,7 @@
          * RUTAS ROL DE ADMIN
          */
         Route::middleware([CheckRole::class . ':admin'])->prefix('/admin')->group(function () {
-            Route::inertia('/dashboard', 'AdminViews/Dashboard')->name('admin.dashboard');
+            Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
             Route::controller(RestaurantsController::class)->group(function () {
                 Route::get('/restaurantes', 'index')->name('admin.restaurant.index');
