@@ -1,18 +1,25 @@
 import { Box, Button, Typography, useTheme } from "@mui/material";
+
+import RestaurantIcon from "@mui/icons-material/Restaurant";
+import DeliveryDiningIcon from "@mui/icons-material/DeliveryDining";
+import PeopleIcon from "@mui/icons-material/People";
+import InventoryIcon from "@mui/icons-material/Inventory";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import EmailIcon from "@mui/icons-material/Email";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
+import DoneIcon from '@mui/icons-material/Done';
+import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
+import CancelIcon from '@mui/icons-material/Cancel';
+import FactCheckIcon from '@mui/icons-material/FactCheck';
+
 import Header from "@/Components/Header";
 import LineChart from "@/Components/LineChart";
 import BarChart from "@/Components/BarChart";
 import { tokens } from "@/theme.js";
 import CustomTable from "@/Components/CustomTable";
 import TopSelling from "@/Components/TopSelling";
-import Layout from "@/Layouts/Layout"; 
+import Layout from "@/Layouts/Layout";
+import {Link} from "@inertiajs/react";
 
 const StatBox = ({ title, subtitle, icon }) => {
     return (
@@ -42,9 +49,33 @@ const StatBox = ({ title, subtitle, icon }) => {
     );
 };
 
-const Dashboard = () => {
+const Dashboard = ({counters, orders, restaurants, products }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
+    const lineData = orders.reduce((acc, order) => {
+        const category = acc.find(item => item.id === order.category_name);
+        if (category) {
+            category.data.push({ x: order.month, y: order.order_count });
+        } else {
+            acc.push({
+                id: order.category_name,
+                color: colors.greenAccent[500],
+                data: [{ x: order.month, y: order.order_count }]
+            });
+        }
+        return acc;
+    }, []);
+
+    const restaurantData = restaurants.map(restaurant => {
+        const { name, orders, inProgress, total } = restaurant;
+        return { name, orders, inProgress, total };
+    });
+
+    const items = products.map(product => {
+        const { name, store, image } = product;
+        return { name, store, image };
+    });
 
     return (
         <Box m="10px 20px 20px 20px">
@@ -85,27 +116,34 @@ const Dashboard = () => {
                     >
                         Resumen
                     </Typography>
-                    <Box display="flex" justifyContent="space-around">
+                    <Box display="flex" justifyContent="space-around" height="90%" gap="15px">
                         <StatBox
-                            title="150"
+                            title={ counters.products }
                             subtitle="Productos"
-                            icon={<EmailIcon sx={{ color: colors.greenAccent[600], fontSize: "30px" }} />}
+                            icon={<InventoryIcon sx={{ color: colors.greenAccent[600], fontSize: "30px" }} />}
                         />
-                        <StatBox
-                            title="20,000"
-                            subtitle="Usuarios"
-                            icon={<PointOfSaleIcon sx={{ color: colors.greenAccent[600], fontSize: "30px" }} />}
-                        />
-                        <StatBox
-                            title="100"
-                            subtitle="Repartidores"
-                            icon={<PersonAddIcon sx={{ color: colors.greenAccent[600], fontSize: "30px" }} />}
-                        />
-                        <StatBox
-                            title="15"
-                            subtitle="Restaurantes"
-                            icon={<TrafficIcon sx={{ color: colors.greenAccent[600], fontSize: "30px" }} />}
-                        />
+                        <Link href={route('admin.customers.index')}>
+                            <StatBox
+                                title={ counters.customers }
+                                subtitle="Usuarios"
+                                icon={<PeopleIcon sx={{ color: colors.greenAccent[600], fontSize: "30px" }} />}
+                            />
+                        </Link>
+                        <Link href={route('admin.drivers.index')}>
+                            <StatBox
+                                title={ counters.drivers }
+                                subtitle="Repartidores"
+                                icon={<DeliveryDiningIcon sx={{ color: colors.greenAccent[600], fontSize: "30px" }} />}
+                            />
+                        </Link>
+                        <Link href={route('admin.restaurant.index')}>
+                            <StatBox
+                                title={ counters.restaurants }
+                                subtitle="Restaurantes"
+                                icon={<RestaurantIcon sx={{ color: colors.greenAccent[600], fontSize: "30px" }} />}
+                            />
+                        </Link>
+
                     </Box>
                 </Box>
 
@@ -122,18 +160,28 @@ const Dashboard = () => {
                         color={colors.grey[100]}
                         mb="5px"
                     >
-                        Restaurantes
+                        Ordenes
                     </Typography>
-                    <Box display="flex" justifyContent="space-around" height="70%" gap="15px">
+                    <Box display="flex" justifyContent="space-around" height="90%" gap="15px">
                         <StatBox
-                            title="868"
-                            subtitle="En línea"
-                            icon={<AccessTimeIcon sx={{ color: colors.greenAccent[600], fontSize: "30px" }} />}
+                            title={ counters.orders.completed_orders }
+                            subtitle="Realizados"
+                            icon={<DoneIcon sx={{ color: colors.greenAccent[600], fontSize: "30px" }} />}
                         />
                         <StatBox
-                            title="200"
-                            subtitle="Fuera de servicio"
-                            icon={<DirectionsRunIcon sx={{ color: colors.redAccent[600], fontSize: "30px" }} />}
+                            title={ counters.orders.in_progress_orders }
+                            subtitle="En Curso"
+                            icon={<HourglassBottomIcon sx={{ color: colors.blueAccent[600], fontSize: "30px" }} />}
+                        />
+                        <StatBox
+                            title={ counters.orders.canceled_orders }
+                            subtitle="Cancelados"
+                            icon={<CancelIcon sx={{ color: colors.redAccent[600], fontSize: "30px" }} />}
+                        />
+                        <StatBox
+                            title={ counters.orders.total_orders }
+                            subtitle="Total"
+                            icon={<FactCheckIcon sx={{ color: colors.greenAccent[600], fontSize: "30px" }} />}
                         />
                     </Box>
                 </Box>
@@ -151,9 +199,9 @@ const Dashboard = () => {
                         color={colors.grey[100]}
                         mb="10px"
                     >
-                        Pedidos
+                        Pedidos por Categoría
                     </Typography>
-                    <LineChart isDashboard={true} />
+                    <LineChart isDashboard={true} data={lineData} />
                 </Box>
                 <Box
                     gridColumn="span 6"
@@ -162,15 +210,7 @@ const Dashboard = () => {
                     p="20px"
                     height="300px"
                 >
-                    <Typography
-                        variant="h6"
-                        fontWeight="600"
-                        color={colors.grey[100]}
-                        mb="10px"
-                    >
-                        Pedidos por repartidor
-                    </Typography>
-                    <BarChart isDashboard={true} />
+                    <CustomTable restaurantData={restaurantData} />
                 </Box>
                 <Box
                     gridColumn="span 6"
@@ -179,16 +219,7 @@ const Dashboard = () => {
                     p="20px"
                     height="300px"
                 >
-                    <CustomTable />
-                </Box>
-                <Box
-                    gridColumn="span 6"
-                    backgroundColor={colors.primary[400]}
-                    borderRadius="8px"
-                    p="20px"
-                    height="300px"
-                >
-                    <TopSelling />
+                    <TopSelling items={items}/>
                 </Box>
             </Box>
         </Box>

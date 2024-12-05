@@ -3,6 +3,8 @@ import TablaColapsable from "@/Components/TablaColapsable.jsx";
 import React, {useState} from "react";
 import jsPDF from "jspdf";
 import 'jspdf-autotable';
+import BackButton from "@/Components/BackButton.jsx";
+import dayjs from 'dayjs';
 
 const Index = ({orders}) => {
     const [statusFilter, setStatusFilter] = useState('');
@@ -82,7 +84,7 @@ const Index = ({orders}) => {
         id: order.id,
         number: order.number,
         status: statusSetter(order.status),
-        date: order.updated_at,
+        date: dayjs(order.updated_at).format('DD-MM-YYYY HH:mm:ss'),
         subtotal: `$${Number(order.subtotal).toFixed(2)}`,
         shipping: `$${Number(order.shipping_cost).toFixed(2)}`,
         taxes: `$${Number(order.taxes).toFixed(2)}`,
@@ -154,8 +156,9 @@ const Index = ({orders}) => {
     };
 
     return (
-        <div className="w-full bg-gray-100 min-h-screen py-10 px-4">
-            <div className="w-full max-w-fit mx-auto bg-white shadow-2xl rounded-lg p-10">
+        <div className="w-full bg-gray-100 min-h-full py-10 px-4">
+            <div className="w-full max-w-8xl mx-auto bg-white shadow-2xl rounded-lg p-10">
+                <BackButton to={ route("admin.restaurant.index") } />
                 <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">Pedidos</h2>
                 <div className="flex justify-start mb-2">
                     <select

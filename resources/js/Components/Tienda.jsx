@@ -1,9 +1,9 @@
 import {Link} from "@inertiajs/react";
 
-function Tienda({logo, nombre, direccion, telefono, categoria, abre, cierra, rutaInventario, rutaPedidos}) {
+function Tienda({logo, nombre, direccion, telefono, categoria, abre, cierra, rutaInventario, rutaPedidos, rutaProductos, rutaCategorias}) {
     console.log(logo)
     return (
-        <div className="tienda bg-white p-4 rozunded-lg shadow-sm flex items-center justify-between mb-4">
+        <div className="tienda bg-gray-100 p-4 rozunded-lg shadow-sm flex items-center justify-between mb-4">
             <div className="flex items-center">
                 {logo &&
                     <img src={`/storage/${logo}`} alt={`${nombre} logo`} className="w-20 h-20 object-contain mr-4"/>}
@@ -17,15 +17,27 @@ function Tienda({logo, nombre, direccion, telefono, categoria, abre, cierra, rut
             </div>
             <div>
                 <div className={"flex items-stretch justify-between mb-4"}>
+                    <Link href={rutaPedidos}
+                          className="text-green-500 font-semibold border border-green-500 rounded-lg px-12 py-1 hover:bg-green-500 hover:text-white transition">
+                        Ver Pedidos
+                    </Link>
+                </div>
+                <div className={"flex items-stretch justify-between mb-4"}>
                     <Link href={rutaInventario}
-                          className="text-blue-500 font-semibold border border-blue-500 rounded-lg px-4 py-1 hover:bg-blue-500 hover:text-white transition">
+                          className="text-orange-500 font-semibold border border-orange-500 rounded-lg px-10 py-1 hover:bg-orange-500 hover:text-white transition">
                         Ver Inventario
                     </Link>
                 </div>
-                <div>
-                    <Link href={rutaPedidos}
-                          className="text-blue-500 font-semibold border border-blue-500 rounded-lg px-4 py-1 hover:bg-blue-500 hover:text-white transition">
-                        Ver Pedidos
+                <div className={"flex items-stretch justify-between mb-4"}>
+                    <Link href={rutaProductos}
+                          className="text-blue-500 font-semibold border border-blue-500 rounded-lg px-10 py-1 hover:bg-blue-500 hover:text-white transition">
+                        Ver Productos
+                    </Link>
+                </div>
+                <div className={"flex items-stretch justify-between mb-4"}>
+                    <Link href={rutaCategorias}
+                          className="text-red-500 font-semibold border border-red-500 rounded-lg px-10 py-1 hover:bg-red-500 hover:text-white transition">
+                        Ver Categorías
                     </Link>
                 </div>
             </div>
