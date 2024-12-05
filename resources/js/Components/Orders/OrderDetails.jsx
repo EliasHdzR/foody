@@ -1,4 +1,4 @@
-const OrderDetails = ({ items, subtotal, deliveryFee, tax, discount, total }) => {
+const OrderDetails = ({ items, subtotal, deliveryFee, tax, discount, total, status }) => {
   return (
     <div
       style={{
@@ -61,19 +61,19 @@ const OrderDetails = ({ items, subtotal, deliveryFee, tax, discount, total }) =>
       <div style={{ borderTop: "1px solid #333", paddingTop: "20px", marginTop: "20px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
           <span style={{ color: "#aaa" }}>Subtotal:</span>
-          <span>${subtotal}</span>
+          <span>${parseFloat(subtotal).toFixed(2)}</span>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
           <span style={{ color: "#aaa" }}>Costo de Entrega:</span>
-          <span>${deliveryFee}</span>
+          <span>${parseFloat(deliveryFee).toFixed(2)}</span>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
           <span style={{ color: "#aaa" }}>IVA:</span>
-          <span>${tax}</span>
+          <span>${parseFloat(tax).toFixed(2)}</span>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
           <span style={{ color: "#aaa" }}>Descuento:</span>
-          <span>${discount}</span>
+          <span>${parseFloat(discount).toFixed(2)}</span>
         </div>
         <div
           style={{
@@ -85,7 +85,7 @@ const OrderDetails = ({ items, subtotal, deliveryFee, tax, discount, total }) =>
           }}
         >
           <span>Total:</span>
-          <span>${total}</span>
+          <span>${parseFloat(total).toFixed(2)}</span>
         </div>
       </div>
     </div>
