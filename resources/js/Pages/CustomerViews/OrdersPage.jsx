@@ -41,28 +41,6 @@ const OrdersPage = () => {
       });
   };
 
-  const calculateOrderSummary = (order) => {
-    console.log("Order in calculateOrderSummary:", order); // Log the order object
-
-    const subtotal = order.products.reduce((sum, product) => sum + product.sold.quantity * product.price, 0);
-    const tax = parseFloat(order.taxes); // Use the tax value directly from the order
-    const total = subtotal + parseFloat(order.shipping_cost) + tax - parseFloat(order.discount);
-
-    console.log("Subtotal:", subtotal); // Log subtotal
-    console.log("Shipping Cost:", order.shipping_cost); // Log shipping cost
-    console.log("Tax:", tax); // Log tax
-    console.log("Discount:", order.discount); // Log discount
-    console.log("Total:", total); // Log total
-
-    return {
-      subtotal: subtotal.toFixed(2),
-      deliveryFee: parseFloat(order.shipping_cost).toFixed(2), // Ensure shipping_cost is a number
-      tax: tax.toFixed(2), // Ensure tax is a number
-      discount: parseFloat(order.discount).toFixed(2), // Ensure discount is a number
-      total: total.toFixed(2),
-    };
-  };
-
   return (
     <div style={{ display: "flex", height: "100%" }}>
       <div style={{ flex: 2, overflowY: "auto", maxHeight: "100vh", paddingRight: "10px" }}>
@@ -87,12 +65,13 @@ const OrdersPage = () => {
               name: product.name,
               quantity: product.sold.quantity,
               price: product.price,
+              image_url: product.image_url,
             }))}
-            subtotal={calculateOrderSummary(selectedOrder).subtotal}
-            deliveryFee={calculateOrderSummary(selectedOrder).deliveryFee}
-            tax={calculateOrderSummary(selectedOrder).tax}
-            discount={calculateOrderSummary(selectedOrder).discount}
-            total={calculateOrderSummary(selectedOrder).total}
+            subtotal={selectedOrder.subtotal}
+            deliveryFee={selectedOrder.shipping_cost}
+            tax={selectedOrder.taxes}
+            discount={selectedOrder.discount}
+            total={selectedOrder.total_price}
             status={selectedOrder.status}
           />
         ) : (
