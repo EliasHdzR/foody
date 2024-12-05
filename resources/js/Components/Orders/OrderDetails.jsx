@@ -25,7 +25,7 @@ const OrderDetails = ({ items, subtotal, deliveryFee, tax, discount, total, stat
           >
             <div style={{ display: "flex", alignItems: "center", flex: "3" }}>
               <img
-                src="/path/to/pizza.png"
+                src={`/storage/${item.image_url}`}
                 alt={item.name}
                 style={{
                   width: "50px",

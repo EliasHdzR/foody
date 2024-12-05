@@ -65,6 +65,7 @@ const OrdersPage = () => {
               name: product.name,
               quantity: product.sold.quantity,
               price: product.price,
+              image_url: product.image_url,
             }))}
             subtotal={selectedOrder.subtotal}
             deliveryFee={selectedOrder.shipping_cost}
