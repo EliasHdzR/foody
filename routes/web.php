@@ -4,6 +4,7 @@
     use App\Http\Controllers\Admin\RestaurantsController;
     use App\Http\Controllers\Customer\RestaurantController as CustomerRestaurantController;
     use App\Http\Controllers\Restaurant\CategoriesController as RestaurantCategoriesController;
+    use App\Http\Controllers\Restaurant\OrdersController as RestaurantOrdersController;
     use App\Http\Controllers\Admin\DriversController;
     use App\Http\Controllers\Admin\CustomersController;
     use App\Http\Controllers\Admin\FaqsController;
@@ -122,6 +123,10 @@
                 Route::post('/categorias', 'store')->name('restaurante.categories.store');
                 Route::put('/categorias/{category}', 'update')->name('restaurante.categories.update');
                 Route::delete('/categorias/{category}', 'destroy')->name('restaurante.categories.destroy');
+            });
+
+            Route::controller(RestaurantOrdersController::class)->group(function () {
+                Route::get('/ordenes', 'index')->name('restaurante.orders.index');
             });
 
             Route::inertia('/menu', 'RestaurantViews/MenuStore')->name('restaurante.menu.index');

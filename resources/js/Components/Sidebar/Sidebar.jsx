@@ -13,7 +13,7 @@ import InventoryIcon from "@mui/icons-material/Inventory";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import RoomServiceIcon from '@mui/icons-material/RoomService';
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import ViewListIcon from '@mui/icons-material/ViewList';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
@@ -41,6 +41,7 @@ const Sidebar = ({ role }) => {
       { title: "Productos", to: "restaurante.products.index", icon: <InventoryIcon /> },
       { title: "Ingredientes", to: "restaurante.ingredients.index", icon: <CategoryIcon /> },
       { title: "Categorías", to: "restaurante.categories.index", icon: <ViewListIcon /> },
+      { title: "Ordenes", to: "restaurante.orders.index", icon: <RoomServiceIcon /> },
       { title: "Promociones", to: "restaurante.coupons.index", icon: <LocalOfferIcon /> },
     ],
     driver: [
