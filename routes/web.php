@@ -128,6 +128,9 @@
 
             Route::controller(RestaurantOrdersController::class)->group(function () {
                 Route::get('/ordenes', 'index')->name('restaurante.orders.index');
+                Route::post('/ordenes/{order}/accept', 'acceptOrder')->name('restaurante.orders.accept');
+                Route::post('/ordenes/{order}/cancel', 'cancelOrder')->name('restaurante.orders.cancel');
+                Route::post('/ordenes/{order}/awaiting', 'awaitingOrder')->name('restaurante.orders.awaiting');
             });
 
             Route::inertia('/menu', 'RestaurantViews/MenuStore')->name('restaurante.menu.index');
@@ -157,6 +160,9 @@
 
             Route::controller(DriverOrdersController::class)->group(function () {
                 Route::get('/pedidos', 'index')->name('driver.orders.index');
+                Route::post('/pedidos/{order}/accept', 'acceptOrder')->name('driver.orders.accept');
+                Route::post('/pedidos/{order}/reject', 'rejectOrder')->name('driver.orders.reject');
+                Route::post('/pedidos/{order}/deliver', 'deliverOrder')->name('driver.orders.deliver');
             });
         }));
     });

@@ -41,6 +41,10 @@ const OrdersPage = () => {
       });
   };
 
+  const canCancelOrder = (status) => {
+    return ['pending', 'accepted', 'awaiting'].includes(status);
+  };
+
   return (
     <div style={{ display: "flex", height: "100%" }}>
       <div style={{ flex: 2, overflowY: "auto", maxHeight: "100vh", paddingRight: "10px" }}>
@@ -52,7 +56,7 @@ const OrdersPage = () => {
             orders={orders.map((order) => ({
               ...order,
               onViewDetails: () => handleViewDetails(order),
-              onCancelOrder: () => handleCancelOrder(order.id),
+              onCancelOrder: canCancelOrder(order.status) ? () => handleCancelOrder(order.id) : null,
             }))}
           />
         )}
