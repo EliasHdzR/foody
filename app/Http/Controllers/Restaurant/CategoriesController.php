@@ -16,7 +16,8 @@ class CategoriesController extends Controller
     }
 
     public function index(){
-        $categories = ProductCategory::orderBy('name')->get();
+        $restaurantID = auth()->user()->restaurant->id;
+        $categories = ProductCategory::where('restaurant_id',$restaurantID)->orderBy('name')->get();
         return Inertia::render('RestaurantViews/Categories/Index', [
             'categories' => $categories->map(function ($category) {
                 return [
