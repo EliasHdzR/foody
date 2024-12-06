@@ -70,7 +70,9 @@ const Login = () => {
                             value={data.password}
                             className="mt-1 block w-full"
                             autoComplete="current-password"
-                            onChange={(e) => setData("password", e.target.value)}
+                            onChange={(e) =>
+                                setData("password", e.target.value)
+                            }
                         />
                         <InputError
                             message={errors.password}
@@ -107,17 +109,19 @@ const Login = () => {
                             Login
                         </PrimaryButton>
                     </div>
+                <div className="mt-6 flex justify-end w-full">
+                    <p className="text-gray-600 text-sm">
+                        Don't have an account?{" "}
+                        <a
+                            href={route("register")}
+                            className="text-blue-600 hover:underline"
+                        >
+                            Register here
+                        </a>
+                    </p>
+                </div>
                 </form>
 
-                <p className="text-gray-600 text-sm mt-6">
-                    Don't have an account?{" "}
-                    <a
-                        href={route("register")}
-                        className="text-blue-600 hover:underline"
-                    >
-                        Register here
-                    </a>
-                </p>
 
                 <div className="flex items-center my-6">
                     <hr className="flex-grow border-gray-300" />
