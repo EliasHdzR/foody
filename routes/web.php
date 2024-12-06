@@ -74,7 +74,7 @@
             Route::controller(CategoriesController::class)->group(function () {
                 Route::get('/categorias', 'index')->name('admin.categories.index');
                 Route::post('/categorias', 'store')->name('admin.categories.store');
-                Route::put('/categorias/{category}', 'update')->name('admin.categories.update');
+                Route::post('/categorias/{category}', 'update')->name('admin.categories.update');
                 Route::delete('/categorias/{category}', 'destroy')->name('admin.categories.destroy');
             });
 

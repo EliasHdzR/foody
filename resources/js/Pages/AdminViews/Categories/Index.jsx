@@ -8,7 +8,6 @@ import InputError from "@/Components/InputError";
 import {useForm} from "@inertiajs/react";
 import PrimaryButton from "@/Components/PrimaryButton";
 import {Alert, AlertTitle} from "@mui/material";
-import Dashboard from "@/Pages/RestaurantViews/Dashboard.jsx";
 
 export default function Index({categories}) {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,6 +33,7 @@ export default function Index({categories}) {
     };
 
     const columns = [
+        {id: 'image', label: ''},
         {id: 'name', label: 'Nombre'},
         {id: 'created_at', label: 'Fecha de Creación'},
         {id: 'updated_at', label: 'Última Actualización'},
@@ -42,6 +42,7 @@ export default function Index({categories}) {
 
     const rows = categories.map((category) => ({
         name: category.name,
+        image: <img src={`/storage/${category.image_url}`} alt={`${category.name} logo`} className="w-20 h-20 object-contain mr-4"/>,
         created_at: category.created_at,
         updated_at: category.updated_at,
         actions: [
@@ -102,6 +103,7 @@ Index.layout = (page) => <Layout children={page} type={'admin'}/>;
 const AddCategoryForm = ({closeModal, onSuccess}) => {
     const initialValues = {
         name: "",
+        image: null,
     };
 
     const {data, errors, setData, post} = useForm(initialValues);
@@ -130,6 +132,15 @@ const AddCategoryForm = ({closeModal, onSuccess}) => {
                     onChange={(e) => setData('name', e.target.value)}
                 />
                 <InputError message={errors.name} className="mt-2"/>
+                <InputLabel htmlFor="image" value="Imagen" className="mt-4"/>
+                <TextInput
+                    id="image"
+                    type="file"
+                    name="image"
+                    className="mt-4 block w-full"
+                    onChange={(e) => setData('image', e.target.files[0])}
+                />
+                <InputError message={errors.image} className="mt-2"/>
             </div>
             <PrimaryButton>
                 Agregar Categoría
@@ -141,13 +152,14 @@ const AddCategoryForm = ({closeModal, onSuccess}) => {
 const EditCategoryForm = ({closeModal, category, onSuccess}) => {
     const initialValues = {
         name: category.name,
+        image_url: category.image_url,
     };
 
-    const {data, errors, setData, put} = useForm(initialValues);
+    const {data, errors, setData, post} = useForm(initialValues);
 
     const submit = (e) => {
         e.preventDefault();
-        put(route('admin.categories.update', category), {
+        post(route('admin.categories.update', category), {
             onSuccess: () => {
                 closeModal();
                 onSuccess(`Categoría actualizada con éxito`);
@@ -156,7 +168,7 @@ const EditCategoryForm = ({closeModal, category, onSuccess}) => {
     }
 
     return (
-        <form onSubmit={submit} className="space-y-4">
+        <form onSubmit={submit} className="space-y-4" >
             <InputLabel htmlFor="name" value="Nombre"/>
             <TextInput
                 id="name"
@@ -168,6 +180,17 @@ const EditCategoryForm = ({closeModal, category, onSuccess}) => {
                 onChange={(e) => setData('name', e.target.value)}
             />
             <InputError message={errors.name} className="mt-2"/>
+            <InputLabel htmlFor="image" value="Imagen" className="mt-4"/>
+            <img src={`/storage/${data.image_url}`} alt={`${data.name} logo`} className="w-20 h-20 object-contain mr-4"/>
+
+            <TextInput
+                id="image"
+                type="file"
+                name="image"
+                className="mt-4 block w-full"
+                onChange={(e) => setData('image', e.target.files[0])}
+            />
+            <InputError message={errors.image} className="mt-2"/>
             <PrimaryButton>Guardar Cambios</PrimaryButton>
         </form>
     );
