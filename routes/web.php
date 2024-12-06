@@ -15,6 +15,7 @@
     use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
     use App\Http\Controllers\Driver\OrdersController as DriverOrdersController;
     use App\Http\Controllers\Customer\OrdersController as CustomerOrdersController;
+    use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
     use App\Http\Middleware\CheckRole;
     use Illuminate\Support\Facades\Route;
     use Inertia\Inertia;
@@ -140,7 +141,7 @@
          * RUTAS ROL CLIENTE
          */
         Route::middleware([CheckRole::class . ':customer'])->prefix('/cliente')->group((function () {
-            Route::inertia('/dashboard', 'CustomerViews/Dashboard')->name('cliente.dashboard');
+            Route::get('/inicio', [CustomerDashboardController::class, 'index'])->name('cliente.dashboard');
 
             Route::controller(CustomerRestaurantController::class)->group(function () {
                 Route::get('/restaurante/{restaurant}', 'index')->name('cliente.restaurant.index');

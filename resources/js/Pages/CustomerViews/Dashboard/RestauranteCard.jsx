@@ -6,12 +6,12 @@ const RestauranteCard = ({ logo, nombre, categoria, articulos }) => {
       <div className="w-25 h-25  rounded-full flex items-center justify-center">
         {typeof logo === "string" ? (
           <img
-            src={logo}
+            src={`/storage/${logo}`}
             alt={nombre}
             className="w-16 h-16 object-contain rounded-full"
           />
         ) : (
-          logo 
+          logo
         )}
       </div>
 
