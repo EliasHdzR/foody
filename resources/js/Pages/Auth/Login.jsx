@@ -28,21 +28,21 @@ const Login = () => {
     };
 
     return (
-        <div className="flex h-screen">
-            <div className="w-1/2 bg-gray-100 flex items-center justify-center">
+        <div className="flex h-screen bg-gray-50">
+            <div className="w-1/2 flex items-center justify-center bg-gray-100">
                 <img
                     src={LoginImage}
-                    alt="Login Illustration"
+                    alt="Ilustración de Inicio de Sesión"
                     className="w-3/4 h-auto object-contain"
                 />
             </div>
 
-            <div className="w-1/2 flex flex-col items-center justify-center px-10 bg-white">
-                <h1 className="text-4xl font-bold text-blue-600 mb-2">
-                    WELCOME BACK!
+            <div className="w-1/2 flex flex-col items-center justify-center px-12 bg-white shadow-lg">
+                <h1 className="text-4xl font-extrabold text-blue-600 mb-4">
+                    ¡BIENVENIDO DE NUEVO!
                 </h1>
-                <p className="text-gray-500 mb-8">
-                    Enter your email and password
+                <p className="text-gray-500 mb-10 text-center">
+                    Ingresa tu correo y contraseña para iniciar sesión
                 </p>
 
                 <form onSubmit={submit} className="w-full max-w-md space-y-6">
@@ -89,56 +89,54 @@ const Login = () => {
                                 {data.remember ? <ToggleOn /> : <ToggleOff />}
                             </div>
                             <span className="text-sm text-gray-900">
-                                Remember me
+                                Recordarme
                             </span>
                         </div>
                         <a
                             href={route("password.request")}
                             className="text-sm text-blue-600 hover:underline"
                         >
-                            Forgot password?
+                            ¿Olvidaste tu contraseña?
                         </a>
                     </div>
 
                     <div className="mt-6">
                         <PrimaryButton
                             type="submit"
-                            className="w-full"
+                            className="w-full bg-gradient-to-r from-blue-500 to-blue-700 text-white py-3 rounded-lg hover:from-blue-600 hover:to-blue-800 shadow-lg transition-all"
                             disabled={processing}
                         >
-                            Login
+                            Iniciar sesión
                         </PrimaryButton>
                     </div>
-                <div className="mt-6 flex justify-end w-full">
-                    <p className="text-gray-600 text-sm">
-                        Don't have an account?{" "}
-                        <a
-                            href={route("register")}
-                            className="text-blue-600 hover:underline"
-                        >
-                            Register here
-                        </a>
-                    </p>
-                </div>
+
+                    <div className="mt-6 text-right">
+                        <p className="text-gray-600 text-sm">
+                            ¿No tienes una cuenta?{" "}
+                            <a
+                                href={route("register")}
+                                className="text-blue-600 hover:underline"
+                            >
+                                Regístrate aquí
+                            </a>
+                        </p>
+                    </div>
                 </form>
 
-
-                <div className="flex items-center my-6">
+                <div className="flex items-center my-10 w-full max-w-md">
                     <hr className="flex-grow border-gray-300" />
-                    <span className="mx-2 text-gray-500 text-sm">
-                        or login with
-                    </span>
+                    <span className="mx-4 text-gray-500 text-sm">o inicia sesión con</span>
                     <hr className="flex-grow border-gray-300" />
                 </div>
 
                 <div className="flex justify-center w-full space-x-4">
-                    <button className="flex justify-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100 transition">
+                    <button className="flex justify-center px-6 py-3 border border-gray-300 rounded-lg shadow-md hover:bg-gray-100 transition-all w-full max-w-sm">
                         <img
                             src={GoogleImage}
-                            alt="Google Icon"
-                            className="w-5 h-5 mr-2"
+                            alt="Icono de Google"
+                            className="w-5 h-5 mr-4"
                         />
-                        Google
+                       Google
                     </button>
                 </div>
             </div>
