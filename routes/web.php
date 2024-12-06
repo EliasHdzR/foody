@@ -145,6 +145,8 @@
                 Route::inertia('/orders', 'CustomerViews/OrdersPage')->name('cliente.orders.index');
             });
 
+            Route::get('orders/fetch', [CustomerOrdersController::class, 'fetchOrders'])->name('cliente.orders.fetch');
+            Route::post('/orders/cancel/{orderId}', [CustomerOrdersController::class, 'cancelOrder'])->name('cliente.orders.cancel');
         }));
 
         /**
