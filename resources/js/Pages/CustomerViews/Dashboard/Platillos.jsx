@@ -1,30 +1,47 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Box, Typography } from "@mui/material";
 
-const PlatilloDetalle = ({ productId }) => {
-  const [platillo, setPlatillo] = useState(null);
-
-  useEffect(() => {
-    fetch(`/product/${productId}`)
-      .then((res) => res.json())
-      .then((data) => setPlatillo(data.product));
-  }, [productId]);
-
-  if (!platillo) return <Typography>Loading...</Typography>;
+const Platillos = () => {
+  const categorias = [
+    { nombre: "Comida Mexicana", disponibles: 17 },
+    { nombre: "Comida India", disponibles: 3 },
+    { nombre: "Repostería", disponibles: 12 },
+    { nombre: "Comida China", disponibles: 7 },
+    { nombre: "Comida Veracruzana", disponibles: 10 },
+  ];
 
   return (
     <Box>
-      <Typography variant="h4" color="white">
-        {platillo.name}
+      <Typography variant="h6" color="white" mb="16px">
+        Categorías
       </Typography>
-      <Typography variant="body1" color="gray">
-        {platillo.price}
-      </Typography>
-      <Typography variant="body2" color="yellow">
-        {"⭐".repeat(platillo.rating || 0)}
-      </Typography>
+      <Box display="flex" flexDirection="column" gap="12px">
+        {categorias.map((categoria, index) => (
+          <Box
+            key={index}
+            sx={{
+              backgroundColor: "rgba(31, 29, 43, 1)",
+              borderRadius: "8px",
+              padding: "12px",
+              textAlign: "center",
+              boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            <Typography
+              variant="body1"
+              color="white"
+              fontWeight="bold"
+            >
+              {categoria.nombre}
+            </Typography>
+            <Typography variant="caption" color="gray">
+              {categoria.disponibles} Restaurantes Disponibles
+            </Typography>
+          </Box>
+        ))}
+      </Box>
     </Box>
   );
 };
 
-export default PlatilloDetalle;
+export default Platillos;

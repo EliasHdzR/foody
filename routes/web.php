@@ -140,16 +140,11 @@
             Route::inertia('/dashboard', 'CustomerViews/Dashboard')->name('cliente.dashboard');
 
             Route::controller(CustomerRestaurantController::class)->group(function () {
-                Route::get('/search', [CustomerRestaurantController::class, 'search'])->name('cliente.search');
                 Route::get('/restaurante/{restaurant}', 'index')->name('cliente.restaurant.index');
                 Route::post('/restaurante/{restaurant}', 'store')->name('cliente.restaurant.store');
-                Route::get('/restaurants', 'list')->name('cliente.restaurants.list');
-                Route::get('/cliente/product/{product}', [CustomerRestaurantController::class, 'showProduct'])->name('cliente.product.show');
                 Route::inertia('/orders', 'CustomerViews/OrdersPage')->name('cliente.orders.index');
             });
 
-            Route::get('orders/fetch', [CustomerOrdersController::class, 'fetchOrders'])->name('cliente.orders.fetch');
-            Route::post('/orders/cancel/{orderId}', [CustomerOrdersController::class, 'cancelOrder'])->name('cliente.orders.cancel');
         }));
 
         /**

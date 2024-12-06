@@ -1,45 +1,16 @@
-    import React, { useState } from "react";
-    import { Box, InputBase, useTheme } from "@mui/material";
-    import { Search as SearchIcon } from "@mui/icons-material";
-    import { tokens } from "@/theme";
+import { Search as SearchIcon } from "@mui/icons-material";
 
-    const Busqueda = ({ onSearch }) => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-    const [searchTerm, setSearchTerm] = useState("");
+const Busqueda = () => {
+  return (
+    <div className="flex items-center bg-primary-400 rounded-lg px-5 py-2.5 shadow-md mb-5 mt-5">
+      <SearchIcon className="text-gray-300 mr-2.5" />
+      <input
+        type="text"
+        placeholder="Busca comidas, bebidas, restaurantes..."
+        className="w-full text-sm text-gray-100 bg-transparent outline-none"
+      />
+    </div>
+  );
+};
 
-    const handleSearch = (e) => {
-        const value = e.target.value;
-        setSearchTerm(value);
-        onSearch(value);
-    };
-
-    return (
-        <Box
-        sx={{
-            display: "flex",
-            alignItems: "center",
-            backgroundColor: colors.primary[400],
-            borderRadius: "8px",
-            padding: "10px 20px",
-            boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)",
-            marginBottom: "20px",
-            marginTop: "20px",
-        }}
-        >
-        <SearchIcon sx={{ color: colors.grey[300], marginRight: "10px" }} />
-        <InputBase
-            placeholder="Busca comidas, bebidas, restaurantes..."
-            value={searchTerm}
-            onChange={handleSearch}
-            fullWidth
-            sx={{
-            color: colors.grey[100],
-            fontSize: "14px",
-            }}
-        />
-        </Box>
-    );
-    };
-
-    export default Busqueda;
+export default Busqueda;
