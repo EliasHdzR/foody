@@ -86,7 +86,7 @@ const Navbar = ({ role }) => {
           onClose={handleCloseMenu}
           sx={{
             "& .MuiPaper-root": {
-              backgroundColor: colors.primary[400],
+              backgroundColor: colors.primary[900],
               color: colors.grey[100],
               borderRadius: "8px",
               boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
@@ -97,7 +97,7 @@ const Navbar = ({ role }) => {
             onClick={handleCloseMenu}
             sx={{
               "&:hover": {
-                backgroundColor: colors.primary[300],
+                backgroundColor: colors.primary[700],
               },
             }}
           >
@@ -108,7 +108,7 @@ const Navbar = ({ role }) => {
           <MenuItem
             sx={{
               "&:hover": {
-                backgroundColor: colors.primary[300],
+                backgroundColor: colors.primary[700],
               },
             }}
           >

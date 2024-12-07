@@ -47,42 +47,26 @@ export default function DeleteUserForm({ className = '' }) {
 
     return (
         <section className={`space-y-6 ${className}`}>
-            <header>
-                <h2 className="text-lg font-medium text-gray-900">
-                    Eliminar Cuenta
-                </h2>
 
-                <p className="mt-1 text-sm text-gray-600">
-                    Una vez que tu cuenta haya sido eliminada, todos sus recursos e
-                    información serán permanentemente borrados. Antes de eliminar
-                    tu cuenta, por favor descarga cualquier dato o información que
-                    desees mantener.
-                </p>
-            </header>
-
-            <DangerButton onClick={confirmUserDeletion}>
+            <DangerButton
+                className="bg-red-500 hover:bg-red-600 focus:ring-red-400 shadow-lg"
+                onClick={confirmUserDeletion}
+            >
                 Eliminar Cuenta
             </DangerButton>
 
             <Modal show={confirmingUserDeletion} onClose={closeModal}>
-                <form onSubmit={deleteUser} className="p-6">
-                    <h2 className="text-lg font-medium text-gray-900">
-                        ¿Está seguro de eliminar su cuenta?
+                <form onSubmit={deleteUser} className="p-8 bg-slate-800 rounded-md shadow-md">
+                    <h2 className="text-lg font-semibold text-orange-400">
+                        ¿Estás seguro de eliminar tu cuenta?
                     </h2>
-
-                    <p className="mt-1 text-sm text-gray-600">
-                        Una vez tu cuenta haya sido eliminada, todos sus recursos y
-                        datos serán permanentemente borrados. Por favor ingrese su
-                        contraseña para confirmar que desea eliminar permanentemente
-                        su cuenta.
+                    <p className="mt-4 text-sm text-gray-300">
+                        Una vez eliminada tu cuenta, todos sus recursos y datos serán
+                        permanentemente borrados. Por favor, ingresa tu contraseña para confirmar.
                     </p>
 
                     <div className="mt-6">
-                        <InputLabel
-                            htmlFor="password"
-                            value="Password"
-                            className="sr-only"
-                        />
+                        <InputLabel htmlFor="password" value="Contraseña" className="text-slate-400" />
 
                         <TextInput
                             id="password"
@@ -90,26 +74,27 @@ export default function DeleteUserForm({ className = '' }) {
                             name="password"
                             ref={passwordInput}
                             value={data.password}
-                            onChange={(e) =>
-                                setData('password', e.target.value)
-                            }
-                            className="mt-1 block w-3/4"
+                            onChange={(e) => setData('password', e.target.value)}
+                            className="mt-1 block w-full bg-slate-700 border border-slate-600 rounded-md text-gray-200 focus:ring-red-500 focus:border-red-500"
                             isFocused
-                            placeholder="Password"
+                            placeholder="Ingresa tu contraseña"
                         />
 
-                        <InputError
-                            message={errors.password}
-                            className="mt-2"
-                        />
+                        <InputError message={errors.password} className="mt-2 text-red-400" />
                     </div>
 
-                    <div className="mt-6 flex justify-end">
-                        <SecondaryButton onClick={closeModal}>
+                    <div className="mt-6 flex justify-between items-center">
+                        <SecondaryButton
+                            className="bg-gray-200 hover:bg-gray-500 text-gray-200"
+                            onClick={closeModal}
+                        >
                             Cancelar
                         </SecondaryButton>
 
-                        <DangerButton className="ms-3" disabled={processing}>
+                        <DangerButton
+                            className="bg-red-500 hover:bg-red-600 focus:ring-red-400 ms-3 px-6 py-2 shadow-lg"
+                            disabled={processing}
+                        >
                             Eliminar Cuenta
                         </DangerButton>
                     </div>
