@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Driver;
 use App\Models\Order;
 use App\Models\Product;
@@ -78,5 +79,21 @@ class RestaurantController extends Controller
             DB::rollBack();
             dd($e->getMessage());
         }
+    }
+
+    public function getRestaurantDetailsByOrder($orderId)
+    {
+        $order = Order::findOrFail($orderId);
+        $restaurant = Restaurant::select('image_url', 'name', 'category_id', 'address')
+            ->where('id', $order->restaurant_id)
+            ->firstOrFail();
+
+        $category = Category::select('name')
+            ->where('id', $restaurant->category_id)
+            ->firstOrFail();
+
+        $restaurant->category_name = $category->name;
+
+        return response()->json($restaurant);
     }
 }

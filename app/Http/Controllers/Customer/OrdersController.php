@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Driver;
+use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class OrdersController extends Controller
@@ -41,5 +44,21 @@ class OrdersController extends Controller
             \Log::error('Error canceling order', ['error' => $e->getMessage()]);
             return response()->json(['status' => 'error', 'message' => 'Error canceling order'], 500);
         }
+    }
+
+    public function getDriverDetailsByOrder($orderId)
+    {
+        $order = Order::findOrFail($orderId);
+        $driver = Driver::select('shift_start', 'shift_end', 'user_id')
+            ->where('id', $order->driver_id)
+            ->firstOrFail();
+
+        $user = User::select('name')
+            ->where('id', $driver->user_id)
+            ->firstOrFail();
+
+        $driver->name = $user->name;
+
+        return response()->json($driver);
     }
 }

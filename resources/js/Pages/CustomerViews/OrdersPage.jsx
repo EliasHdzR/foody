@@ -4,10 +4,14 @@ import Header from "@/Components/Orders/Header";
 import OrderDetails from "@/Components/Orders/OrderDetails";
 import OrderList from "@/Components/Orders/OrderList";
 import Layout from "@/Layouts/Layout";
+import RestaurantDetails from "@/Components/Orders/RestaurantDetails";
+import DriverDetails from "@/Components/Orders/DriverDetails"; // Import the new component
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [restaurantDetails, setRestaurantDetails] = useState(null);
+  const [driverDetails, setDriverDetails] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -25,6 +29,32 @@ const OrdersPage = () => {
   const handleViewDetails = (order) => {
     console.log("Selected order:", order); // Log selected order
     setSelectedOrder(order);
+    fetchRestaurantDetails(order.id);
+    fetchDriverDetails(order.id);
+  };
+
+  const fetchRestaurantDetails = (orderId) => {
+    axios.get(route('orders.restaurant.details', { orderId }))
+      .then(response => {
+        console.log("Fetched restaurant details:", response.data); // Log restaurant details
+        setRestaurantDetails(response.data);
+      })
+      .catch(error => {
+        console.error("There was an error fetching the restaurant details!", error);
+        setError("Unable to fetch restaurant details. Please try again later.");
+      });
+  };
+
+  const fetchDriverDetails = (orderId) => {
+    axios.get(route('orders.driver.details', { orderId }))
+      .then(response => {
+        console.log("Fetched driver details:", response.data); // Log driver details
+        setDriverDetails(response.data);
+      })
+      .catch(error => {
+        console.error("There was an error fetching the driver details!", error);
+        setError("Unable to fetch driver details. Please try again later.");
+      });
   };
 
   const handleCancelOrder = (orderId) => {
@@ -64,20 +94,25 @@ const OrdersPage = () => {
 
       <div style={{ flex: 1, backgroundColor: "#1F1F2B", padding: "20px", overflowY: "auto", maxHeight: "100vh" }}>
         {selectedOrder && selectedOrder.products ? (
-          <OrderDetails
-            items={selectedOrder.products.map(product => ({
-              name: product.name,
-              quantity: product.sold.quantity,
-              price: product.price,
-              image_url: product.image_url,
-            }))}
-            subtotal={selectedOrder.subtotal}
-            deliveryFee={selectedOrder.shipping_cost}
-            tax={selectedOrder.taxes}
-            discount={selectedOrder.discount}
-            total={selectedOrder.total_price}
-            status={selectedOrder.status}
-          />
+          <>
+            <OrderDetails
+              items={selectedOrder.products.map(product => ({
+                name: product.name,
+                quantity: product.sold.quantity,
+                price: product.price,
+                image_url: product.image_url,
+              }))}
+              subtotal={selectedOrder.subtotal}
+              deliveryFee={selectedOrder.shipping_cost}
+              tax={selectedOrder.taxes}
+              discount={selectedOrder.discount}
+              total={selectedOrder.total_price}
+              status={selectedOrder.status}
+              restaurantImage={restaurantDetails?.image_url} // Pass the restaurant image
+            />
+            <RestaurantDetails restaurant={restaurantDetails} />
+            <DriverDetails driver={driverDetails} /> {/* Use the new component */}
+          </>
         ) : (
           <p style={{ color: "#fff" }}>Selecciona un pedido para ver los detalles</p>
         )}
