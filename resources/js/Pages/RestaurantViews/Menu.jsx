@@ -209,4 +209,6 @@ const AddProductForm = ({ onSubmit }) => {
 
 
 export default Menu;
+Menu.layout = (page) => <Layout children={page} type={'restaurant'}/>;
+
 

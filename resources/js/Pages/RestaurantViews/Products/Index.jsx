@@ -9,6 +9,7 @@ import EditProductForm from "@/Pages/RestaurantViews/Products/EditProductForm.js
 import DeleteProductForm from "@/Pages/RestaurantViews/Products/DeleteProductForm.jsx";
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import Header from '@/Components/Header';
 
 const ProductsIndex = ({ products, restaurantID, ingredients, productCategories }) => {
     console.log(products);
@@ -190,8 +191,8 @@ const ProductsIndex = ({ products, restaurantID, ingredients, productCategories 
                     </Alert>
                 </div>
             )}
-            <div className="container mx-auto">
-                <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">Gestión de productos</h2>
+            <div className="container p-6 mx-auto">
+            <Header title="Gestion de Productos" />
                 <div className="flex justify-start mb-2">
                     <input
                         type="text"
