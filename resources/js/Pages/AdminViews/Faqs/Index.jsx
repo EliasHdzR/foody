@@ -8,8 +8,13 @@ import InputError from "@/Components/InputError";
 import {useForm} from "@inertiajs/react";
 import PrimaryButton from "@/Components/PrimaryButton";
 import {Alert, AlertTitle} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { tokens } from "@/theme";
 
-export default function Index({faqs}) {
+export default function Index({ faqs }) {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalType, setModalType] = useState(null);
     const [selectedFAQ, setSelectedFAQ] = useState(null);
@@ -33,11 +38,11 @@ export default function Index({faqs}) {
     };
 
     const columns = [
-        { id: 'question', label: 'Pregunta' },
-        { id: 'answer', label: 'Respuesta' },
-        { id: 'created_at', label:'Fecha de creacion'},
-        { id: 'updated_at', label:'Fecha de modificacion'},
-        { id: 'actions', label: 'Acciones', align: 'center' }
+        { id: "question", label: "Pregunta", style: { color: colors.grey[100] } },
+        { id: "answer", label: "Respuesta", style: { color: colors.grey[100] } },
+        { id: "created_at", label: "Fecha de Creación", style: { color: colors.grey[100] } },
+        { id: "updated_at", label: "Fecha de Modificación", style: { color: colors.grey[100] } },
+        { id: "actions", label: "Acciones", align: "center", style: { color: colors.grey[100] } },
     ];
 
     const rows = faqs.map((faq) => ({
@@ -46,59 +51,133 @@ export default function Index({faqs}) {
         created_at: faq.created_at,
         updated_at: faq.updated_at,
         actions: [
-            <button onClick={() => openModal('edit', faq)}
-                    className="ml-4 px-4 py-2 bg-green-600 rounded-lg font-semibold hover:bg-green-700 transition">
+            <button
+                onClick={() => openModal("edit", faq)}
+                className="ml-4 px-4 py-2 rounded-lg font-semibold transition"
+                style={{
+                    backgroundColor: colors.greenAccent[500],
+                    color: colors.grey[900],
+                    border: `1px solid ${colors.greenAccent[500]}`,
+                }}
+                onMouseEnter={(e) => {
+                    e.target.style.backgroundColor = colors.greenAccent[600];
+                    e.target.style.color = colors.grey[100];
+                }}
+                onMouseLeave={(e) => {
+                    e.target.style.backgroundColor = colors.greenAccent[500];
+                    e.target.style.color = colors.grey[900];
+                }}
+            >
                 Editar
             </button>,
-            <button onClick={() => openModal('delete', faq)}
-                    className="ml-4 px-4 py-2 bg-red-600 rounded-lg font-semibold hover:bg-red-700 transition">
+            <button
+                onClick={() => openModal("delete", faq)}
+                className="ml-4 px-4 py-2 rounded-lg font-semibold transition"
+                style={{
+                    backgroundColor: colors.redAccent[500],
+                    color: colors.grey[900],
+                    border: `1px solid ${colors.redAccent[500]}`,
+                }}
+                onMouseEnter={(e) => {
+                    e.target.style.backgroundColor = colors.redAccent[600];
+                    e.target.style.color = colors.grey[100];
+                }}
+                onMouseLeave={(e) => {
+                    e.target.style.backgroundColor = colors.redAccent[500];
+                    e.target.style.color = colors.grey[900];
+                }}
+            >
                 Eliminar
             </button>,
-        ]
+        ],
     }));
 
     return (
         <div>
             {successMessage && (
                 <div className="fixed top-0 left-0 right-0 z-50 flex justify-center mt-4">
-                    <Alert severity="success" onClose={() => setSuccessMessage(null)}>
-                        <AlertTitle>Éxito</AlertTitle>
+                    <Alert
+                        severity="success"
+                        style={{
+                            backgroundColor: colors.greenAccent[400],
+                            color: colors.grey[900],
+                        }}
+                        onClose={() => setSuccessMessage(null)}
+                    >
+                        <AlertTitle style={{ color: colors.grey[800] }}>Éxito</AlertTitle>
                         {successMessage}
                     </Alert>
                 </div>
             )}
 
-            <div className="w-full bg-gray-100 min-h-screen py-10 px-4">
-                <div className="w-full max-w-7xl mx-auto bg-white shadow-2xl rounded-lg p-10">
-                    <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">Preguntas Frecuentes</h2>
+            <div
+                className="w-full min-h-screen py-10 px-4"
+                style={{ backgroundColor: colors.primary[700], color: colors.grey[100] }}
+            >
+                <div
+                    className="w-full max-w-7xl mx-auto shadow-2xl rounded-lg p-10"
+                    style={{
+                        backgroundColor: colors.primary[400],
+                        color: colors.grey[100],
+                    }}
+                >
+                    <h2
+                        className="text-4xl font-extrabold mb-10 text-center"
+                        style={{ color: colors.greenAccent[500] }}
+                    >
+                        Preguntas Frecuentes
+                    </h2>
                     <div className="flex justify-end mb-2">
-                        <button onClick={() => openModal('add')}
-                                className="ml-4 px-4 py-2 bg-yellow-500 text-white rounded-lg font-semibold hover:bg-yellow-600 transition">
+                        <button
+                            onClick={() => openModal("add")}
+                            className="ml-4 px-4 py-2 rounded-lg font-semibold transition"
+                            style={{
+                                backgroundColor: colors.blueAccent[500],
+                                color: colors.grey[900],
+                                border: `1px solid ${colors.blueAccent[500]}`,
+                            }}
+                            onMouseEnter={(e) => {
+                                e.target.style.backgroundColor = colors.blueAccent[600];
+                                e.target.style.color = colors.grey[100];
+                            }}
+                            onMouseLeave={(e) => {
+                                e.target.style.backgroundColor = colors.blueAccent[500];
+                                e.target.style.color = colors.grey[900];
+                            }}
+                        >
                             Agregar
                         </button>
                     </div>
 
-                    <Tabla
-                        columns={columns}
-                        rows={rows}
-                        rowsPerPageCustom={10}
-                    />
+                    <Tabla columns={columns} rows={rows} rowsPerPageCustom={10} />
                 </div>
             </div>
 
-            <Modal isOpen={isModalOpen} onClose={closeModal}
-                   title={modalType === 'edit' ? "Editar Pregunta" : modalType === 'delete' ? "Eliminar Pregunta" : "Agregar Pregunta"}>
-                {modalType === 'add' && <AddFAQForm closeModal={closeModal} onSuccess={handleSuccess}/>}
-                {modalType === 'edit' &&
-                    <EditFAQForm closeModal={closeModal} faq={selectedFAQ} onSuccess={handleSuccess}/>}
-                {modalType === 'delete' &&
-                    <DeleteFAQForm closeModal={closeModal} faq={selectedFAQ} onSuccess={handleSuccess}/>}
+            <Modal
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                title={
+                    modalType === "edit"
+                        ? "Editar Pregunta"
+                        : modalType === "delete"
+                        ? "Eliminar Pregunta"
+                        : "Agregar Pregunta"
+                }
+            >
+                {modalType === "add" && <AddFAQForm closeModal={closeModal} onSuccess={handleSuccess} />}
+                {modalType === "edit" && (
+                    <EditFAQForm closeModal={closeModal} faq={selectedFAQ} onSuccess={handleSuccess} />
+                )}
+                {modalType === "delete" && (
+                    <DeleteFAQForm closeModal={closeModal} faq={selectedFAQ} onSuccess={handleSuccess} />
+                )}
             </Modal>
         </div>
     );
 }
 
-Index.layout = (page) => <Layout children={page} type={'admin'}/>;
+Index.layout = (page) => <Layout children={page} type={"admin"} />;
+
 
 const AddFAQForm = ({closeModal, onSuccess}) => {
     const {data, errors, setData, post} = useForm({

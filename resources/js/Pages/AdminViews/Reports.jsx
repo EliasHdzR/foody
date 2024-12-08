@@ -30,7 +30,7 @@ export default function Reports() {
     ];
 
     return (
-        <div className="w-full h-full" style={{ backgroundColor: colors.primary[400], padding: "20px", borderRadius: "10px" }}>
+        <div className="w-full h-full" style={{ backgroundColor: colors.primary[700], padding: "20px", borderRadius: "10px" }}>
             <h1 style={{ color: colors.grey[100], marginBottom: "20px" }} className="text-2xl font-semibold">
                 Reportes
             </h1>
