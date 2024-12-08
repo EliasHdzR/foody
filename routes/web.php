@@ -151,6 +151,8 @@
 
             Route::get('orders/fetch', [CustomerOrdersController::class, 'fetchOrders'])->name('cliente.orders.fetch');
             Route::post('/orders/cancel/{orderId}', [CustomerOrdersController::class, 'cancelOrder'])->name('cliente.orders.cancel');
+            Route::get('/orders/{orderId}/restaurant', [CustomerRestaurantController::class, 'getRestaurantDetailsByOrder'])->name('orders.restaurant.details');
+            Route::get('/orders/{orderId}/driver', [CustomerOrdersController::class, 'getDriverDetailsByOrder'])->name('orders.driver.details');
         }));
 
         /**

@@ -1,4 +1,4 @@
-const OrderDetails = ({ items, subtotal, deliveryFee, tax, discount, total, status }) => {
+const OrderDetails = ({ items, subtotal, deliveryFee, tax, discount, total }) => {
   return (
     <div
       style={{
@@ -58,7 +58,6 @@ const OrderDetails = ({ items, subtotal, deliveryFee, tax, discount, total, stat
         ))}
       </ul>
 
-      <div style={{ borderTop: "1px solid #333", paddingTop: "20px", marginTop: "20px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
           <span style={{ color: "#aaa" }}>Subtotal:</span>
           <span>${parseFloat(subtotal).toFixed(2)}</span>
@@ -87,7 +86,6 @@ const OrderDetails = ({ items, subtotal, deliveryFee, tax, discount, total, stat
           <span>Total:</span>
           <span>${parseFloat(total).toFixed(2)}</span>
         </div>
-      </div>
     </div>
   );
 };
