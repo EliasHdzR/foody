@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import {
   Box,
   IconButton,
-  InputBase,
   useTheme,
   Menu,
   MenuItem,
@@ -11,9 +10,7 @@ import {
 import {
   LightModeOutlined as LightModeIcon,
   DarkModeOutlined as DarkModeIcon,
-  NotificationsOutlined as NotificationsIcon,
   PersonOutlined as PersonIcon,
-  Search as SearchIcon,
 } from "@mui/icons-material";
 import { ColorModeContext, tokens } from "../../theme";
 import { Link } from "@inertiajs/react";
@@ -36,7 +33,7 @@ const Navbar = ({ role }) => {
   return (
     <Box
       display="flex"
-      justifyContent="space-between"
+      justifyContent="flex-end"
       alignItems="center"
       p={2}
       sx={{
@@ -45,36 +42,13 @@ const Navbar = ({ role }) => {
         borderBottom: `1px solid ${colors.grey[300]}`,
       }}
     >
-      <Box
-        display="flex"
-        alignItems="center"
-        sx={{
-          backgroundColor: colors.grey[800],
-          borderRadius: "8px",
-          padding: "0 8px",
-        }}
-      >
-        <SearchIcon sx={{ color: colors.grey[300] }} />
-        <InputBase
-          placeholder="Buscar..."
-          sx={{
-            ml: 1,
-            flex: 1,
-            color: colors.grey[100],
-          }}
-        />
-      </Box>
-
-      <Box display="flex">
+      <Box display="flex" alignItems="center">
         <IconButton onClick={colorMode.toggleColorMode}>
           {theme.palette.mode === "dark" ? (
             <DarkModeIcon sx={{ color: colors.grey[300] }} />
           ) : (
             <LightModeIcon sx={{ color: colors.grey[700] }} />
           )}
-        </IconButton>
-        <IconButton>
-          <NotificationsIcon sx={{ color: colors.grey[300] }} />
         </IconButton>
 
         <IconButton onClick={handleOpenMenu}>
@@ -113,7 +87,7 @@ const Navbar = ({ role }) => {
             }}
           >
             <Link
-              href={route('logout')}
+              href={route("logout")}
               method="post"
               as="button"
               style={{ textDecoration: "none", color: "inherit" }}

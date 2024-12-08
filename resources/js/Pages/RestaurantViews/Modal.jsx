@@ -1,21 +1,26 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
+import { useTheme } from "@mui/material/styles";
+import { tokens } from "@/theme";
 
 const Modal = ({ isOpen, onClose, title, children }) => {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+
     useEffect(() => {
         const handleKeyDown = (event) => {
-            if (event.key === 'Escape') {
+            if (event.key === "Escape") {
                 onClose();
             }
         };
 
         if (isOpen) {
-            window.addEventListener('keydown', handleKeyDown);
+            window.addEventListener("keydown", handleKeyDown);
         } else {
-            window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener("keydown", handleKeyDown);
         }
 
         return () => {
-            window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener("keydown", handleKeyDown);
         };
     }, [isOpen, onClose]);
 
@@ -23,12 +28,21 @@ const Modal = ({ isOpen, onClose, title, children }) => {
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="rounded-lg shadow-lg p-6 w-full max-w-lg">
+            <div
+                className="rounded-lg shadow-lg p-6 w-full max-w-lg"
+                style={{
+                    backgroundColor: colors.primary[700],
+                    color: colors.grey[100],
+                }}
+            >
                 <div className="flex justify-between items-center mb-4">
                     <h3 className="text-2xl font-semibold">{title}</h3>
                     <button
                         onClick={onClose}
-                        className="text-gray-500 hover:text-gray-800 focus:outline-none text-lg"
+                        className="text-lg px-4 py-2 rounded-lg font-semibold transition"
+                        style={{
+                            color: colors.redAccent[100],
+                        }}
                     >
                         X
                     </button>

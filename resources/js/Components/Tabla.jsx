@@ -1,23 +1,51 @@
-import * as React from 'react';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
+import * as React from "react";
+import { useTheme } from "@mui/material/styles";
+import { tokens } from "@/theme";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
 
 export default function StickyHeadTable({
     columns,
     rows,
     rowsPerPageCustom,
-    tableContainerStyle = {  maxHeight: '100%', borderRadius: '12px', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)' },
+    tableContainerStyle = {
+        maxHeight: "100%",
+        borderRadius: "12px",
+        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+    },
     tableCellStyle = { minWidth: 50 },
-    headerCellStyle = {backgroundColor: '#3B3B3B', color: '#FFF', fontWeight: '600', fontSize: '15px', textTransform: 'uppercase', padding: '14px'},
-    bodyCellStyle = {backgroundColor: '#FFFFFF', transition: 'background-color 0.3s'},
-    paginationStyle = { width: '100%', height: '100%', overflow: 'hidden' }
 }) {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+
+    const headerCellStyle = {
+        backgroundColor: colors.greenAccent[700],
+        color: colors.grey[100],
+        fontWeight: "600",
+        fontSize: "15px",
+        textTransform: "uppercase",
+        padding: "14px",
+    };
+
+    const bodyCellStyle = {
+        backgroundColor: colors.primary[400],
+        color: colors.grey[100],
+        transition: "background-color 0.3s",
+    };
+
+    const paginationStyle = {
+        width: "100%",
+        height: "100%",
+        overflow: "hidden",
+        color: colors.grey[100],
+    };
+
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageCustom);
 
@@ -51,7 +79,18 @@ export default function StickyHeadTable({
                         {(rows || [])
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, rowIndex) => (
-                                <TableRow hover role="checkbox" tabIndex={-1} key={rowIndex}>
+                                <TableRow
+                                    hover
+                                    role="checkbox"
+                                    tabIndex={-1}
+                                    key={rowIndex}
+                                    style={{
+                                        backgroundColor:
+                                            rowIndex % 2 === 0
+                                                ? colors.primary[500]
+                                                : colors.primary[600],
+                                    }}
+                                >
                                     {(columns || []).map((column) => {
                                         const value = row[column.id];
                                         return (
@@ -60,7 +99,7 @@ export default function StickyHeadTable({
                                                 align={column.align}
                                                 style={{ ...tableCellStyle, ...bodyCellStyle }}
                                             >
-                                                {column.format && typeof value === 'number'
+                                                {column.format && typeof value === "number"
                                                     ? column.format(value)
                                                     : value}
                                             </TableCell>
@@ -82,5 +121,4 @@ export default function StickyHeadTable({
             />
         </Paper>
     );
-    
 }

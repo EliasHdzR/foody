@@ -17,11 +17,10 @@ import RoomServiceIcon from '@mui/icons-material/RoomService';
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import ViewListIcon from '@mui/icons-material/ViewList';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
-
 const Sidebar = ({ role }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState("Dashboard"); 
 
   const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -119,5 +118,4 @@ const Sidebar = ({ role }) => {
     </Box>
   );
 };
-
 export default Sidebar;
