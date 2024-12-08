@@ -35,18 +35,13 @@ class CategoriesController extends Controller
         $data = $request->validate(
             [
                 'name' => 'required|string|max:30',
-                'image' => 'required|mimes:png,jpg,jpeg|max:2048',
             ]
         );
 
         DB::beginTransaction();
 
         try {
-            $image = $request->file('image');
-            $image_url = $image->store('category_images', ['disk' => 'public']);
-            $data['image_url'] = $image_url;
             Category::create($data);
-
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
@@ -59,20 +54,12 @@ class CategoriesController extends Controller
         $data = $request->validate(
             [
                 'name' => 'required|string|max:30',
-                'image' => 'required|mimes:png,jpg,jpeg|max:2048',
             ]
         );
 
         DB::beginTransaction();
 
         try {
-            if ($request->hasFile('image')) {
-                Storage::disk('public')->delete($category->image_url);
-                $image = $request->file('image');
-                $image_url = $image->store('category_images', ['disk' => 'public']);
-                $data['image_url'] = $image_url;
-            }
-
             $category->update($data);
 
             DB::commit();
@@ -85,8 +72,6 @@ class CategoriesController extends Controller
     }
 
     public function destroy(Category $category){
-        $image = $category->image_url;
-        Storage::disk('public')->delete($image);
         $category->delete();
     }
 }

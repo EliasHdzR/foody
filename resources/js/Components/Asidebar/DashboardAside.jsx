@@ -47,14 +47,6 @@ const DashboardAside = ({categories}) => {
                             key={index}
                             className="bg-[#01594F] rounded-2xl p-6 flex flex-col items-center text-center shadow-lg transform transition-transform duration-200"
                         >
-                            <div className="w-30 h-30 mb-4 rounded-lg overflow-hidden">
-                                <img
-                                    src={`/storage/${category.image_url}`}
-                                    alt={category.name}
-                                    className="w-full h-full object-cover"
-                                />
-                            </div>
-
                             <h3 className="text-white font-bold text-xl">{category.name}</h3>
                             <p className="text-white text-lg mt-1">{category.restaurants_count} Restaurantes Disponibles</p>
                         </div>

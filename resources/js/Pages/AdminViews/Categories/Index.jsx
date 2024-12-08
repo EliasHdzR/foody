@@ -35,25 +35,17 @@ export default function Index({ categories }) {
         setTimeout(() => setSuccessMessage(null), 3000);
     };
     const columns = [
-        { id: "image", label: "Logo", style: { color: colors.grey[800] } },
         { id: "name", label: "Nombre", style: { color: colors.grey[800] } },
         { id: "created_at", label: "Fecha de Creación", style: { color: colors.grey[800] } },
         { id: "updated_at", label: "Última Actualización", style: { color: colors.grey[800] } },
         { id: "actions", label: "Acciones", align: "center", style: { color: colors.grey[800] } },
     ];
-    
+
     const rows = categories.map((category) => ({
         name: (
             <span style={{ color: colors.grey[100] }}>
                 {category.name}
             </span>
-        ),
-        image: (
-            <img
-                src={`/storage/${category.image_url}`}
-                alt={`${category.name} logo`}
-                className="w-20 h-20 object-contain mr-4"
-            />
         ),
         created_at: (
             <span style={{ color: colors.grey[100] }}>
@@ -106,7 +98,7 @@ export default function Index({ categories }) {
             </button>,
         ],
     }));
-    
+
 
     return (
         <div>
@@ -194,7 +186,6 @@ const AddCategoryForm = ({ closeModal, onSuccess }) => {
 
     const initialValues = {
         name: "",
-        image: null,
     };
 
     const { data, errors, setData, post } = useForm(initialValues);
@@ -223,15 +214,6 @@ const AddCategoryForm = ({ closeModal, onSuccess }) => {
                     onChange={(e) => setData("name", e.target.value)}
                 />
                 <InputError message={errors.name} className="mt-2" />
-                <InputLabel htmlFor="image" value="Imagen" className="mt-4" />
-                <TextInput
-                    id="image"
-                    type="file"
-                    name="image"
-                    className="mt-4 block w-full"
-                    onChange={(e) => setData("image", e.target.files[0])}
-                />
-                <InputError message={errors.image} className="mt-2" />
             </div>
             <PrimaryButton style={{ backgroundColor: colors.blueAccent[500], color: colors.grey[100] }}>
                 Agregar Categoría
@@ -246,7 +228,6 @@ const EditCategoryForm = ({ closeModal, category, onSuccess }) => {
 
     const initialValues = {
         name: category.name,
-        image_url: category.image_url,
     };
 
     const { data, errors, setData, post } = useForm(initialValues);
@@ -274,20 +255,6 @@ const EditCategoryForm = ({ closeModal, category, onSuccess }) => {
                 onChange={(e) => setData("name", e.target.value)}
             />
             <InputError message={errors.name} className="mt-2" />
-            <InputLabel htmlFor="image" value="Imagen" className="mt-4" />
-            <img
-                src={`/storage/${data.image_url}`}
-                alt={`${data.name} logo`}
-                className="w-20 h-20 object-contain mr-4"
-            />
-            <TextInput
-                id="image"
-                type="file"
-                name="image"
-                className="mt-4 block w-full"
-                onChange={(e) => setData("image", e.target.files[0])}
-            />
-            <InputError message={errors.image} className="mt-2" />
             <PrimaryButton style={{ backgroundColor: colors.greenAccent[500], color: colors.grey[100] }}>
                 Guardar Cambios
             </PrimaryButton>
