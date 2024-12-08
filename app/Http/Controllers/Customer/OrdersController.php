@@ -16,14 +16,16 @@ class OrdersController extends Controller
         return inertia('CustomerViews/OrdersPage', ['orders' => $orders]);
     }
 
-    
+
     public function fetchOrders()
     {
         $orders = auth()->user()->customer->orders()->with(['restaurant', 'products' => function ($query) {
             $query->withPivot('quantity', 'sale_price');
-        }])->get();
+        }])
+            ->orderBy('updated_at', 'desc')
+            ->get();
 
-        \Log::info($orders); // Log the orders to verify the data
+        //\Log::info($orders); // Log the orders to verify the data
 
         return response()->json($orders);
     }

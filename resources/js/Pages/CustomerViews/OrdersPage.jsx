@@ -107,14 +107,13 @@ const OrdersPage = () => {
               tax={selectedOrder.taxes}
               discount={selectedOrder.discount}
               total={selectedOrder.total_price}
-              status={selectedOrder.status}
               restaurantImage={restaurantDetails?.image_url} // Pass the restaurant image
             />
             <RestaurantDetails restaurant={restaurantDetails} />
             <DriverDetails driver={driverDetails} /> {/* Use the new component */}
           </>
         ) : (
-          <p style={{ color: "#fff" }}>Selecciona un pedido para ver los detalles</p>
+          <h1 style={{ color: "#fff" }}>Selecciona un pedido para ver los detalles</h1>
         )}
       </div>
     </div>

@@ -1,7 +1,6 @@
 import OrderCard from "./OrderCard";
 
 const OrderList = ({ orders }) => {
-  console.log("OrderList orders:", orders); // Log orders
 
   const statusSetter = (status) => {
     if(status === 'pending') return 'Pendiente';
@@ -19,16 +18,11 @@ const OrderList = ({ orders }) => {
       {orders.map((order, index) => (
         <OrderCard
           key={index}
-          id={order.id}
-          number={order.number}
           status={statusSetter(order.status)}
           updated_at={order.updated_at}
-          subtotal={order.subtotal}
-          shipping_cost={order.shipping_cost}
-          taxes={order.taxes}
-          discount={order.discount}
           total_price={order.total_price}
           restaurant={order.restaurant}
+          restaurant_image={order.restaurant.image_url}
           onViewDetails={order.onViewDetails}
           onCancelOrder={order.onCancelOrder}
         />
