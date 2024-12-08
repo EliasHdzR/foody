@@ -45,7 +45,7 @@ const Login = () => {
                     Ingresa tu correo y contraseña para iniciar sesión
                 </p>
 
-                <form onSubmit={submit} className="w-full max-w-md space-y-6">
+                <form onSubmit={submit} className="w-full max-w-md space-y-6 text-gray-900">
                     <div>
                         <InputLabel htmlFor="email" value="Correo" />
                         <TextInput
