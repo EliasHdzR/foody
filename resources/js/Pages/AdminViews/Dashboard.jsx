@@ -70,8 +70,8 @@ const Dashboard = ({counters, orders, restaurants, products }) => {
     });
 
     const items = products.map(product => {
-        const { name, store, image } = product;
-        return { name, store, image };
+        const { name, store, image_url } = product;
+        return { name, store, image_url };
     });
 
     return (

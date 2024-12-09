@@ -20,7 +20,7 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 const Sidebar = ({ role }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [selected, setSelected] = useState("Dashboard"); 
+  const [selected, setSelected] = useState("Dashboard");
 
   const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -31,7 +31,6 @@ const Sidebar = ({ role }) => {
       { title: "Categorías", to: "admin.categories.index", icon: <CategoryIcon /> },
       { title: "Clientes", to: "admin.customers.index", icon: <PeopleIcon /> },
       { title: "Repartidores", to: "admin.drivers.index", icon: <DeliveryDiningIcon /> },
-      { title: "Reportes", to: "admin.reports.index", icon: <AssessmentIcon /> },
       { title: "Preguntas Frecuentes", to: "admin.faqs.index", icon: <QuestionAnswerIcon /> },
     ],
     restaurant: [

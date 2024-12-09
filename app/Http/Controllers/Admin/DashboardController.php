@@ -71,7 +71,7 @@ class DashboardController extends Controller
             ->select(
                 'products.name',
                 DB::raw('COUNT(order_details.product_id) as total_sold'),
-                'products.image_url as image',
+                'products.image_url as image_url',
                 'restaurants.name as store'
             )
             ->groupBy('products.name', 'products.image_url', 'restaurants.name')

@@ -74,7 +74,7 @@ class RestaurantController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('cliente.dashboard', $restaurant)->with('success', 'Order created successfully.');
+            return redirect()->route('cliente.orders.index')->with('success', 'Order created successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
             dd($e->getMessage());
