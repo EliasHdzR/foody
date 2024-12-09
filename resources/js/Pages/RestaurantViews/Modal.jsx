@@ -31,8 +31,8 @@ const Modal = ({ isOpen, onClose, title, children }) => {
             <div
                 className="rounded-lg shadow-lg p-6 w-full max-w-lg"
                 style={{
-                    backgroundColor: colors.primary[700],
-                    color: colors.grey[100],
+                    backgroundColor: colors.primary[900],
+                    color: colors.grey[300],
                 }}
             >
                 <div className="flex justify-between items-center mb-4">

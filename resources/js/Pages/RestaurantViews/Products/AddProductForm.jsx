@@ -3,7 +3,6 @@ import React, {useState} from "react";
 import InputLabel from "@/Components/InputLabel.jsx";
 import TextInput from "@/Components/TextInput.jsx";
 import InputError from "@/Components/InputError.jsx";
-import PriceFormatInput from "@/Components/PriceFormatInput.jsx";
 import {MenuItem, Select} from "@mui/material";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 
@@ -94,7 +93,7 @@ const AddProductForm = ({ingredients, restaurantID, productCategories, closeModa
                     id="product_category_id"
                     value={data.product_category_id}
                     onChange={(e) => setData('product_category_id', e.target.value)}
-                    className="mt-1 block w-full h-10 pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                    className="bg-white mt-1 block w-full h-10 pl-3 py-2 text-base border-gray-300"
                 >
                     {productCategories.map((category) => {
                         return (
@@ -109,19 +108,12 @@ const AddProductForm = ({ingredients, restaurantID, productCategories, closeModa
             <div>
                 <InputLabel htmlFor="price" value="Precio"/>
                 <TextInput
-                    startDecorator={'$'}
-                    type="price"
+                    type="number"
                     id="price"
                     name="price"
                     value={data.price}
                     className="mt-1 block w-full"
                     onChange={(e) => setData('price', e.target.value)}
-                    slotProps={{
-                        input: {
-                            component: PriceFormatInput,
-                            min: 0,
-                        },
-                    }}
                 />
                 <InputError message={errors.price} className="mt-2"/>
             </div>

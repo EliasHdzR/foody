@@ -44,6 +44,7 @@ class ProductsController extends Controller
         DB::beginTransaction();
 
         try {
+            $data['code'] = strtoupper($restaurantId . '-' . $data['code']);
             $image = $request->file('image');
             $image_url = $image->store('product_images/restaurant_'.$restaurantId, ['disk' => 'public']);
             $data['image_url'] = $image_url;
