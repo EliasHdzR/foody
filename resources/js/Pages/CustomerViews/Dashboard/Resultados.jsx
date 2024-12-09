@@ -2,19 +2,13 @@ import React from "react";
 import RestauranteCard from "./RestauranteCard";
 import Destacados from "./Destacados";
 import RatingStars from "./RatingStars";
-import {Link} from "@inertiajs/react";
+import { Link } from "@inertiajs/react";
 
-const Resultados = ({restaurants, categories}) => {
+const Resultados = ({ restaurants = [], categories = [] }) => {
     const platillos = [
-        {nombre: "Huevo Estrellado", precio: "$79.99", disponible: "Disponible", calificacion: 4},
-        {nombre: "Caldo de Camarón", precio: "$120.00", disponible: "Disponible", calificacion: 5},
-        {nombre: "Fideos", precio: "$69.99", disponible: "Disponible", calificacion: 3},
-        {nombre: "Fideos", precio: "$69.99", disponible: "Disponible", calificacion: 3},
-        {nombre: "Huevo Estrellado", precio: "$79.99", disponible: "Disponible", calificacion: 4},
-        {nombre: "Caldo de Camarón", precio: "$120.00", disponible: "Disponible", calificacion: 5},
-        {nombre: "Fideos", precio: "$69.99", disponible: "Disponible", calificacion: 3},
-        {nombre: "Fideos", precio: "$69.99", disponible: "Disponible", calificacion: 3},
-
+        { nombre: "Huevo Estrellado", precio: "$79.99", disponible: "Disponible", calificacion: 4 },
+        { nombre: "Caldo de Camarón", precio: "$120.00", disponible: "Disponible", calificacion: 5 },
+        { nombre: "Fideos", precio: "$69.99", disponible: "Disponible", calificacion: 3 },
     ];
 
     return (
@@ -23,13 +17,12 @@ const Resultados = ({restaurants, categories}) => {
                 <h2 className="text-3xl font-semibold mb-4 text-white">Resultados</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {restaurants.map((restaurante) => (
-                        <Link href={route("cliente.restaurant.index", restaurante)}>
+                        <Link key={restaurante.id} href={route("cliente.restaurant.index", restaurante)}>
                             <RestauranteCard
-                                key={restaurante.id}
                                 logo={restaurante.image_url}
                                 nombre={restaurante.name}
-                                categoria={restaurante.category.name}
-                                articulos={restaurante.products.length}
+                                categoria={restaurante.category?.name || "Sin categoría"}
+                                articulos={restaurante.products?.length || 0}
                             />
                         </Link>
                     ))}
@@ -46,7 +39,7 @@ const Resultados = ({restaurants, categories}) => {
                             <h3 className="text-xl font-bold text-white">{item.nombre}</h3>
                             <p className="text-lg text-gray-400 mt-4">{item.precio}</p>
                             <p className="text-lg text-gray-400 mt-4">{item.disponible}</p>
-                            <RatingStars rating={item.calificacion}/>
+                            <RatingStars rating={item.calificacion} />
                         </>
                     )}
                 />
