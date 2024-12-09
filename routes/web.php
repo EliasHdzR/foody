@@ -134,7 +134,7 @@
                 Route::post('/ordenes/{order}/awaiting', 'awaitingOrder')->name('restaurante.orders.awaiting');
             });
 
-            Route::inertia('/menu', 'RestaurantViews/MenuStore')->name('restaurante.menu.index');
+            Route::get('/menu', [ProductsController::class, 'menuStore'])->name('restaurante.menu.index');
         }));
 
         /**
