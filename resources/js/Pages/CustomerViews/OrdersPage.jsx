@@ -42,9 +42,10 @@ const OrdersPage = () => {
       .catch(error => {
         console.error("There was an error fetching the restaurant details!", error);
         setError("Unable to fetch restaurant details. Please try again later.");
+        setRestaurantDetails(null); // Ensure state is reset on error
       });
   };
-
+  
   const fetchDriverDetails = (orderId) => {
     axios.get(route('orders.driver.details', { orderId }))
       .then(response => {
@@ -54,16 +55,21 @@ const OrdersPage = () => {
       .catch(error => {
         console.error("There was an error fetching the driver details!", error);
         setError("Unable to fetch driver details. Please try again later.");
+        setDriverDetails(null); // Ensure state is reset on error
       });
   };
 
   const handleCancelOrder = (orderId) => {
-    console.log("Cancelling order with ID:", orderId); 
+    console.log("Cancelling order with ID:", orderId);
     axios.post(route('cliente.orders.cancel', { orderId }))
       .then(response => {
-        console.log("Order canceled:", response.data); 
-        setOrders(orders.map(order => order.id === orderId ? response.data.order : order));
-        setSelectedOrder(response.data.order);
+        console.log("Order canceled:", response.data);
+        setOrders(orders.map(order => 
+          order.id === orderId ? { ...order, status: 'canceled_customer' } : order
+        ));
+        setSelectedOrder(null);
+        setRestaurantDetails(null);
+        setDriverDetails(null);
       })
       .catch(error => {
         console.error("There was an error canceling the order!", error);

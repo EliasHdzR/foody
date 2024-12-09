@@ -21,8 +21,8 @@ const OrderList = ({ orders }) => {
           status={statusSetter(order.status)}
           updated_at={order.updated_at}
           total_price={order.total_price}
-          restaurant={order.restaurant}
-          restaurant_image={order.restaurant.image_url}
+          restaurant={order.restaurant ? order.restaurant : {}}
+          restaurant_image={order.restaurant ? order.restaurant.image_url : ''}
           onViewDetails={order.onViewDetails}
           onCancelOrder={order.onCancelOrder}
         />
