@@ -21,9 +21,15 @@ class DashboardController extends Controller
             $category->restaurants_count = $restaurants->where('category_id', $category->id)->count();
         }
 
+        $products = $restaurants->pluck('products')
+            ->flatten()
+            ->where('availability', 1)
+            ->sortBy('created_at');
+
         return Inertia::render('CustomerViews/Dashboard', [
             'restaurants' => $restaurants,
-            'categories' => $categories
+            'categories' => $categories,
+            'products' => $products,
         ]);
     }
 }
