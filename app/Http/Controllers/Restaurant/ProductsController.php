@@ -28,10 +28,13 @@ class ProductsController extends Controller
 
     public function menuStore(){
         $restaurantId = auth()->user()->restaurant->id;
+        $restaurant = Restaurant::find($restaurantId);
+        $restaurant->load('category','user');
         $products = Product::with('category')->where('restaurant_id', $restaurantId)->get();
         return Inertia::render('RestaurantViews/MenuStore', [
             'products' => $products,
             'categories' => auth()->user()->restaurant->productCategories,
+            'restaurant' => $restaurant,
         ]);
     }
 

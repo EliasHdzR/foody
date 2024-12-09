@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const Menu = ({ productsCont, categories }) => {
+const Menu = ({ productsCont, categories, restaurant }) => {
     const [products] = useState(productsCont);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('Todas');
@@ -18,10 +18,46 @@ const Menu = ({ productsCont, categories }) => {
         return acc;
     }, {});
 
+    const restaurantImage = restaurant.image_url ? `/storage/${restaurant.image_url}` : defaultImage;
+    const restaurantCategory = restaurant.category.name || "Categoría no disponible";
+    const restaurantAddress = restaurant.address || "Dirección no disponible";
+    const restaurantPhoneNumber = restaurant.user.phone_number || "";
+    const restaurantSchedule = restaurant.opening_time + " - " + restaurant.close_time;
+
     return (
         <div className="flex w-full bg-gray-100 min-h-screen py-10 px-4">
             <div className="w-full max-w-7xl mx-auto bg-white shadow-2xl rounded-lg p-10">
                 <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">Menú Tienda</h2>
+
+                <div className="mb-10">
+                    <div
+                        style={{
+                            backgroundImage: `url(${restaurantImage})`,
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                            padding: "20px",
+                            borderRadius: "8px",
+                            color: "white",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        <div style={{
+                            backgroundColor: "rgb(31 41 55)",
+                            padding: "15px",
+                            borderRadius: "8px",
+                        }}>
+                            <h1 style={{fontSize: "24px", fontWeight: "bold"}}>
+                                {restaurant.name || "Nombre no disponible"}
+                            </h1>
+                            <p style={{fontSize: "16px"}}>{restaurantCategory}</p>
+                            <p style={{fontSize: "14px"}}>{restaurantAddress}</p>
+                            <p style={{fontSize: "14px"}}>{restaurantPhoneNumber}</p>
+                            <p style={{fontSize: "14px"}}>{restaurantSchedule}</p>
+                        </div>
+                    </div>
+                </div>
 
                 <div className="mb-10">
                     <label className="block text-lg font-semibold text-gray-700 mb-2">Categoría</label>
@@ -59,7 +95,8 @@ const Menu = ({ productsCont, categories }) => {
                                     className="flex items-center p-5 bg-white border border-gray-200 rounded-lg shadow cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl mb-4"
                                 >
                                     <div className="w-20 h-20 border border-gray-300 rounded-lg overflow-hidden mr-6">
-                                        <img src={`/storage/${product.image_url}`} alt={product.name} className="w-full h-full object-cover"/>
+                                        <img src={`/storage/${product.image_url}`} alt={product.name}
+                                             className="w-full h-full object-cover"/>
                                     </div>
 
                                     <div className="flex-1">
