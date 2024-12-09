@@ -4,16 +4,20 @@ import Busqueda from "./Dashboard/Busqueda";
 import CartAside from "@/Components/Cart/CartAside";
 import PaymentAside from "@/Components/PaymentAside";
 import CategoriesTabs from "@/Components/CategoriesTabs";
-import defaultImage from "../../../assets/image.png"; 
+import defaultImage from "../../../assets/image.png";
 
 export default function Tiendas({ restaurant = {}, products = [] }) {
+    console.log(restaurant);
     const [showPayment, setShowPayment] = useState(false);
     const [cartItems, setCartItems] = useState([]);
     const [discount, setDiscount] = useState(0);
+    const [searchTerm, setSearchTerm] = useState("");
 
     const restaurantImage = restaurant.image_url ? `/storage/${restaurant.image_url}` : defaultImage;
-    const restaurantCategory = restaurant.category?.name || "Categoría no disponible";
+    const restaurantCategory = restaurant.category.name || "Categoría no disponible";
     const restaurantAddress = restaurant.address || "Dirección no disponible";
+    const restaurantPhoneNumber = restaurant.user.phone_number || "";
+    const restaurantSchedule = restaurant.opening_time + " - " + restaurant.close_time;
 
     const addToCart = (product) => {
         setCartItems((prevItems) => {
@@ -100,8 +104,10 @@ export default function Tiendas({ restaurant = {}, products = [] }) {
                     </h1>
                     <p style={{ fontSize: "16px" }}>{restaurantCategory}</p>
                     <p style={{ fontSize: "14px" }}>{restaurantAddress}</p>
+                    <p style={{ fontSize: "14px" }}>{restaurantPhoneNumber}</p>
+                    <p style={{ fontSize: "14px" }}>{restaurantSchedule}</p>
                 </div>
-                <Busqueda className="bg-slate-900" />
+                <Busqueda searchTerm={searchTerm} setSearchTerm={setSearchTerm} className="bg-slate-900" />
             </div>
 
             <div
@@ -115,6 +121,7 @@ export default function Tiendas({ restaurant = {}, products = [] }) {
                     categories={restaurant.product_categories || []}
                     products={products}
                     addToCart={addToCart}
+                    searchTerm={searchTerm}
                 />
             </div>
 

@@ -2,9 +2,10 @@ import React, {useState} from "react";
 import {Box, Tabs, Tab} from "@mui/material";
 import ProductsGrid from "./ProductsGrid";
 
-const CategoriesTabs = ({products, categories, addToCart}) => {
+const CategoriesTabs = ({products, categories, addToCart, searchTerm}) => {
     const categorizedProducts = categories.reduce((acc, category) => {
-        acc[category.id] = products.filter(product => product.category.id === category.id) || [];
+        acc[category.id] = products.filter(product => product.category.id === category.id &&
+            product.name.toLowerCase().includes(searchTerm.toLowerCase())) || [];
         return acc;
     }, {});
 

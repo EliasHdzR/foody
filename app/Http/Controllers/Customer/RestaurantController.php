@@ -15,7 +15,7 @@ class RestaurantController extends Controller
 {
     public function index(Restaurant $restaurant)
     {
-        $restaurant = $restaurant->load('coupons', 'productCategories');
+        $restaurant = $restaurant->load('coupons', 'productCategories','category','user');
         $products = Product::with(['category'])
             ->where('restaurant_id', $restaurant->id)
             ->where('availability', 1)

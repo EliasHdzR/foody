@@ -13,7 +13,6 @@ const CompactSidebar = () => {
 
   const menuItems = [
     { title: "Dashboard", to: "cliente.dashboard", icon: Home, method: "GET" },
-    { title: "Tiendas", to: "cliente.dashboard", icon: Store, method: "GET" },
     { title: "Orders", to: "cliente.orders.index", icon: Order },
   ];
 
@@ -40,7 +39,7 @@ const CompactSidebar = () => {
             method={item.method}
             icon={item.icon}
             selected={selected}
-            setSelected={setSelected} 
+            setSelected={setSelected}
           />
         ))}
       </div>

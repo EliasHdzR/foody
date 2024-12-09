@@ -27,14 +27,14 @@ const ProductsGrid = ({products, addToCart}) => {
                         padding: "15px",
                         textAlign: "center",
                         color: "#fff",
-                        height: "400px", 
+                        height: "400px",
                         overflow: "hidden",
                     }}
                 >
                     <Box
                         sx={{
                             position: "absolute",
-                            top: "20px", 
+                            top: "20px",
                             left: "50%",
                             transform: "translateX(-50%)",
                             width: "120px",
@@ -55,7 +55,7 @@ const ProductsGrid = ({products, addToCart}) => {
                         />
                     </Box>
 
-                    <Box sx={{ marginTop: "160px" }}> 
+                    <Box sx={{ marginTop: "160px" }}>
                         <Typography variant="body1" fontWeight="bold" sx={{ fontSize: "18px" }}>
                             {product.name}
                         </Typography>
@@ -65,11 +65,6 @@ const ProductsGrid = ({products, addToCart}) => {
                         <Typography variant="body2" color="#aaa" sx={{ fontSize: "14px", marginTop: "10px" }}>
                             {product.description || "Disponible"}
                         </Typography>
-                        <Box sx={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
-                            {[...Array(product.rating)].map((_, i) => (
-                                <StarIcon key={i} sx={{ color: "gold", fontSize: "18px" }} />
-                            ))}
-                        </Box>
                     </Box>
 
                     <Button
@@ -79,10 +74,10 @@ const ProductsGrid = ({products, addToCart}) => {
                             marginTop: "20px",
                             padding: "8px 20px",
                             position: "absolute",
-                            bottom: "15px", 
+                            bottom: "15px",
                             left: "50%",
                             transform: "translateX(-50%)",
-                            width: "80%", 
+                            width: "80%",
                             "&:hover": {
                                 backgroundColor: "rgba(234, 124, 105, 0.9)",
                             },
