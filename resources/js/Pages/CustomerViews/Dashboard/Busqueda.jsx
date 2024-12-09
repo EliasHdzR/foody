@@ -1,8 +1,7 @@
 import { Search as SearchIcon } from "@mui/icons-material";
-
 const Busqueda = () => {
   return (
-    <div className="flex items-center bg-primary-400 rounded-lg px-5 py-2.5 shadow-md mb-5 mt-5">
+    <div className="flex items-center bg-gray-800 rounded-3xl px-5 py-2.5 shadow-md">
       <SearchIcon className="text-gray-300 mr-2.5" />
       <input
         type="text"

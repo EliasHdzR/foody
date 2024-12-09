@@ -2,12 +2,13 @@ import Layout from "@/Layouts/Layout.jsx";
 import Tabla from '@/Components/Tabla.jsx';
 import Modal from '@/Pages/RestaurantViews/Modal';
 import {useState} from 'react';
-import {useForm} from "@inertiajs/react";
+import {Head, useForm} from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import {Alert, AlertTitle} from "@mui/material";
+import Header from '@/Components/Header';
 
 const Index = ({ingredients}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -67,8 +68,8 @@ const Index = ({ingredients}) => {
                     </Alert>
                 </div>
             )}
-            <div className="container mx-auto">
-                <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">Ingredientes</h2>
+            <div className="container p-6 mx-auto">
+                <Header title="Ingredientes"></Header>
                 <div className="flex justify-end mb-2">
                     <button onClick={() => openModal('add')}
                             className="ml-4 px-4 py-2 bg-yellow-500 text-white rounded-lg font-semibold hover:bg-yellow-600 transition">

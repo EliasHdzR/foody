@@ -3,6 +3,7 @@ import TablaColapsable from "@/Components/TablaColapsable.jsx";
 import React, { useState } from "react";
 import dayjs from 'dayjs';
 import axios from 'axios';
+import Header from "@/Components/Header";
 
 const Index = ({ orders: initialOrders }) => {
     const [orders, setOrders] = useState(initialOrders);
@@ -116,8 +117,8 @@ const Index = ({ orders: initialOrders }) => {
     }, []);
 
     return (
-        <div className="container mx-auto">
-            <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">Pedidos</h2>
+        <div className="container p-6 mx-auto">
+                <Header title="Pedidos"></Header>
             <TablaColapsable
                 columns={columns}
                 rows={rows}
