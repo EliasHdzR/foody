@@ -1,5 +1,5 @@
 import React from "react";
-import {Box, Typography, Button} from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 
 const ProductsGrid = ({products, addToCart}) => {
@@ -11,51 +11,78 @@ const ProductsGrid = ({products, addToCart}) => {
         <Box
             sx={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-                gap: "20px",
+                gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
+                gap: "15px",
                 marginTop: "20px",
+                overflow:"auto"
             }}
         >
             {products.map((product, index) => (
                 <Box
                     key={index}
                     sx={{
+                        position: "relative",
                         backgroundColor: "rgba(31, 29, 43, 1)",
-                        borderRadius: "8px",
+                        borderRadius: "12px",
                         padding: "15px",
                         textAlign: "center",
                         color: "#fff",
+                        height: "400px", 
+                        overflow: "hidden",
                     }}
                 >
-                    <img
-                        src={`/storage/${product.image_url}`}
-                        alt={product.name}
-                        style={{
-                            width: "175px",
-                            height: "175px",
-                            margin: "0 auto 10px",
-                            borderRadius: "8px",
+                    <Box
+                        sx={{
+                            position: "absolute",
+                            top: "20px", 
+                            left: "50%",
+                            transform: "translateX(-50%)",
+                            width: "120px",
+                            height: "120px",
+                            borderRadius: "50%",
+                            overflow: "hidden",
+                            backgroundColor: "#fff",
                         }}
-                    />
-                    <Typography variant="body1" fontWeight="bold">
-                        {product.name}
-                    </Typography>
-                    <Typography variant="body2" color="rgba(234, 124, 105, 1)">
-                        ${Number(product.price).toFixed(2)}
-                    </Typography>
-                    <Typography variant="body2" color="#aaa">
-                        {product.description}
-                    </Typography>
-                    <Box sx={{display: "flex", justifyContent: "center", marginTop: "10px"}}>
-                        {[...Array(product.rating)].map((_, i) => (
-                            <StarIcon key={i} sx={{color: "gold", fontSize: "16px"}}/>
-                        ))}
+                    >
+                        <img
+                            src={`/storage/${product.image_url}`}
+                            alt={product.name}
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                            }}
+                        />
                     </Box>
+
+                    <Box sx={{ marginTop: "160px" }}> 
+                        <Typography variant="body1" fontWeight="bold" sx={{ fontSize: "18px" }}>
+                            {product.name}
+                        </Typography>
+                        <Typography variant="body2" color="rgba(234, 124, 105, 1)" sx={{ fontSize: "16px" }}>
+                            ${Number(product.price).toFixed(2)}
+                        </Typography>
+                        <Typography variant="body2" color="#aaa" sx={{ fontSize: "14px", marginTop: "10px" }}>
+                            {product.description || "Disponible"}
+                        </Typography>
+                        <Box sx={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
+                            {[...Array(product.rating)].map((_, i) => (
+                                <StarIcon key={i} sx={{ color: "gold", fontSize: "18px" }} />
+                            ))}
+                        </Box>
+                    </Box>
+
                     <Button
                         sx={{
                             backgroundColor: "rgba(234, 124, 105, 1)",
                             color: "#fff",
-                            marginTop: "10px",
+                            marginTop: "20px",
+                            padding: "8px 20px",
+                            position: "absolute",
+                            bottom: "15px", 
+                            left: "50%",
+                            transform: "translateX(-50%)",
+                            width: "80%", 
                             "&:hover": {
                                 backgroundColor: "rgba(234, 124, 105, 0.9)",
                             },

@@ -76,6 +76,7 @@ export default function Tiendas({ restaurant = {}, products = [] }) {
                 gridTemplateRows: "auto 1fr",
                 height: "100vh",
                 backgroundColor: "rgb(31 41 55)",
+                overflow:"auto"
             }}
         >
             <div
