@@ -69,6 +69,7 @@ export default function Tiendas({restaurant, products}) {
                 display: "grid",
                 gridTemplateColumns: showPayment ? "3fr 3fr" : "5fr 3fr",
                 height: "100vh",
+                backgroundColor:"rgb(31 41 55)"
             }}
         >
             <div style={{padding: "20px"}}>

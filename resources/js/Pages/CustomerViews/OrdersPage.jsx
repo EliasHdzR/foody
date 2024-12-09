@@ -17,7 +17,7 @@ const OrdersPage = () => {
   useEffect(() => {
     axios.get(route('cliente.orders.fetch'))
       .then(response => {
-        console.log("Fetched orders:", response.data); // Log fetched orders
+        console.log("Fetched orders:", response.data); 
         setOrders(response.data);
       })
       .catch(error => {
@@ -27,7 +27,7 @@ const OrdersPage = () => {
   }, []);
 
   const handleViewDetails = (order) => {
-    console.log("Selected order:", order); // Log selected order
+    console.log("Selected order:", order); 
     setSelectedOrder(order);
     fetchRestaurantDetails(order.id);
     fetchDriverDetails(order.id);
@@ -36,7 +36,7 @@ const OrdersPage = () => {
   const fetchRestaurantDetails = (orderId) => {
     axios.get(route('orders.restaurant.details', { orderId }))
       .then(response => {
-        console.log("Fetched restaurant details:", response.data); // Log restaurant details
+        console.log("Fetched restaurant details:", response.data); 
         setRestaurantDetails(response.data);
       })
       .catch(error => {
@@ -48,7 +48,7 @@ const OrdersPage = () => {
   const fetchDriverDetails = (orderId) => {
     axios.get(route('orders.driver.details', { orderId }))
       .then(response => {
-        console.log("Fetched driver details:", response.data); // Log driver details
+        console.log("Fetched driver details:", response.data);
         setDriverDetails(response.data);
       })
       .catch(error => {
@@ -58,10 +58,10 @@ const OrdersPage = () => {
   };
 
   const handleCancelOrder = (orderId) => {
-    console.log("Cancelling order with ID:", orderId); // Log order ID
+    console.log("Cancelling order with ID:", orderId); 
     axios.post(route('cliente.orders.cancel', { orderId }))
       .then(response => {
-        console.log("Order canceled:", response.data); // Log canceled order
+        console.log("Order canceled:", response.data); 
         setOrders(orders.map(order => order.id === orderId ? response.data.order : order));
         setSelectedOrder(response.data.order);
       })
@@ -76,7 +76,7 @@ const OrdersPage = () => {
   };
 
   return (
-    <div style={{ display: "flex", height: "100%" }}>
+    <div style={{ display: "flex", height: "100%", backgroundColor:"rgb(31 41 55)" }}>
       <div style={{ flex: 2, overflowY: "auto", maxHeight: "100vh", paddingRight: "10px" }}>
         <Header title="Mis Pedidos" />
         {error ? (
@@ -107,13 +107,17 @@ const OrdersPage = () => {
               tax={selectedOrder.taxes}
               discount={selectedOrder.discount}
               total={selectedOrder.total_price}
-              restaurantImage={restaurantDetails?.image_url} // Pass the restaurant image
+              restaurantImage={restaurantDetails?.image_url} 
             />
             <RestaurantDetails restaurant={restaurantDetails} />
-            <DriverDetails driver={driverDetails} /> {/* Use the new component */}
+            <DriverDetails driver={driverDetails} /> 
           </>
         ) : (
-          <h1 style={{ color: "#fff" }}>Selecciona un pedido para ver los detalles</h1>
+          <div className="flex items-center justify-center h-full">
+  <h1 className="text-white text-xl font-bold bg-gray-600 p-5 rounded-lg text-center shadow-md">
+    Selecciona un pedido para ver los detalles
+  </h1>
+</div>
         )}
       </div>
     </div>
