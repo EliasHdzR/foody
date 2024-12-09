@@ -37,6 +37,7 @@ const PaymentAside = ({onCancel, onConfirm, restaurantID, cartItems, total, subt
             sx={{
                 width: "100%",
                 maxHeight: "100vh",
+                height: "65%",
                 position: "sticky",
                 top: 0,
                 overflowY: "auto",
@@ -75,7 +76,7 @@ const PaymentAside = ({onCancel, onConfirm, restaurantID, cartItems, total, subt
                         marginBottom: "20px",
                     }}
                 >
-                    {["Tarjeta", "Paypal", "Efectivo"].map((method) => (
+                    {["Tarjeta"].map((method) => (
                         <ToggleButton
                             key={method}
                             value={method}

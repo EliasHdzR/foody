@@ -7,7 +7,6 @@ import CategoriesTabs from "@/Components/CategoriesTabs";
 import defaultImage from "../../../assets/image.png";
 
 export default function Tiendas({ restaurant = {}, products = [] }) {
-    console.log(restaurant);
     const [showPayment, setShowPayment] = useState(false);
     const [cartItems, setCartItems] = useState([]);
     const [discount, setDiscount] = useState(0);
@@ -98,7 +97,11 @@ export default function Tiendas({ restaurant = {}, products = [] }) {
                     justifyContent: "space-between",
                 }}
             >
-                <div>
+                <div style={{
+                    backgroundColor: "rgb(31 41 55)",
+                    padding: "15px",
+                    borderRadius: "8px",
+                }}>
                     <h1 style={{ fontSize: "24px", fontWeight: "bold" }}>
                         {restaurant.name || "Nombre no disponible"}
                     </h1>

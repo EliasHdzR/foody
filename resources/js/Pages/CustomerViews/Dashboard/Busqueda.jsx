@@ -6,7 +6,7 @@ const Busqueda = ({ searchTerm, setSearchTerm }) => {
             <SearchIcon className="text-gray-300 mr-2.5" />
             <input
                 type="text"
-                placeholder="Busca comidas, bebidas, restaurantes..."
+                placeholder="Busca comidas, bebidas..."
                 className="w-full text-sm text-gray-100 bg-transparent outline-none"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
