@@ -19,7 +19,9 @@ class DashboardController extends Controller
             ->orderBy('created_at', 'desc')
             ->first();
 
-        $activeOrder->load('customer','customer.user');
+        if($activeOrder){
+            $activeOrder->load('restaurant', 'customer', 'driver');
+        }
 
         $ordersByMonth = Order::selectRaw('MONTH(created_at) as month, COUNT(*) as total_orders')
             ->where('driver_id', auth()->user()->driver->id)
