@@ -11,7 +11,7 @@ export default function Tiendas({ restaurant = {}, products = [] }) {
     const [cartItems, setCartItems] = useState([]);
     const [discount, setDiscount] = useState(0);
 
-    const restaurantImage = restaurant.image_url ? defaultImage : defaultImage;
+    const restaurantImage = restaurant.image_url ? `/storage/${restaurant.image_url}` : defaultImage;
     const restaurantCategory = restaurant.category?.name || "Categoría no disponible";
     const restaurantAddress = restaurant.address || "Dirección no disponible";
 
