@@ -8,7 +8,7 @@ const TopSelling = ({items}) => {
         <Box
             display="flex"
             flexDirection="column"
-            height="100%"
+            height="80%"
             bgcolor="background.default"
             borderRadius="8px"
             p="15px"
@@ -48,7 +48,7 @@ const TopSelling = ({items}) => {
                     >
                         <Box
                             component="img"
-                            src={`/storage/${item.image}`}
+                            src={`/storage/${item.image_url}`}
                             alt={item.name}
                             sx={{
                                 width: "40px",

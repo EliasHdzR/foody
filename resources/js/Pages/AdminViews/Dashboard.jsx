@@ -5,8 +5,6 @@ import DeliveryDiningIcon from "@mui/icons-material/DeliveryDining";
 import PeopleIcon from "@mui/icons-material/People";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 import DoneIcon from '@mui/icons-material/Done';
 import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -14,7 +12,6 @@ import FactCheckIcon from '@mui/icons-material/FactCheck';
 
 import Header from "@/Components/Header";
 import LineChart from "@/Components/LineChart";
-import BarChart from "@/Components/BarChart";
 import { tokens } from "@/theme.js";
 import CustomTable from "@/Components/CustomTable";
 import TopSelling from "@/Components/TopSelling";

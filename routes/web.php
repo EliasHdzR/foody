@@ -16,6 +16,8 @@
     use App\Http\Controllers\Driver\OrdersController as DriverOrdersController;
     use App\Http\Controllers\Customer\OrdersController as CustomerOrdersController;
     use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
+    use App\Http\Controllers\Driver\DashboardController as DriverDashboardController;
+    use App\Http\Controllers\Restaurant\DashboardController as RestaurantDashboardController;
     use App\Http\Middleware\CheckRole;
     use Illuminate\Support\Facades\Route;
     use Inertia\Inertia;
@@ -97,7 +99,7 @@
          * RUTAS ROL DE RESTAURANTE
          */
         Route::middleware([CheckRole::class . ':restaurant'])->prefix('/restaurante')->group((function () {
-            Route::inertia('/dashboard', 'RestaurantViews/Dashboard')->name('restaurante.dashboard');
+            Route::get('/dashboard', [RestaurantDashboardController::class, 'index'])->name('restaurante.dashboard');
 
             Route::prefix('/productos')->group(function () {
                 Route::get('/', [ProductsController::class, 'index'])->name('restaurante.products.index');
@@ -159,7 +161,7 @@
          * RUTAS ROL REPARTIDOR
          */
         Route::middleware([CheckRole::class . ':driver'])->prefix('/repartidor')->group((function () {
-            Route::inertia('/dashboard', 'DriverViews/Dashboard')->name('driver.dashboard');
+            Route::get('/dashboard', [DriverDashboardController::class, 'index'])->name('driver.dashboard');
 
             Route::controller(DriverOrdersController::class)->group(function () {
                 Route::get('/pedidos', 'index')->name('driver.orders.index');
