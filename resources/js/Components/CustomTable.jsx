@@ -10,12 +10,13 @@ const CustomTable = ({restaurantData}) => {
             bgcolor="background.default"
             borderRadius="8px"
             p="20px"
+            height="100%"
             sx={{boxShadow: theme.shadows[1]}}
         >
             {/* Encabezado */}
             <Box display="flex" justifyContent="space-between" mb="10px">
                 <Typography
-                    variant="h6"
+                    variant="h4"
                     fontWeight="600"
                     color="text.primary"
                 >

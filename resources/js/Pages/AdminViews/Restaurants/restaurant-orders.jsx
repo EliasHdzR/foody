@@ -159,7 +159,7 @@ const Index = ({orders}) => {
         <div className="w-full bg-gray-100 min-h-full py-10 px-4">
             <div className="w-full max-w-8xl mx-auto bg-white shadow-2xl rounded-lg p-10">
                 <BackButton to={ route("admin.restaurant.index") } />
-                <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">Pedidos</h2>
+                <h2 className="text-3xl font-extrabold mt-5 mb-5">Pedidos</h2>
                 <div className="flex justify-start mb-2">
                     <select
                         value={statusFilter}

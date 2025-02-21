@@ -63,7 +63,7 @@ const Sidebar = ({ role }) => {
       sx={{
         width: isCollapsed ? "80px" : "250px",
         height: "100vh",
-        backgroundColor: colors.primary[400],
+        backgroundColor: "#FFFFFF",
         color: colors.grey[100],
         display: "flex",
         flexDirection: "column",

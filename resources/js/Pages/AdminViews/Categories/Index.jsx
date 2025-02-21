@@ -113,15 +113,15 @@ export default function Index({ categories }) {
 
             <div
                 className="w-full min-h-screen py-10 px-4"
-                style={{ backgroundColor: colors.primary[700], color: colors.grey[800] }}
+                style={{ backgroundColor: colors.primary[400] }}
             >
                 <div
-                    className="w-full max-w-7xl mx-auto shadow-2xl rounded-lg p-10"
-                    style={{ backgroundColor: colors.primary[400], color: colors.grey[200] }}
+                    className="w-full max-w-8xl mx-auto shadow-2xl rounded-lg p-10"
+                    style={{backgroundColor: "#FFFFFF", color: colors.grey[100]}}
                 >
                     <h2
-                        className="text-4xl font-extrabold mb-10 text-center"
-                        style={{ color: colors.greenAccent[200] }}
+                      className="text-2xl font-bold mb-2 text-left"
+                      style={{color: colors.grey[400]}}
                     >
                         Categorías
                     </h2>

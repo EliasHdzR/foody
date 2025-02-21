@@ -8,7 +8,7 @@ const TopSelling = ({items}) => {
         <Box
             display="flex"
             flexDirection="column"
-            height="80%"
+            height="100%"
             bgcolor="background.default"
             borderRadius="8px"
             p="15px"
@@ -18,7 +18,7 @@ const TopSelling = ({items}) => {
             }}
         >
             <Box display="flex" justifyContent="space-between" alignItems="center" mb="10px">
-                <Typography variant="h6" fontWeight="600" color="text.primary">
+                <Typography variant="h4" fontWeight="600" color="text.primary">
                     Más Vendidos
                 </Typography>
             </Box>

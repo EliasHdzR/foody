@@ -1,4 +1,4 @@
-import {Box, Button} from "@mui/material";
+import {Alert, AlertTitle, Box, Button} from "@mui/material";
 import {DataGrid, GridToolbar, GridToolbarExport} from "@mui/x-data-grid";
 import {tokens} from "@/theme.js";
 import Header from "@/Components/Header";
@@ -6,18 +6,21 @@ import {useTheme} from "@mui/material";
 import Layout from "@/Layouts/Layout.jsx";
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import Tabla from "@/Components/Tabla.jsx";
+import Modal from "@/Pages/RestaurantViews/Modal.jsx";
+import React from "react";
 
 const Index = ({customers}) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
     const columns = [
-        { field: "id", headerName: "ID", flex: 0.3},
-        { field: "username", headerName: "Nombre", flex: 1},
-        { field: "email", headerName: "Correo Electrónico", flex: 1,},
-        { field: "phone", headerName: "Teléfono", flex: 1,},
-        { field: "createdAt", headerName: "Fecha de Registro", flex: 1,},
-        { field: "updatedAt", headerName: "Última Actualización", flex: 1, },
+        { id: "id", label: "ID", style: { color: colors.grey[800]}},
+        { id: "username", label: "Nombre", style: { color: colors.grey[800]}},
+        { id: "email", label: "Correo Electrónico", style: { color: colors.grey[800]}},
+        { id: "phone", label: "Teléfono", style: { color: colors.grey[800]}},
+        { id: "createdAt", label: "Fecha de Registro", style: { color: colors.grey[800]}},
+        { id: "updatedAt", label: "Última Actualización", style: { color: colors.grey[800]} },
     ];
 
     const rows = customers.map((customer) => {
@@ -32,10 +35,10 @@ const Index = ({customers}) => {
     });
 
     const convertToCSV = (data) => {
-        const exportableColumns = columns.filter(col => col.field && col.field !== 'actions');
-        const headers = exportableColumns.map(col => col.headerName).join(',');
+        const exportableColumns = columns.filter(col => col.id && col.id !== 'actions');
+        const headers = exportableColumns.map(col => col.label).join(',');
         const rowsData = data.map(row =>
-            exportableColumns.map(col => row[col.field]).join(',')
+            exportableColumns.map(col => row[col.id]).join(',')
         ).join('\n');
         return `${headers}\n${rowsData}`;
 
@@ -56,8 +59,8 @@ const Index = ({customers}) => {
 
     const downloadPDF = () => {
         const doc = new jsPDF();
-        const headers = columns.map(col => col.headerName);
-        const data = rows.map(row => columns.map(col => row[col.field]));
+        const headers = columns.map(col => col.label);
+        const data = rows.map(row => columns.map(col => row[col.id]));
 
         doc.autoTable({
             head: [headers],
@@ -70,55 +73,28 @@ const Index = ({customers}) => {
         doc.save('usuarios.pdf');
     };
 
-    return (
-        <Box m="20px">
-            <Header title="Usuarios" subtitle="Lista de usuarios registrados"/>
-            <Button onClick={downloadCSV} sx={{ mt: 2, mr: 2 }} variant="contained" color="primary">
-                Descargar CSV
-            </Button>
-            <Button onClick={downloadPDF} sx={{ mt: 2 }} variant="contained" color="secondary">
-                Descargar PDF
-            </Button>
-            <Box
-                m="40px 0 0 0"
-                height="75vh"
-                sx={{
-                    "& .MuiDataGrid-root": {
-                        border: "none",
-                    },
-                    "& .MuiDataGrid-cell": {
-                        borderBottom: "none",
-                    },
-                    "& .role-column--cell": {
-                        color: colors.greenAccent[300],
-                    },
-                    "& .MuiDataGrid-columnHeaders": {
-                        backgroundColor: colors.blueAccent[700],
-                        borderBottom: "none",
-                    },
-                    "& .MuiDataGrid-virtualScroller": {
-                        backgroundColor: colors.primary[400],
-                    },
-                    "& .MuiDataGrid-footerContainer": {
-                        borderTop: "none",
-                        backgroundColor: colors.blueAccent[700],
-                    },
-                    "& .MuiCheckbox-root": {
-                        color: `${colors.greenAccent[200]} !important`,
-                    },
-                    "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-                        color: `${colors.grey[100]} !important`,
-                    },
-                }}
-            >
-                <DataGrid
-                    rows={rows}
-                    columns={columns}
-                    components={{Toolbar: GridToolbar}}
-                />
-            </Box>
-        </Box>
-    );
+  return (
+    <div>
+      <div className="w-full min-h-screen py-10 px-4" style={{ backgroundColor: colors.primary[400] }}>
+        <div className="w-full max-w-8xl mx-auto shadow-2xl rounded-lg p-10" style={{backgroundColor: "#FFFFFF", color: colors.grey[100]}}>
+          <h2 className="text-2xl font-bold mb-5 text-left" style={{color: colors.grey[400]}}>
+            Clientes
+          </h2>
+          <div className="flex mb-2">
+            <button onClick={downloadCSV}
+                    className="px-4 py-2 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition">
+              Descargar CSV
+            </button>
+            <button onClick={downloadPDF}
+                    className="ml-4 px-4 py-2 bg-red-500 text-white rounded-lg font-semibold hover:bg-red-600 transition">
+              Descargar PDF
+            </button>
+          </div>
+          <Tabla columns={columns} rows={rows} rowsPerPageCustom={10} />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 Index.layout = (page) => <Layout children={page} type={'admin'}/>;

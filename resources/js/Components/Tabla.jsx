@@ -16,7 +16,6 @@ export default function StickyHeadTable({
     rowsPerPageCustom,
     tableContainerStyle = {
         maxHeight: "100%",
-        borderRadius: "12px",
         boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
     },
     tableCellStyle = { minWidth: 50 },
@@ -25,18 +24,19 @@ export default function StickyHeadTable({
     const colors = tokens(theme.palette.mode);
 
     const headerCellStyle = {
-        backgroundColor: colors.greenAccent[700],
-        color: colors.grey[100],
+        backgroundColor: '#3B3B3B',
+        color: '#FFF',
         fontWeight: "600",
         fontSize: "15px",
         textTransform: "uppercase",
         padding: "14px",
+        textAlign: "center",
     };
 
     const bodyCellStyle = {
-        backgroundColor: colors.primary[400],
-        color: colors.grey[100],
+        backgroundColor: "#FFFFFF",
         transition: "background-color 0.3s",
+        textAlign: "center",
     };
 
     const paginationStyle = {

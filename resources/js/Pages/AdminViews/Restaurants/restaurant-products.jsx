@@ -178,7 +178,7 @@ const ProductsIndex = ({ products, productCategories }) => {
             <div>
                 <div className="w-full max-w-8xl mx-auto bg-white shadow-2xl rounded-lg p-10">
                     <BackButton to={ route("admin.restaurant.index") } />
-                    <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">Productos</h2>
+                    <h2 className="text-3xl font-extrabold mt-5 mb-5">Productos</h2>
                     <div className="flex justify-start mb-2">
                         <input
                             type="text"
