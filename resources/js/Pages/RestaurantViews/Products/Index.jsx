@@ -192,7 +192,7 @@ const ProductsIndex = ({ products, restaurantID, ingredients, productCategories 
                 </div>
             )}
             <div className="container p-6 mx-auto">
-            <Header title="Gestion de Productos" />
+            <Header title="Gestión de Productos" />
                 <div className="flex justify-start mb-2">
                     <input
                         type="text"

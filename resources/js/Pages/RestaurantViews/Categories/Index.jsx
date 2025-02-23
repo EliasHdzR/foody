@@ -67,7 +67,7 @@ const CategoriesIndex = ({categories}) => {
                 </div>
             )}
             <div className="container p-6 mx-auto">
-            <Header title="Categorias"></Header>
+            <Header title="Categorías"></Header>
                 <div className="flex justify-end mb-2">
                     <button onClick={() => openModal('add')}
                             className="ml-4 px-4 py-2 bg-yellow-500 text-white rounded-lg font-semibold hover:bg-yellow-600 transition">

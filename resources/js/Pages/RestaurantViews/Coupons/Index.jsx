@@ -179,8 +179,8 @@ const CouponsIndex = ({coupons, restaurantID}) => {
                     </Alert>
                 </div>
             )}
-            <div className="container mx-auto">
-                <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">Gestión de Cupones</h2>
+            <div className="container p-6 mx-auto">
+                <h2 className="text-4xl font-extrabold text-gray-800 mb-10">Gestión de Cupones</h2>
                 <div className="flex justify-start mb-2">
                     <input
                         type="number"
