@@ -2,35 +2,21 @@ import {Box, Typography, useTheme} from "@mui/material";
 import {tokens} from "@/theme.js";
 import Layout from "@/Layouts/Layout.jsx";
 import CustomTable2 from "@/Components/CustomTable2.jsx";
-import LineChart from "@/Components/LineChart.jsx";
-
-const Dashboard = ({activeOrder, ordersByRestaurant, ordersByMonth }) => {
+const Dashboard = ({activeOrder, ordersByRestaurant }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
     const ordersData = ordersByRestaurant.map(restaurant => {
-        const { Nombre, Ordenes } = restaurant;
-        return { Nombre, Ordenes };
+        const { Nombre, Pedidos } = restaurant;
+        return { Nombre, Pedidos };
     });
 
     return (
-        <Box m="10px 20px 20px 20px">
-            <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                mb="20px"
-            >
-                <Typography
-                    variant="h4"
-                    fontWeight="bold"
-                    color={colors.grey[100]}
-                >
-                    DASHBOARD DRIVERS
-                </Typography>
-            </Box>
+        <Box p="15px"
+             height="100%"
+             backgroundColor={colors.primary[400]}>
 
-            <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap="20px">
+            <Box display="grid" gridTemplateColumns="repeat(16, 1fr)" gap="20px">
                 <Box
                     gridColumn="span 6"
                     backgroundColor={colors.primary[400]}
@@ -38,14 +24,7 @@ const Dashboard = ({activeOrder, ordersByRestaurant, ordersByMonth }) => {
                     p="20px"
                     height="300px"
                 >
-                    <Typography
-                        variant="h6"
-                        fontWeight="600"
-                        color={colors.grey[100]}
-                        mb="10px"
-                    >
-                        Restaurantes con Más Pedidos
-                    </Typography>
+
                     {ordersByRestaurant.length > 0 ? (
                         <CustomTable2
                             data={ordersData}
@@ -58,12 +37,14 @@ const Dashboard = ({activeOrder, ordersByRestaurant, ordersByMonth }) => {
                 </Box>
 
                 <Box
-                    gridColumn="span 12"
-                    backgroundColor={colors.primary[400]}
+                    gridColumn="span 10"
+                    backgroundColor="#FFFFFF"
                     borderRadius="8px"
                     p="20px"
-                    height="135px"
-                    width={"20%"}
+                    marginTop="20px"
+                    height="185px"
+                    boxShadow={theme.shadows[1]}
+                    bgcolor="background.default"
                 >
                     <Typography
                         variant="h6"
@@ -77,9 +58,6 @@ const Dashboard = ({activeOrder, ordersByRestaurant, ordersByMonth }) => {
                         <Box
                             display="flex"
                             flexDirection="column"
-                            justifyContent="center"
-                            alignItems="start"
-                            height="100%"
                         >
                             <Typography
                                 variant="h6"
@@ -89,10 +67,19 @@ const Dashboard = ({activeOrder, ordersByRestaurant, ordersByMonth }) => {
                                 Pedido en curso: #{activeOrder.number}
                             </Typography>
                             <Typography color={colors.grey[100]}>
-                                Cliente: {activeOrder.customer.user.name}
+                                Restaurante: <b>{activeOrder.restaurant.name}, {activeOrder.restaurant.address}, {activeOrder.restaurant.city}</b>
                             </Typography>
                             <Typography color={colors.grey[100]}>
-                                Total: ${activeOrder.total_price}
+                                Entregar en: <b>{activeOrder.customer.address}, {activeOrder.customer.suburb}</b>
+                            </Typography>
+                            <Typography color={colors.grey[100]}>
+                                Cliente: <b>{activeOrder.customer.user.name}</b>
+                            </Typography>
+                            <Typography color={colors.grey[100]}>
+                                Teléfono: <b>{ activeOrder.customer.user.phone ? activeOrder.customer.user.phone : "Sin teléfono" }</b>
+                            </Typography>
+                            <Typography color={colors.grey[100]}>
+                                Total: <b>${activeOrder.total_price}</b>
                             </Typography>
                         </Box>
                     ) : (

@@ -9,7 +9,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Customer extends Model
 {
     protected $fillable = [
-        'user_id'
+        'user_id',
+        'address',
+        'house_number',
+        'suburb',
     ];
 
     public function user(): BelongsTo {

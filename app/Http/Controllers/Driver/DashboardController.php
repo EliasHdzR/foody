@@ -20,7 +20,7 @@ class DashboardController extends Controller
             ->first();
 
         if($activeOrder){
-            $activeOrder->load('restaurant', 'customer', 'driver');
+            $activeOrder->load('restaurant', 'customer', 'customer.user','driver');
         }
 
         $ordersByMonth = Order::selectRaw('MONTH(created_at) as month, COUNT(*) as total_orders')
@@ -38,7 +38,7 @@ class DashboardController extends Controller
             ->map(function ($order) {
                 return [
                     'Nombre' => $order->restaurant->name,
-                    'Ordenes' => $order->total_orders,
+                    'Pedidos' => $order->total_orders,
                 ];
             });
 

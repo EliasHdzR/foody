@@ -3,6 +3,8 @@ import TablaColapsable from "@/Components/TablaColapsable.jsx";
 import React, { useState } from "react";
 import dayjs from 'dayjs';
 import axios from 'axios';
+import BackButton from "@/Components/BackButton.jsx";
+import Tabla from "@/Components/Tabla.jsx";
 
 const Index = ({ orders: initialOrders }) => {
     const [orders, setOrders] = useState(initialOrders);
@@ -112,16 +114,19 @@ const Index = ({ orders: initialOrders }) => {
     }, []);
 
     return (
-        <div className="container mx-auto">
-            <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">Pedidos</h2>
-            <TablaColapsable
+      <div className={"w-full bg-gray-100 min-h-full py-10 px-4"}>
+          <div className="w-full max-w-8xl mx-auto bg-white shadow-2xl rounded-lg p-10">
+              <h2 className="text-3xl font-extrabold mt-5 mb-5">Pedidos</h2>
+
+              <TablaColapsable
                 columns={columns}
                 rows={rows}
                 collapseColumns={collapsableColumns}
                 collapseRows={collapseRows}
                 subtitle="Productos"
-            />
-        </div>
+              />
+          </div>
+      </div>
     );
 };
 

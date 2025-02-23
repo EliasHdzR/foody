@@ -22,7 +22,7 @@ const CustomTable = ({ data }) => {
                     fontWeight="600"
                     color="text.primary"
                 >
-                    Restaurantes con más pedidos
+                    Pedidos Completados por Restaurante
                 </Typography>
                 <Typography
                     variant="subtitle2"
