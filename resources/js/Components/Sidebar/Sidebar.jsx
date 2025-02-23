@@ -17,6 +17,7 @@ import RoomServiceIcon from '@mui/icons-material/RoomService';
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import ViewListIcon from '@mui/icons-material/ViewList';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
+import IconCustom from "../../../svg/IconCustom.jsx";
 const Sidebar = ({ role }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -84,7 +85,7 @@ const Sidebar = ({ role }) => {
             fontWeight="bold"
             color={colors.greenAccent[600]}
           >
-            {role === "admin" ? "Admin Panel" : role === "restaurant" ? "Restaurante" : "Repartidor"}
+            <IconCustom></IconCustom>
           </Typography>
         )}
         <IconButton
