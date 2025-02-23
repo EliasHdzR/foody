@@ -122,23 +122,6 @@ const Login = () => {
                         </p>
                     </div>
                 </form>
-
-                <div className="flex items-center my-10 w-full max-w-md">
-                    <hr className="flex-grow border-gray-300" />
-                    <span className="mx-4 text-gray-500 text-sm">o inicia sesión con</span>
-                    <hr className="flex-grow border-gray-300" />
-                </div>
-
-                <div className="flex justify-center w-full space-x-4">
-                    <button className="flex justify-center px-6 py-3 border border-gray-300 rounded-lg shadow-md hover:bg-gray-100 transition-all w-full max-w-sm">
-                        <img
-                            src={GoogleImage}
-                            alt="Icono de Google"
-                            className="w-5 h-5 mr-4"
-                        />
-                       Google
-                    </button>
-                </div>
             </div>
         </div>
     );

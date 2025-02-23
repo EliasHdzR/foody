@@ -11,6 +11,10 @@ export default function Register() {
         email: "",
         password: "",
         password_confirmation: "",
+        address: "",
+        suburb: "",
+        house_number: "",
+        phone_number: "",
     });
 
     const submit = (e) => {
@@ -46,7 +50,7 @@ export default function Register() {
                         ¡Regístrate para empezar a explorar!
                     </p>
 
-                    <form className="w-full max-w-md space-y-6" onSubmit={submit}>
+                    <form className="w-full max-w-md space-y-3" onSubmit={submit}>
                         <div>
                             <InputLabel htmlFor="name" value="Nombre" />
                             <TextInput
@@ -75,6 +79,67 @@ export default function Register() {
                                 required
                             />
                             <InputError message={errors.email} className="mt-2" />
+                        </div>
+
+                        <div>
+                            <InputLabel htmlFor="phone_number" value="Teléfono" />
+                            <TextInput
+                              id="phone_number"
+                              type="text"
+                              name="phone_number"
+                              value={data.phone_number}
+                              className="mt-1 block w-full"
+                              autoComplete="phone_number"
+                              onChange={(e) => setData("phone_number", e.target.value)}
+                              required
+                            />
+                            <InputError message={errors.phone_number} className="mt-2" />
+                        </div>
+
+                        <div>
+                            <InputLabel htmlFor="address" value="Dirección" />
+                            <TextInput
+                              id="address"
+                              type="text"
+                              name="address"
+                              value={data.address}
+                              className="mt-1 block w-full"
+                              autoComplete="address"
+                              onChange={(e) => setData("address", e.target.value)}
+                              required
+                            />
+                            <InputError message={errors.address} className="mt-2" />
+                        </div>
+
+                        <div className="flex flex-row items-start justify-between gap-2">
+                            <div>
+                                <InputLabel htmlFor="suburb" value="Colonia" />
+                                <TextInput
+                                  id="suburb"
+                                  type="text"
+                                  name="suburb"
+                                  value={data.suburb}
+                                  className="mt-1 block w-full"
+                                  autoComplete="suburb"
+                                  onChange={(e) => setData("suburb", e.target.value)}
+                                  required
+                                />
+                                <InputError message={errors.suburb} className="mt-2" />
+                            </div>
+                            <div>
+                                <InputLabel htmlFor="house_number" value="Número Exterior" />
+                                <TextInput
+                                  id="house_number"
+                                  type="text"
+                                  name="house_number"
+                                  value={data.house_number}
+                                  className="mt-1 block w-full"
+                                  autoComplete="house_number"
+                                  onChange={(e) => setData("house_number", e.target.value)}
+                                  required
+                                />
+                                <InputError message={errors.house_number} className="mt-2" />
+                            </div>
                         </div>
 
                         <div>
@@ -122,28 +187,6 @@ export default function Register() {
                             >
                                 Inicia en foody
                             </PrimaryButton>
-                        </div>
-
-                        <div className="flex items-center my-6">
-                            <hr className="flex-grow border-gray-300" />
-                            <span className="mx-2 text-gray-500 text-sm">
-                                o regístrate con
-                            </span>
-                            <hr className="flex-grow border-gray-300" />
-                        </div>
-
-                        <div>
-                            <button
-                                type="button"
-                                className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700 shadow-md hover:bg-gray-50 transition-all"
-                            >
-                                <img
-                                    src="/google-logo.png"
-                                    alt="Google"
-                                    className="w-5 h-5 mr-2"
-                                />
-                                Google
-                            </button>
                         </div>
 
                         <div className="mt-6 text-center">
