@@ -14,16 +14,16 @@ class CategoriesSeeder extends Seeder
     public function run(): void
     {
         DB::table('categories')->insert([
-            ['name' => 'Comida China','image_url' => '', 'created_at' => now(),'updated_at' => now()],
-            ['name' => 'Comida Italiana','image_url' => '', 'created_at' => now(),'updated_at' => now()],
-            ['name' => 'Comida Mexicana','image_url' => '', 'created_at' => now(),'updated_at' => now()],
-            ['name' => 'Comida Rápida','image_url' => '', 'created_at' => now(),'updated_at' => now()],
-            ['name' => 'Comida India','image_url' => '', 'created_at' => now(),'updated_at' => now()],
-            ['name' => 'Comida Japonesa','image_url' => '', 'created_at' => now(),'updated_at' => now()],
-            ['name' => 'Comida Árabe','image_url' => '', 'created_at' => now(),'updated_at' => now()],
-            ['name' => 'Comida Peruana','image_url' => '', 'created_at' => now(),'updated_at' => now()],
-            ['name' => 'Comida Española','image_url' => '', 'created_at' => now(),'updated_at' => now()],
-            ['name' => 'Comida Francesa','image_url' => '', 'created_at' => now(),'updated_at' => now()],
+            ['name' => 'Comida China', 'created_at' => now(),'updated_at' => now()],
+            ['name' => 'Comida Italiana', 'created_at' => now(),'updated_at' => now()],
+            ['name' => 'Comida Mexicana', 'created_at' => now(),'updated_at' => now()],
+            ['name' => 'Comida Rápida', 'created_at' => now(),'updated_at' => now()],
+            ['name' => 'Comida India', 'created_at' => now(),'updated_at' => now()],
+            ['name' => 'Comida Japonesa', 'created_at' => now(),'updated_at' => now()],
+            ['name' => 'Comida Árabe', 'created_at' => now(),'updated_at' => now()],
+            ['name' => 'Comida Peruana', 'created_at' => now(),'updated_at' => now()],
+            ['name' => 'Comida Española', 'created_at' => now(),'updated_at' => now()],
+            ['name' => 'Comida Francesa', 'created_at' => now(),'updated_at' => now()],
         ]);
     }
 }
